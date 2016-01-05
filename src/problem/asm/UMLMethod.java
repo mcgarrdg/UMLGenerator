@@ -10,9 +10,10 @@ public class UMLMethod implements IGraphItem{
 	private ArrayList<String> argumentTypes;
 	private String name;
 	private String returnType;
+	private String returnGenericType;
 	private int accessType;
 	
-	public UMLMethod(String name, int accType, String desc)
+	public UMLMethod(String name, int accType, String desc, String signature)
 	{
 		argumentTypes = new ArrayList<String>();
 		this.name = name;
@@ -23,10 +24,18 @@ public class UMLMethod implements IGraphItem{
 		
 		Type[] argTypes = Type.getArgumentTypes(desc);
 
-		 for(Type t:argTypes)
-		 {
-			 argumentTypes.add(t.getClassName());
-		 }
+		for(Type t:argTypes)
+		{
+			argumentTypes.add(t.getClassName());
+		}
+		 
+		String s = null;
+		if(signature != null)
+		{
+			s = Type.getType(signature).getElementType().toString();
+			s = s.substring(s.lastIndexOf('/') + 1, s.indexOf(';'));
+		}
+		returnGenericType = s;
 	}
 
 	public String toGraphVizString()
@@ -52,8 +61,13 @@ public class UMLMethod implements IGraphItem{
 		}
 		//builder.append(argumentTypes.toString());
 		builder.append(") : ");
-		String s = returnType.substring(returnType.lastIndexOf('.') + 1);
-		builder.append(s);
+		builder.append(returnType.substring(returnType.lastIndexOf('.') + 1));
+		if (returnGenericType != null)
+		{
+			builder.append("\\<");
+			builder.append(returnGenericType);
+			builder.append("\\>");
+		}
 		builder.append("\\l");
 		
 		

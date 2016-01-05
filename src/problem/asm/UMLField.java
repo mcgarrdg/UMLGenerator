@@ -7,12 +7,21 @@ public class UMLField implements IGraphItem {
 	private String name;
 	private String type;
 	private int accessType;
+	private String genericType;
 	
-	public UMLField(String name, int accessType, String desc)
+	public UMLField(String name, int accessType, String desc, String signature)
 	{
 		this.name = name;
 		this.accessType = accessType;
 		type = Type.getType(desc).getClassName();
+		
+		String s = null;
+		if (signature != null)
+		{
+			s = Type.getType(signature).getElementType().toString();
+			s = s.substring(s.lastIndexOf('/') + 1, s.indexOf(';'));
+		}
+		this.genericType = s;
 	}
 	
 	public String toGraphVizString()
@@ -31,6 +40,12 @@ public class UMLField implements IGraphItem {
 		builder.append(" : ");
 		String s = type.substring(type.lastIndexOf('.') + 1);
 		builder.append(s);
+		if (genericType != null)
+		{
+			builder.append("\\<");
+			builder.append(genericType);
+			builder.append("\\>");
+		}
 		//builder.append(type);
 		builder.append("\\l");
 				

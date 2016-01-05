@@ -2,10 +2,11 @@ package problem.asm;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Type;
 
 public class ClassMethodVisitor extends ClassVisitor {
 
-	UMLGraph graph;
+	private UMLGraph graph;
 	public ClassMethodVisitor(int arg0) {
 		super(arg0);
 		// TODO Auto-generated constructor stub
@@ -31,7 +32,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions)
 	{
-		this.graph.addMethod(new UMLMethod(name, access, desc));
+		this.graph.addMethod(new UMLMethod(name, access, desc, signature));
 		MethodVisitor toDecorate = super.visitMethod(access, name, desc, signature, exceptions);
 
 //		String returnType = Type.getReturnType(desc).getClassName();
