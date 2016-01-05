@@ -5,11 +5,6 @@ import java.util.Arrays;
 
 public class UMLClass implements IGraphItem{
 	
-	public enum UMLType 
-	{
-		INTERFACE, CLASS
-	}
-	
 	private String name;
 	private String shape;
 	private String extension;

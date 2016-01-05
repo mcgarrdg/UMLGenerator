@@ -29,7 +29,9 @@ public class UMLField implements IGraphItem {
 		}
 		builder.append(name);
 		builder.append(" : ");
-		builder.append(type);
+		String s = type.substring(type.lastIndexOf('.') + 1);
+		builder.append(s);
+		//builder.append(type);
 		builder.append("\\l");
 				
 		return builder.toString();

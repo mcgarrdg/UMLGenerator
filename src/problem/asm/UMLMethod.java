@@ -43,9 +43,17 @@ public class UMLMethod implements IGraphItem{
 		}
 		builder.append(name);
 		builder.append("(");
-		builder.append(argumentTypes.toString());
+		for (int i = 0; i < argumentTypes.size(); i++)
+		{
+			String s = argumentTypes.get(i);
+			builder.append(s.substring(s.lastIndexOf('.') + 1));
+			if (i < argumentTypes.size() - 1)
+				builder.append(", ");
+		}
+		//builder.append(argumentTypes.toString());
 		builder.append(") : ");
-		builder.append(returnType);
+		String s = returnType.substring(returnType.lastIndexOf('.') + 1);
+		builder.append(s);
 		builder.append("\\l");
 		
 		
