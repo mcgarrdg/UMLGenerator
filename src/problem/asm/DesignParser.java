@@ -11,6 +11,11 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
+/**
+ * Design Parser
+ * @author mcgarrdg and tiefenaw
+ *
+ */
 public class DesignParser {
 	public static void main(String[] args) throws IOException {
 		System.out.println(getDigraphString(args));
