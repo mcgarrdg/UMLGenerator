@@ -47,6 +47,13 @@ public class UMLClass implements IGraphItem{
 		return this.name;
 	}
 	
+	public ArrayList<UMLMethod> getMethods() {
+		return this.methods;
+	}
+	
+	public ArrayList<UMLField> getFields() {
+		return this.fields;
+	}
 	//TODO signify if something is an interface or abstract
 	//TODO Have an input for number of tabs?
 	public String toGraphVizString()
