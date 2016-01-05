@@ -2,11 +2,9 @@ package problem.asm;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -43,33 +41,24 @@ public class DesignParser
 		choose.showOpenDialog(null);
 		File[] files = choose.getSelectedFiles();
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
-		//for(String className : args)
+
 		for(File f : files)
 		{
 			InputStream in = new FileInputStream(f);
 			ClassReader reader = new ClassReader(in);
-			//ClassReader reader = new ClassReader(className);
 			
 			ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, graph);
-			
 			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, declVisitor, graph);
-			
 			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, graph);
-			//ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, declVisitor);
-			//ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5);
 			
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 			in.close();
-			//System.out.println(graph.toGraphVizString());
-			//reader.accept(declVisitor, ClassReader.EXPAND_FRAMES);
-
 		}
 		return graph.toGraphVizString();
 	}
 
 	public static void locateGraphviz()
 	{
-		//Custom button text
 		Object[] options = {"Yes", "No, select another path"};
 		int n = JOptionPane.showOptionDialog(null,
 		    "Is your Graphiz dot path C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot?",

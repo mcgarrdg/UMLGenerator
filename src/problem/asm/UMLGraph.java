@@ -65,8 +65,7 @@ public class UMLGraph implements IGraphItem{
 			builder.append(c.toGraphVizString());
 		}
 		builder.append("\n");
-		// draw the "implements" white dashed arrow
-		//WeatherData -> Subject [arrowhead="onormal", style="dashed"];
+
 		//extract something like this into its own method to support different string types
 		for(UMLClass c : this.classes)
 		{

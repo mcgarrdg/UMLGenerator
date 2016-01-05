@@ -74,7 +74,7 @@ public class UMLMethod implements IGraphItem{
 			if (i < argumentTypes.size() - 1)
 				builder.append(", ");
 		}
-		//builder.append(argumentTypes.toString());
+
 		builder.append(") : ");
 		builder.append(returnType.substring(returnType.lastIndexOf('.') + 1));
 		if (returnGenericType != null)

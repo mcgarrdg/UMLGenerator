@@ -61,7 +61,6 @@ public class UMLField implements IGraphItem {
 			builder.append(genericType);
 			builder.append("\\>");
 		}
-		//builder.append(type);
 		builder.append("\\l");
 				
 		return builder.toString();
