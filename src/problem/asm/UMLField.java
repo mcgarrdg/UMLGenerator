@@ -24,6 +24,21 @@ public class UMLField implements IGraphItem {
 		this.genericType = s;
 	}
 	
+	/**
+	 * This method is for testing purposes.
+	 * @param name 			Name of the field
+	 * @param type 			Type of the field
+	 * @param genericType	If this field has a generic type, it is specified here. null if no generic type.
+	 * @param accessType	The access type of the method (see asm.Opcodes)
+	 */
+	public UMLField(String name, String type, String genericType, int accessType)
+	{
+		this.name = name;
+		this.type = type;
+		this.genericType = genericType;
+		this.accessType = accessType;
+	}
+	
 	public String toGraphVizString()
 	{
 		StringBuilder builder = new StringBuilder();

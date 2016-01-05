@@ -37,6 +37,21 @@ public class UMLMethod implements IGraphItem{
 		}
 		returnGenericType = s;
 	}
+	
+	/**
+	 * This method is for testing purposes.
+	 * @param name			Name of the method.
+	 * @param accType		The access type of the method (see asm.Opcodes)
+	 * @param argumentTypes	An ArrayList of what the types of the arguments are.
+	 * @param genericType	If this method returns a type with a generic, it is specified here. null if no generic type.
+	 */
+	public UMLMethod(String name, int accType, ArrayList<String> argumentTypes, String genericType)
+	{
+		this.name = name;
+		this.accessType = accType;
+		this.argumentTypes = argumentTypes;
+		this.returnGenericType = genericType;
+	}
 
 	public String toGraphVizString()
 	{
