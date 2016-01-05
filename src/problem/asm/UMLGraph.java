@@ -88,6 +88,21 @@ public class UMLGraph implements IGraphItem{
 					}
 				}
 			}
+			String extension = c.getExtension(); 
+			for(UMLClass c2 : this.classes)
+			{
+				if(c2.getName().equals(extension))
+				{
+					builder.append("\"");
+					builder.append(c.getName());
+					builder.append("\"");
+					builder.append(" -> ");
+					builder.append("\"");
+					builder.append(extension);
+					builder.append("\"");
+					builder.append(" [arrowhead=\"onormal\", style=\"\"];\n");
+				}
+			}
 		}
 		builder.append("\n}");
 		return builder.toString();

@@ -25,7 +25,7 @@ public class DesignParser {
 	{
 		JFileChooser choose = new JFileChooser();
 		choose.setMultiSelectionEnabled(true);
-		choose.setCurrentDirectory(new File("./bin/problem/asm"));
+		choose.setCurrentDirectory(new File("./files/"));
 		choose.showOpenDialog(null);
 		File[] files = choose.getSelectedFiles();
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
