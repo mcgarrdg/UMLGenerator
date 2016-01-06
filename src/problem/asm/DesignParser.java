@@ -98,6 +98,15 @@ public class DesignParser
 		choose.setFileFilter(new FileNameExtensionFilter("PNG images", "png"));
 		choose.setCurrentDirectory(new File("./files/"));
 		choose.showSaveDialog(null);
+		if (choose.getSelectedFile().exists())
+		{
+			System.out.println("It exists");
+		}
+		else
+		{
+			System.out.println(choose.getSelectedFile().getName());
+			System.out.println("It doesn't exist");
+		}
 		
 		//TODO This could be prone to bugs if the user enters in odd names. Should we bother fixing?
 		String filePath;
