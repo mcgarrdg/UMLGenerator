@@ -106,4 +106,25 @@ public class UMLGraph implements IGraphItem{
 		builder.append("\n}");
 		return builder.toString();
 	}
+
+	/**
+	 * @return the classes of the graph
+	 */
+	public ArrayList<UMLClass> getClasses() {
+		return classes;
+	}
+
+	/**
+	 * @return the name of the graph
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @return the rankdir of the graph
+	 */
+	public String getRankdir() {
+		return rankdir;
+	}
 }
