@@ -2,6 +2,7 @@ package problem.asm;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -40,6 +41,11 @@ public class DesignParser
 		choose.setCurrentDirectory(new File("./files/"));
 		choose.showOpenDialog(null);
 		File[] files = choose.getSelectedFiles();
+		return visitFiles(files).toGraphVizString();
+	}
+	
+	public static UMLGraph visitFiles(File[] files) throws IOException
+	{
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
 
 		for(File f : files)
@@ -54,7 +60,8 @@ public class DesignParser
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 			in.close();
 		}
-		return graph.toGraphVizString();
+		
+		return graph;
 	}
 
 	public static void locateGraphviz()
