@@ -19,7 +19,6 @@ public class UMLGraphTest {
 	private UMLMethod m; 
 	private UMLField f; 
 	private String name; 
-	private ArrayList<UMLClass> classes = new ArrayList<UMLClass>();
 	private static String rankdir = "BT"; 
 	
 	public UMLGraphTest() {
@@ -44,7 +43,7 @@ public class UMLGraphTest {
 	
 	@Test 
 	public void testRankdir() {
-		assertEquals(this.rankdir, g.getRankdir());
+		assertEquals(rankdir, g.getRankdir());
 	}
 	
 	@Test
