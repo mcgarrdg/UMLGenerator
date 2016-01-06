@@ -1,0 +1,62 @@
+digraph "Test_UML"{
+	rankdir = BT
+	"problem/AllTests" [
+	shape = "record",
+	label = "{problem/AllTests||+ init() : void\l}"
+];
+	"problem/AppLauncher" [
+	shape = "record",
+	label = "{problem/AppLauncher|- watcher : WatchService\l- dir : Path\l- stop : boolean\l- fileTypes : ArrayList\<FileType\>\l|init(Path) : void\l+ run() : void\lclearEverything() : void\l+ stopGracefully() : void\l+ isRunning() : boolean\l+ getApplicationsCount() : int\l+ main(String[]) : void\l}"
+];
+	"problem/AppLauncherBaseCaseTest" [
+	shape = "record",
+	label = "{problem/AppLauncherBaseCaseTest||+ init() : void\l+ testStart() : void\l}"
+];
+	"problem/AppLauncherSupportTest" [
+	shape = "record",
+	label = "{problem/AppLauncherSupportTest|- launcher : AppLauncher\l- baseDir : String\l- srcTxtFile : String\l- destTxtFile : String\l- srcHtmlFile : String\l- destHtmlFile : String\l|+ init() : void\l+ setUp() : void\l+ tearDown() : void\l+ testLaunchNotepad() : void\l+ testLaunchDefaultBrowser() : void\l}"
+];
+	"problem/EventData" [
+	shape = "record",
+	label = "{problem/EventData|event : WatchEvent\<Path\>\lname : Path\lfile : Path\l|init(WatchEvent, Path) : void\<Path\>\l}"
+];
+	"problem/EventHandler" [
+	shape = "record",
+	label = "{problem/EventHandler|enabled : boolean\lprocesses : List\<Process\>\lapplicationsLaunched : int\l|+ init() : void\l+ diable() : void\l+ enable() : void\l+ handleEvent(EventData) : void\lhandleEventHelper(EventData) : void\l+ killProcesses() : void\l+ getApplicationsLaunched() : int\l}"
+];
+	"problem/EvntHdlrPDFAdd" [
+	shape = "record",
+	label = "{problem/EvntHdlrPDFAdd||+ init() : void\l+ handleEventHelper(EventData) : void\l}"
+];
+	"problem/EvntHdlrPrintFilenameAdd" [
+	shape = "record",
+	label = "{problem/EvntHdlrPrintFilenameAdd||+ init() : void\lhandleEventHelper(EventData) : void\l}"
+];
+	"problem/EvntHdlrTXTAdd" [
+	shape = "record",
+	label = "{problem/EvntHdlrTXTAdd||+ init() : void\l+ handleEventHelper(EventData) : void\l}"
+];
+	"problem/FileType" [
+	shape = "record",
+	label = "{problem/FileType|eventHandlers : ArrayList\<EventHandler\>\l|+ init() : void\l+ updateEventData(EventData) : void\l+ addEventHandler(EventHandler) : void\l+ disableAllHandlers() : void\l+ enableAllHandlers() : void\l+ killProcesses() : void\l+ getApplicationsCount() : int\l+ diableHandlerType(EventHandler) : void\l+ enableHandlerType(EventHandler) : void\l}"
+];
+	"problem/HTML" [
+	shape = "record",
+	label = "{problem/HTML||+ init() : void\l+ updateEventData(EventData) : void\l}"
+];
+	"problem/PDF" [
+	shape = "record",
+	label = "{problem/PDF||+ init() : void\l+ updateEventData(EventData) : void\l}"
+];
+	"problem/TXT" [
+	shape = "record",
+	label = "{problem/TXT||+ init() : void\l+ updateEventData(EventData) : void\l}"
+];
+"problem/EvntHdlrPDFAdd" -> "problem/EventHandler" [arrowhead="onormal", style=""];
+"problem/EvntHdlrPrintFilenameAdd" -> "problem/EventHandler" [arrowhead="onormal", style=""];
+"problem/EvntHdlrTXTAdd" -> "problem/EventHandler" [arrowhead="onormal", style=""];
+"problem/HTML" -> "problem/FileType" [arrowhead="onormal", style=""];
+"problem/PDF" -> "problem/FileType" [arrowhead="onormal", style=""];
+"problem/TXT" -> "problem/FileType" [arrowhead="onormal", style=""];
+
+}
