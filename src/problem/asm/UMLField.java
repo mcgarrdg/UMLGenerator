@@ -66,4 +66,32 @@ public class UMLField implements IGraphItem {
 		return builder.toString();
 	}
 
+	/**
+	 * @return the name of the Field
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @return the type of the Field
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * @return the accessType of the Field
+	 */
+	public int getAccessType() {
+		return accessType;
+	}
+
+	/**
+	 * @return the genericType of the field
+	 */
+	public String getGenericType() {
+		return genericType;
+	}
+
 }
