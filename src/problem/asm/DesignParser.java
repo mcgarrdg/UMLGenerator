@@ -69,7 +69,7 @@ public class DesignParser
 		Object[] options = {"Yes", "No, select another path"};
 		int n = JOptionPane.showOptionDialog(null,
 		    "Is your Graphiz dot path C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot?",
-		    "A Silly Question",
+		    "Locate Graphiz",
 		    JOptionPane.YES_NO_OPTION,
 		    JOptionPane.QUESTION_MESSAGE,
 		    null,
