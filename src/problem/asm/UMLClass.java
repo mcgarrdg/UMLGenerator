@@ -3,6 +3,8 @@ package problem.asm;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.objectweb.asm.Opcodes;
+
 public class UMLClass implements IGraphItem{
 	
 	/**
@@ -27,6 +29,11 @@ public class UMLClass implements IGraphItem{
 	private String extension;
 	
 	/**
+	 * The access type of this field (public, private, etc), as an integer value. See {@link Opcodes}.
+	 */
+	private int accessType;
+	
+	/**
 	 * A list of UMLMethods that this class has.
 	 */
 	private ArrayList<UMLMethod> methods;
@@ -45,15 +52,17 @@ public class UMLClass implements IGraphItem{
 	 * Constructor.
 	 * @param className			The {@link #fullName} of the class.
 	 * @param extension			Full name of the class this class extends. See {@link #extension}.
+	 * @param access			The {@link #accessType} of this class. 
 	 * @param implementations	List of the full names of classes that this class implements.
 	 */
-	public UMLClass(String className, String extension, String[] implementations) 
+	public UMLClass(String className, String extension, int access, String[] implementations) 
 	{
 		methods = new ArrayList<UMLMethod>();
 		fields = new ArrayList<UMLField>();
 		this.fullName = className;
 		this.implementations = new ArrayList<String>();
 		this.implementations.addAll(Arrays.asList(implementations));
+		this.accessType = access;
 		this.extension = extension;
 		shape = "\"record\"";
 	}
@@ -126,7 +135,17 @@ public class UMLClass implements IGraphItem{
 	public String toGraphVizString()
 	{
 		StringBuilder builder = new StringBuilder();
-		builder.append("\"" + this.fullName + "\" [\n\tshape = " + this.shape + ",\n\tlabel = \"{" + this.fullName);
+		
+		builder.append("\"" + this.fullName + "\" [\n\tshape = " + this.shape + ",\n\tlabel = \"{");
+		//TODO Change for other types of classes.
+		if ((this.accessType & Opcodes.ACC_INTERFACE) == Opcodes.ACC_INTERFACE)
+		{
+			builder.append("\\<\\<" + this.fullName + "\\>\\>");
+		}
+		else
+		{
+			builder.append(this.fullName);
+		}
 		
 		if(this.fields.size() != 0 || this.methods.size() != 0)
 		{
