@@ -2,6 +2,7 @@ package problem.asm;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 public class ClassMethodVisitor extends ClassVisitor {
 
@@ -29,6 +30,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 	{
 		this.graph.addMethod(new UMLMethod(name, access, desc, signature));
 		MethodVisitor toDecorate = super.visitMethod(access, name, desc, signature, exceptions);
-		return toDecorate;
+		MethodVisitor mine = new MyMethodVisitor(Opcodes.ASM5, toDecorate);
+		return mine;
 	}
 }
