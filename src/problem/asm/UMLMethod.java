@@ -9,6 +9,7 @@ import org.objectweb.asm.Type;
 public class UMLMethod implements IGraphItem{
 	
 	//TODO Perhaps these should be stored as types, not as strings? (Same for all others?)
+	//TODO Store both the full path to the class and the shortened one (for drawing arrows and stuff)
 	//private ArrayList<String> argumentTypes;
 	//private ArrayList<String> argumentGenerics;
 	private ArrayList<ArgumentData> argData;
@@ -61,11 +62,23 @@ public class UMLMethod implements IGraphItem{
 			{
 				if (str.contains(";"))
 				{
-					fullArgs.addAll(Arrays.asList(str.trim().split(";")));
+					ArrayList<String> tempList = new ArrayList<String>();
+					tempList.addAll(Arrays.asList(str.trim().split(";")));
+					for (String str2 : tempList)
+					{
+						if(!str2.isEmpty())
+						{
+							fullArgs.add(str2);
+						}
+					}
+//					fullArgs.addAll(Arrays.asList(str.trim().split(";")));
 				}
 				else
 				{
-					fullArgs.add(str);
+					if (!str.isEmpty())
+					{
+						fullArgs.add(str);
+					}
 				}
 			}
 			
@@ -75,9 +88,22 @@ public class UMLMethod implements IGraphItem{
 				String str = fullArgs.get(i);
 				if (str.contains("<"))
 				{
-					String temp = str.split("<")[1];
+					String[] splitString = str.split("<");
+//					if (splitString.length > 2)
+//					{
+						String temp = splitString[splitString.length - 1];
+						ArgumentData tempData = new ArgumentData(temp.substring(temp.lastIndexOf("/") + 1), null);
+						for (int x = splitString.length - 2; x > 0; x--)
+						{
+							ArgumentData secondData = new ArgumentData(splitString[x].substring(temp.lastIndexOf("/") + 1), tempData);
+							tempData = secondData;
+						}
+						argData.get(i).setSubData(tempData);
+//					}
+					//String temp = splitString[splitString.length - 1];
+					//(Ljava/util/ArrayList<Ljava/util/ArrayList<Ljava/lang/Integer
 //					argumentGenerics.add(temp.substring(temp.lastIndexOf("/") + 1));
-					argData.get(i).setGenericType(temp.substring(temp.lastIndexOf("/") + 1));
+//					argData.get(i).setGenericType(temp.substring(temp.lastIndexOf("/") + 1));
 				}
 //				else
 //				{
