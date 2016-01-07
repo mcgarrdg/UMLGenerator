@@ -1,24 +1,12 @@
 digraph "Test_UML"{
 	rankdir = BT
-	"problem/AllTests" [
-	shape = "record",
-	label = "{problem/AllTests||+ init() : void\l}"
-];
 	"problem/AppLauncher" [
 	shape = "record",
 	label = "{problem/AppLauncher|- watcher : WatchService\l- dir : Path\l- stop : boolean\l- fileTypes : ArrayList\<FileType\>\l|init(Path) : void\l+ run() : void\l# clearEverything() : void\l+ stopGracefully() : void\l+ isRunning() : boolean\l+ getApplicationsCount() : int\l+ main(String[]) : void\l}"
 ];
-	"problem/AppLauncherBaseCaseTest" [
-	shape = "record",
-	label = "{problem/AppLauncherBaseCaseTest||+ init() : void\l+ testStart() : void\l}"
-];
-	"problem/AppLauncherSupportTest" [
-	shape = "record",
-	label = "{problem/AppLauncherSupportTest|- launcher : AppLauncher\l- baseDir : String\l- srcTxtFile : String\l- destTxtFile : String\l- srcHtmlFile : String\l- destHtmlFile : String\l|+ init() : void\l+ setUp() : void\l+ tearDown() : void\l+ testLaunchNotepad() : void\l+ testLaunchDefaultBrowser() : void\l}"
-];
 	"problem/EventData" [
 	shape = "record",
-	label = "{problem/EventData|event : WatchEvent\<Path\>\lname : Path\lfile : Path\l|init(WatchEvent, Path) : void\<Path\>\l}"
+	label = "{problem/EventData|event : WatchEvent\<Path\>\lname : Path\lfile : Path\l|init(WatchEvent\<Path\>, Path) : void\l}"
 ];
 	"problem/EventHandler" [
 	shape = "record",

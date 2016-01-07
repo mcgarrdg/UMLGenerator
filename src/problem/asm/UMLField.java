@@ -5,69 +5,70 @@ import org.objectweb.asm.Type;
 
 public class UMLField implements IGraphItem {
 	private String name;
-	private String type;
+	private TypeData type;
 	private int accessType;
-	private String genericType;
 	
 	public UMLField(String name, int accessType, String desc, String signature)
 	{
 		this.name = name;
 		this.accessType = accessType;
-		type = Type.getType(desc).getClassName();
+		
+		String fieldT = Type.getReturnType(desc).getClassName();
+		fieldT = fieldT.substring(fieldT.lastIndexOf('.') + 1);
+		type = new TypeData(fieldT, null);
 		
 		String s = null;
 		if (signature != null)
 		{
-			s = Type.getType(signature).getElementType().toString();
-			s = s.substring(s.lastIndexOf('/') + 1, s.indexOf(';'));
+			// I don't think the extra precautions are needed here, because if the signature
+			// isn't null in a field, it should have generics, but I'm leaving them just in case.
+			s = Type.getType(signature).getReturnType().toString();
+			if (s.contains("<"))
+			{
+				s = s.substring(0, s.length() - 1);
+				String[] splitString = s.split("<");
+				String temp = splitString[splitString.length - 1];
+				TypeData tempData = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null);
+				for (int x = splitString.length - 2; x > 0; x--)
+				{
+					TypeData secondData = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), tempData);
+					tempData = secondData;
+				}
+				this.type.setSubData(tempData);
+			}
 		}
-		this.genericType = s;
 	}
 	
 	/**
 	 * This method is for testing purposes.
 	 * @param name 			Name of the field
-	 * @param type 			Type of the field
-	 * @param genericType	If this field has a generic type, it is specified here. null if no generic type.
+	 * @param type 			The type data for the field.
 	 * @param accessType	The access type of the method (see asm.Opcodes)
 	 */
-	public UMLField(String name, String type, String genericType, int accessType)
+	public UMLField(String name, TypeData type, int accessType)
 	{
 		this.name = name;
 		this.type = type;
-		this.genericType = genericType;
 		this.accessType = accessType;
 	}
 	
 	public String toGraphVizString()
 	{
-		StringBuilder builder = new StringBuilder();
-		
+		String access = "";
 		//TODO Extract this out into its own method, will all the access types.
 		if((accessType & Opcodes.ACC_PUBLIC) != 0)
 		{
-			builder.append("+ ");
+			access = "+ ";
 		} else if((accessType & Opcodes.ACC_PRIVATE) != 0)
 		{
-			builder.append("- ");
+			access = "- ";
 		}
 		else if((accessType & Opcodes.ACC_PROTECTED) == Opcodes.ACC_PROTECTED)
 		{
-			builder.append("# ");
+			access = "# ";
 		}
-		builder.append(name);
-		builder.append(" : ");
-		String s = type.substring(type.lastIndexOf('.') + 1);
-		builder.append(s);
-		if (genericType != null)
-		{
-			builder.append("\\<");
-			builder.append(genericType);
-			builder.append("\\>");
-		}
-		builder.append("\\l");
 				
-		return builder.toString();
+		return (access + this.name + " : " + this.type.toGraphVizString() + "\\l");
 	}
 
 	/**
@@ -80,7 +81,7 @@ public class UMLField implements IGraphItem {
 	/**
 	 * @return the type of the Field
 	 */
-	public String getType() {
+	public TypeData getType() {
 		return type;
 	}
 
@@ -89,13 +90,6 @@ public class UMLField implements IGraphItem {
 	 */
 	public int getAccessType() {
 		return accessType;
-	}
-
-	/**
-	 * @return the genericType of the field
-	 */
-	public String getGenericType() {
-		return genericType;
 	}
 
 }
