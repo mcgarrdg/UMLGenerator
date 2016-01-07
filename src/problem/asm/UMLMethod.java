@@ -1,13 +1,17 @@
 package problem.asm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 public class UMLMethod implements IGraphItem{
 	
-	private ArrayList<String> argumentTypes;
+	//TODO Perhaps these should be stored as types, not as strings? (Same for all others?)
+	//private ArrayList<String> argumentTypes;
+	//private ArrayList<String> argumentGenerics;
+	private ArrayList<ArgumentData> argData;
 	private String name;
 	private String returnType;
 	private String returnGenericType;
@@ -15,7 +19,9 @@ public class UMLMethod implements IGraphItem{
 	
 	public UMLMethod(String name, int accType, String desc, String signature)
 	{
-		argumentTypes = new ArrayList<String>();
+//		argumentTypes = new ArrayList<String>();
+//		argumentGenerics = new ArrayList<String>();
+		argData = new ArrayList<ArgumentData>();
 		this.name = name;
 		this.name = this.name.replaceAll("[^\\w]", "");
 		this.accessType = accType;
@@ -26,31 +32,112 @@ public class UMLMethod implements IGraphItem{
 
 		for(Type t:argTypes)
 		{
-			argumentTypes.add(t.getClassName());
+//			argumentTypes.add(t.getClassName());
+			argData.add(new ArgumentData(t.getClassName().substring(t.getClassName().lastIndexOf('.') + 1), null));
+//			String s = argumentTypes.get(i);
+//			builder.append(s.substring(s.lastIndexOf('.') + 1));
 		}
-		 
+		
+//		if (signature != null)
+//		{
+//			String[] args = signature.split(arg0)
+//		}
+		
 		String s = null;
 		if(signature != null)
 		{
+//			Type[] types = Type.get;
+//			for (Type t : types)
+//			{
+//				System.out.println(t.getElementType());
+//			}
 			s = Type.getType(signature).getElementType().toString();
-			s = s.substring(s.lastIndexOf('/') + 1, s.indexOf(';'));
+			
+			//TODO Clean this up
+			String args = signature.split("\\)")[0];
+			String[] argList = args.split("\\>\\;");
+			ArrayList<String> fullArgs = new ArrayList<String>();
+			for (String str : argList)
+			{
+				if (str.contains(";"))
+				{
+					fullArgs.addAll(Arrays.asList(str.trim().split(";")));
+				}
+				else
+				{
+					fullArgs.add(str);
+				}
+			}
+			
+			//for (String str : fullArgs)
+			for (int i = 0; i < fullArgs.size(); i++)
+			{
+				String str = fullArgs.get(i);
+				if (str.contains("<"))
+				{
+					String temp = str.split("<")[1];
+//					argumentGenerics.add(temp.substring(temp.lastIndexOf("/") + 1));
+					argData.get(i).setGenericType(temp.substring(temp.lastIndexOf("/") + 1));
+				}
+//				else
+//				{
+//					argumentGenerics.add(null);
+//				}
+			}
+			
+			System.out.println(name);
+			System.out.println("-----");
+			System.out.println(signature);
+			System.out.println("-----");
+			System.out.println(Type.getType(signature).getReturnType().toString());
+			System.out.println("-----");
+			System.out.println(s);
+			System.out.println("-----\n");
+			
+			//TODO Maybe looking at return type, then doing this, is better?
+			s = Type.getType(signature).getReturnType().toString();
+			//if (s.compareTo("V") != 0)
+			if (s.contains("<"))
+			{
+				s = s.substring(s.lastIndexOf('/') + 1, s.indexOf(';'));
+			}
+			else
+			{
+				s = null;
+			}
 		}
+//		else
+//		{
+//			for (int i = 0; i < argumentTypes.size(); i++)
+//				argumentGenerics.add(null);
+//		}
 		returnGenericType = s;
+	}
+	
+	public ArrayList<String> testMethod(ArrayList<ArrayList<Integer>> ints, int l)
+	{
+		return null;
+	}
+	
+	public int testMethod2(ArrayList<String> l, int m, int o)
+	{
+		return 0;
 	}
 	
 	/**
 	 * This method is for testing purposes.
 	 * @param name			Name of the method.
 	 * @param accType		The access type of the method (see asm.Opcodes)
-	 * @param argumentTypes	An ArrayList of what the types of the arguments are.
+	 * @param argumentData	An ArrayList containing the data for the method arguments.
 	 * @param genericType	If this method returns a type with a generic, it is specified here. null if no generic type.
 	 * @param returnType    The return type of the method.
 	 */
-	public UMLMethod(String name, int accType, ArrayList<String> argumentTypes, String genericType, String returnType)
+	public UMLMethod(String name, int accType, ArrayList<ArgumentData> argumentData, String genericType, String returnType)
 	{
 		this.name = name;
 		this.accessType = accType;
-		this.argumentTypes = argumentTypes;
+		this.argData = argumentData;
+//		this.argumentTypes = argumentTypes;
 		this.returnGenericType = genericType;
 		this.returnType = returnType;
 	}
@@ -67,13 +154,26 @@ public class UMLMethod implements IGraphItem{
 		{
 			builder.append("- ");
 		}
+		else if((accessType & Opcodes.ACC_PROTECTED) == Opcodes.ACC_PROTECTED)
+		{
+			builder.append("# ");
+		}
 		builder.append(name);
 		builder.append("(");
-		for (int i = 0; i < argumentTypes.size(); i++)
+//		for (int i = 0; i < argumentTypes.size(); i++)
+		for (int i = 0; i < argData.size(); i++)
 		{
-			String s = argumentTypes.get(i);
-			builder.append(s.substring(s.lastIndexOf('.') + 1));
-			if (i < argumentTypes.size() - 1)
+//			String s = argumentTypes.get(i);
+//			builder.append(s.substring(s.lastIndexOf('.') + 1));
+//			if (argumentGenerics.get(i) != null)
+//			{
+//				builder.append("<");
+//				builder.append(argumentGenerics.get(i));
+//				builder.append(">");
+//			}
+			builder.append(argData.get(i).getArgument());
+//			if (i < argumentTypes.size() - 1)
+			if (i < argData.size() - 1)
 				builder.append(", ");
 		}
 
@@ -94,8 +194,11 @@ public class UMLMethod implements IGraphItem{
 	/**
 	 * @return the argumentTypes of the method
 	 */
-	public ArrayList<String> getArgumentTypes() {
-		return argumentTypes;
+//	public ArrayList<String> getArgumentTypes() {
+//		return argumentTypes;
+	public ArrayList<ArgumentData> getArgumentData()
+	{
+		return argData;
 	}
 
 	/**

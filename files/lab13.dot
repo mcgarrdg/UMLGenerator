@@ -6,7 +6,7 @@ digraph "Test_UML"{
 ];
 	"problem/AppLauncher" [
 	shape = "record",
-	label = "{problem/AppLauncher|- watcher : WatchService\l- dir : Path\l- stop : boolean\l- fileTypes : ArrayList\<FileType\>\l|init(Path) : void\l+ run() : void\lclearEverything() : void\l+ stopGracefully() : void\l+ isRunning() : boolean\l+ getApplicationsCount() : int\l+ main(String[]) : void\l}"
+	label = "{problem/AppLauncher|- watcher : WatchService\l- dir : Path\l- stop : boolean\l- fileTypes : ArrayList\<FileType\>\l|init(Path) : void\l+ run() : void\l# clearEverything() : void\l+ stopGracefully() : void\l+ isRunning() : boolean\l+ getApplicationsCount() : int\l+ main(String[]) : void\l}"
 ];
 	"problem/AppLauncherBaseCaseTest" [
 	shape = "record",
@@ -22,7 +22,7 @@ digraph "Test_UML"{
 ];
 	"problem/EventHandler" [
 	shape = "record",
-	label = "{problem/EventHandler|enabled : boolean\lprocesses : List\<Process\>\lapplicationsLaunched : int\l|+ init() : void\l+ diable() : void\l+ enable() : void\l+ handleEvent(EventData) : void\lhandleEventHelper(EventData) : void\l+ killProcesses() : void\l+ getApplicationsLaunched() : int\l}"
+	label = "{problem/EventHandler|# enabled : boolean\l# processes : List\<Process\>\l# applicationsLaunched : int\l|+ init() : void\l+ diable() : void\l+ enable() : void\l+ handleEvent(EventData) : void\l# handleEventHelper(EventData) : void\l+ killProcesses() : void\l+ getApplicationsLaunched() : int\l}"
 ];
 	"problem/EvntHdlrPDFAdd" [
 	shape = "record",
@@ -30,7 +30,7 @@ digraph "Test_UML"{
 ];
 	"problem/EvntHdlrPrintFilenameAdd" [
 	shape = "record",
-	label = "{problem/EvntHdlrPrintFilenameAdd||+ init() : void\lhandleEventHelper(EventData) : void\l}"
+	label = "{problem/EvntHdlrPrintFilenameAdd||+ init() : void\l# handleEventHelper(EventData) : void\l}"
 ];
 	"problem/EvntHdlrTXTAdd" [
 	shape = "record",
@@ -38,7 +38,7 @@ digraph "Test_UML"{
 ];
 	"problem/FileType" [
 	shape = "record",
-	label = "{problem/FileType|eventHandlers : ArrayList\<EventHandler\>\l|+ init() : void\l+ updateEventData(EventData) : void\l+ addEventHandler(EventHandler) : void\l+ disableAllHandlers() : void\l+ enableAllHandlers() : void\l+ killProcesses() : void\l+ getApplicationsCount() : int\l+ diableHandlerType(EventHandler) : void\l+ enableHandlerType(EventHandler) : void\l}"
+	label = "{problem/FileType|# eventHandlers : ArrayList\<EventHandler\>\l|+ init() : void\l+ updateEventData(EventData) : void\l+ addEventHandler(EventHandler) : void\l+ disableAllHandlers() : void\l+ enableAllHandlers() : void\l+ killProcesses() : void\l+ getApplicationsCount() : int\l+ diableHandlerType(EventHandler) : void\l+ enableHandlerType(EventHandler) : void\l}"
 ];
 	"problem/HTML" [
 	shape = "record",

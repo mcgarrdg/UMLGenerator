@@ -51,6 +51,10 @@ public class UMLField implements IGraphItem {
 		{
 			builder.append("- ");
 		}
+		else if((accessType & Opcodes.ACC_PROTECTED) == Opcodes.ACC_PROTECTED)
+		{
+			builder.append("# ");
+		}
 		builder.append(name);
 		builder.append(" : ");
 		String s = type.substring(type.lastIndexOf('.') + 1);
