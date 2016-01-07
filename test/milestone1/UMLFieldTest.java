@@ -1,28 +1,31 @@
 package milestone1;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 
+import problem.asm.TypeData;
 import problem.asm.UMLField;
 
 public class UMLFieldTest {
 	
 	
 	private UMLField field;
+	private TypeData type;
+	private TypeData generic;
 	private String name;
-	private String type;
 	private int accessType;
-	private String genericType;
 
 	public UMLFieldTest() {
 		this.name = "bestField";
-		this.type = "String";
-		this.genericType = null; 
+		this.generic = new TypeData("Box", null);
+		this.type = new TypeData("T", this.generic);
 		this.accessType = Opcodes.ACC_PUBLIC;
 		
-		field = new UMLField(name, type, genericType, accessType);
+		
+		field = new UMLField(name, type, accessType);
 	}
 	
 	@Test
@@ -42,7 +45,7 @@ public class UMLFieldTest {
 	
 	@Test
 	public void testGenericType() {
-		assertNull(field.getGenericType());
+		assertEquals(this.generic.getBaseDataType(), field.getType().getBaseDataType());
 	}
 	
 	

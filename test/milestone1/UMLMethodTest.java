@@ -1,38 +1,37 @@
 package milestone1;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 
+import problem.asm.TypeData;
 import problem.asm.UMLMethod;
 
 public class UMLMethodTest {
 	
 	private UMLMethod method;
-	private ArrayList<String> argumentTypes;
+	private ArrayList<TypeData> argumentTypes;
 	private String name;
-	private String returnType;
-	private String returnGenericType;
+	private TypeData type; 
 	private int accessType;
 	
 	public UMLMethodTest() {
-		this.argumentTypes = new ArrayList<String>(); 
-		this.argumentTypes.add("int");
-		this.argumentTypes.add("String");
+		this.argumentTypes = new ArrayList<TypeData>(); 
+		this.argumentTypes.add(new TypeData("int", null));
+		this.argumentTypes.add(new TypeData("String", null));
 		this.name = "multiplyString";
-		this.returnType = "String"; 
-		this.returnGenericType = null;
+		this.type = new TypeData("String", null);
 		this.accessType = Opcodes.ACC_PUBLIC;
-		method = new UMLMethod(name, accessType, argumentTypes, returnGenericType, returnType);
+		method = new UMLMethod(name, accessType, argumentTypes, type);
 		
 	}
 	
 	@Test
 	public void testArgumentTypes() {
-		ArrayList<String> argtypes = method.getArgumentTypes(); 
+		ArrayList<TypeData> argtypes = method.getArgumentData(); 
 		assertEquals(argtypes.size(), argumentTypes.size());
 		for(int i = 0; i < argtypes.size(); i++) {
 			assertEquals(argtypes.get(i), argumentTypes.get(i));
@@ -46,12 +45,7 @@ public class UMLMethodTest {
 	
 	@Test
 	public void testReturnType() {
-		assertEquals(this.returnType, method.getReturnType());
-	}
-	
-	@Test
-	public void testGenericType() {
-		assertEquals(this.returnGenericType, method.getReturnGenericType());
+		assertEquals(this.type.getBaseDataType(), method.getReturnType().getBaseDataType());
 	}
 	
 	@Test

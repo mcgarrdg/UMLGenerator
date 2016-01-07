@@ -1,12 +1,13 @@
 package milestone1;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 
+import problem.asm.TypeData;
 import problem.asm.UMLClass;
 import problem.asm.UMLField;
 import problem.asm.UMLGraph;
@@ -28,8 +29,8 @@ public class UMLGraphTest {
 		c = new UMLClass("aClass", null, new String[0]);
 		g.addClass(c);
 		
-		m = new UMLMethod("aMethod", Opcodes.ACC_PUBLIC, new ArrayList<String>(), null, "int" );
-		f = new UMLField("aField", "int", null, Opcodes.ACC_PRIVATE); 
+		m = new UMLMethod("aMethod", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("int", null));
+		f = new UMLField("aField", new TypeData("int", null), Opcodes.ACC_PRIVATE); 
 		
 		g.addMethod(m);
 		g.addField(f);
