@@ -22,6 +22,9 @@ import org.objectweb.asm.Opcodes;
 
 public class DesignParser 
 {
+	/**
+	 * A string that represents where the GraphViz dot.exe file is.
+	 */
 	private static String dotPath;
 	
 	public static void main(String[] args) throws IOException, InterruptedException 
@@ -43,6 +46,12 @@ public class DesignParser
 		return visitFiles(files).toGraphVizString();
 	}
 	
+	/**
+	 * Using asm visitors, all files in the files array are visited, and a UMLGraph is constructed.
+	 * @param files	An array of {@link File Files} represneting the Java .class files to make this UML from.
+	 * @return	A completed UMLGraph.
+	 * @throws IOException
+	 */
 	public static UMLGraph visitFiles(File[] files) throws IOException
 	{
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
@@ -63,6 +72,10 @@ public class DesignParser
 		return graph;
 	}
 
+	/**
+	 * A function that opens a window, prompting the user to locate Graphviz's dot.exe if it is not in the default path.
+	 * The user does this with a {@link JFileChooser}.
+	 */
 	public static void locateGraphviz()
 	{
 		Object[] options = {"Yes", "No, select another path"};
@@ -90,6 +103,12 @@ public class DesignParser
 	}
 	
 	//TODO Add confirmation popup if they select a file that already exists
+	/**
+	 * Given a valid String for a GraphViz document, this uses dot.exe to generate a PNG of the UML diagram.
+	 * @param s	The string to pass into GraphViz.
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
 	public static void generatePNG(String s) throws IOException, InterruptedException
 	{
 		JFileChooser choose = new JFileChooser();

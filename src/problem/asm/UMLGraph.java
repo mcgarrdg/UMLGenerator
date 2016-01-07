@@ -2,10 +2,22 @@ package problem.asm;
 
 import java.util.ArrayList;
 
-public class UMLGraph implements IGraphItem{
+public class UMLGraph implements IGraphItem
+{
 
+	/**
+	 * The list of classes that this UMLGraph will contain.
+	 */
 	private ArrayList<UMLClass> classes;
+	
+	/**
+	 * The name of the UMLGraph.
+	 */
 	private String name;
+	
+	/**
+	 * The rankdir of the UMLGraph. See Graphviz rankdir documentation.
+	 */
 	private String rankdir;
 	
 	public UMLGraph(String name, String rankdir)
@@ -13,36 +25,33 @@ public class UMLGraph implements IGraphItem{
 		this.name = name;
 		this.rankdir = rankdir;
 		classes = new ArrayList<UMLClass>();
-		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * Adds a class to the UMLGraph.
+	 * @param clss	The class to be added.
+	 */
 	public void addClass(UMLClass clss)
 	{
 		this.classes.add(clss);
 	}
 	
+	/**
+	 * Adds a field to the most recently added class on this graph.
+	 * @param field	The field to be added.
+	 */
 	public void addField(UMLField field)
 	{
-		try
-		{
-			this.classes.get(this.classes.size()-1).addField(field);
-		}
-		catch (IndexOutOfBoundsException e)
-		{
-			e.printStackTrace();
-		}
+		this.classes.get(this.classes.size()-1).addField(field);
 	}
 	
+	/**
+	 * Adds a method to the most recently added class on this graph.
+	 * @param method
+	 */
 	public void addMethod(UMLMethod method)
 	{
-		try
-		{
-			this.classes.get(this.classes.size()-1).addMethod(method);
-		}
-		catch (IndexOutOfBoundsException e)
-		{
-			e.printStackTrace();
-		}
+		this.classes.get(this.classes.size()-1).addMethod(method);
 	}
 	
 	//TODO Make the arrows draw. Will have to compare class extensions/implementations
@@ -51,13 +60,7 @@ public class UMLGraph implements IGraphItem{
 	{
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append("digraph ");
-		builder.append("\"");
-		builder.append(this.name);
-		builder.append("\"");
-		builder.append("{\n");
-		builder.append("\trankdir = ");
-		builder.append(this.rankdir);
+		builder.append("digraph \"" + this.name + "\"{\n\trankdir = " + this.rankdir);
 		
 		for(UMLClass c : this.classes)
 		{
@@ -66,7 +69,8 @@ public class UMLGraph implements IGraphItem{
 		}
 		builder.append("\n");
 
-		//extract something like this into its own method to support different string types
+		//TODO extract something like this into its own method to support different string types
+		// maybe not...
 		for(UMLClass c : this.classes)
 		{
 			ArrayList<String> implementations = c.getImplementations();
@@ -76,14 +80,7 @@ public class UMLGraph implements IGraphItem{
 				{
 					if(c2.getName().equals(s))
 					{
-						builder.append("\"");
-						builder.append(c.getName());
-						builder.append("\"");
-						builder.append(" -> ");
-						builder.append("\"");
-						builder.append(s);
-						builder.append("\"");
-						builder.append(" [arrowhead=\"onormal\", style=\"dashed\"];\n");
+						builder.append("\"" + c.getName() + "\" -> \"" + s + "\"" + " [arrowhead=\"onormal\", style=\"dashed\"];\n");
 					}
 				}
 			}
@@ -92,14 +89,7 @@ public class UMLGraph implements IGraphItem{
 			{
 				if(c2.getName().equals(extension))
 				{
-					builder.append("\"");
-					builder.append(c.getName());
-					builder.append("\"");
-					builder.append(" -> ");
-					builder.append("\"");
-					builder.append(extension);
-					builder.append("\"");
-					builder.append(" [arrowhead=\"onormal\", style=\"\"];\n");
+					builder.append("\"" + c.getName() + "\" -> \"" + extension + "\" [arrowhead=\"onormal\", style=\"\"];\n");
 				}
 			}
 		}
@@ -110,21 +100,24 @@ public class UMLGraph implements IGraphItem{
 	/**
 	 * @return the classes of the graph
 	 */
-	public ArrayList<UMLClass> getClasses() {
+	public ArrayList<UMLClass> getClasses() 
+	{
 		return classes;
 	}
 
 	/**
 	 * @return the name of the graph
 	 */
-	public String getName() {
+	public String getName() 
+	{
 		return name;
 	}
 
 	/**
 	 * @return the rankdir of the graph
 	 */
-	public String getRankdir() {
+	public String getRankdir() 
+	{
 		return rankdir;
 	}
 }

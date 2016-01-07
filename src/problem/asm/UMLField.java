@@ -3,11 +3,30 @@ package problem.asm;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class UMLField implements IGraphItem {
+public class UMLField implements IGraphItem 
+{
+	/**
+	 * The name of this field.
+	 */
 	private String name;
+	
+	/**
+	 * The TypeData that represents this field.
+	 */
 	private TypeData type;
+	
+	/**
+	 * The access type of this field (public, private, etc), as an integer value. See {@link Opcodes}.
+	 */
 	private int accessType;
 	
+	/**
+	 * Constructor.
+	 * @param name			Name of the field.
+	 * @param accessType	The access type of the field. See {@link #accessType}
+	 * @param desc			The description string. This is from an asm visitor.
+	 * @param signature		The signature string. This is used to look at generic types of the field. From an asm visitor.
+	 */
 	public UMLField(String name, int accessType, String desc, String signature)
 	{
 		this.name = name;
@@ -72,23 +91,26 @@ public class UMLField implements IGraphItem {
 	}
 
 	/**
-	 * @return the name of the Field
+	 * @return The {@link #name} of the field.
 	 */
-	public String getName() {
+	public String getName() 
+	{
 		return name;
 	}
 
 	/**
-	 * @return the type of the Field
+	 * @return The {@link #type} of the field.
 	 */
-	public TypeData getType() {
+	public TypeData getType() 
+	{
 		return type;
 	}
 
 	/**
-	 * @return the accessType of the Field
+	 * @return The {@link #accessType} of the field.
 	 */
-	public int getAccessType() {
+	public int getAccessType()
+	{
 		return accessType;
 	}
 

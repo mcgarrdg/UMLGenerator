@@ -11,11 +11,33 @@ public class UMLMethod implements IGraphItem
 	
 	//TODO Perhaps these should be stored as types, not as strings? (Same for all others?)
 	//TODO Store both the full path to the class and the shortened one (for drawing arrows and stuff)
+	/**
+	 * An ArrayList of {@link TypeData} objects that represent all of the data for the arguments of this method.
+	 */
 	private ArrayList<TypeData> argData;
+	
+	/**
+	 * The name of this method.
+	 */
 	private String name;
+	
+	/**
+	 * A {@link TypeData} object representing all of the data for the return type for this method.
+	 */
 	private TypeData returnType;
+	
+	/**
+	 * The access type of this field (public, private, etc), as an integer value. See {@link Opcodes}.
+	 */
 	private int accessType;
 	
+	/**
+	 * Constructor.
+	 * @param name		The {@link #name} of this method.
+	 * @param accType	The {@link #accessType} of this method.
+	 * @param desc		The description string. This is from an asm visitor.
+	 * @param signature	The signature string. This is used to look at generic types of the field. From an asm visitor.
+	 */
 	public UMLMethod(String name, int accType, String desc, String signature)
 	{
 		argData = new ArrayList<TypeData>();
@@ -144,12 +166,11 @@ public class UMLMethod implements IGraphItem
 		builder.append(this.returnType.toGraphVizString());
 		builder.append("\\l");
 		
-		
 		return builder.toString();
 	}
 
 	/**
-	 * @return the argument data of the method
+	 * @return the {@link #argData argument data} of the method
 	 */
 	public ArrayList<TypeData> getArgumentData()
 	{
@@ -157,23 +178,26 @@ public class UMLMethod implements IGraphItem
 	}
 
 	/**
-	 * @return the name of the method
+	 * @return the {@link #name} of the method
 	 */
-	public String getName() {
+	public String getName() 
+	{
 		return name;
 	}
 
 	/**
-	 * @return the returnType of the method
+	 * @return the {@link #returnType} of the method
 	 */
-	public TypeData getReturnType() {
+	public TypeData getReturnType() 
+	{
 		return this.returnType;
 	}
 
 	/**
-	 * @return the accessType of the method 
+	 * @return the {@link #accessType} of the method 
 	 */
-	public int getAccessType() {
+	public int getAccessType() 
+	{
 		return accessType;
 	}
 }
