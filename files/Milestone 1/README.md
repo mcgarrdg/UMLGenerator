@@ -19,10 +19,6 @@ Each of these classes implement toGraphVizString() such that the return string r
 The getAccessTypeSymbol method is just a helper method, used to determine the appropriate access level string for various GraphItems.
 UMLGraph's toGraphVizString() is responsible for returning the full string inputed into GraphViz. 
 
-Milestone 2:
-The design of our tool didn't really change much from milestone one to milestone two. One class was added, the methodVisitor class. 
-This class allowed us to look through the code of methods to help with uses arrows.
-
 
 
 Who did what: 
@@ -33,9 +29,6 @@ Milestone 1:
 -Implemented file choosing and saving for ease of use. 
 -Added class documentation.
 -Created UML diagram.
-Milestone 2:
--Made addociation arrows work
--Made preliminary uses arrows work
 
 
 Dan McGarry
@@ -45,9 +38,6 @@ Milestone 1:
 -Wrote documentation for the project within this "README". 
 -Wrote the test cases for the project
 -Added minor class documentation
-Milestone 2:
--Created the methodVisitor.
--Worked on finalized uses arrows
 
 
 
