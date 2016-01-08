@@ -102,7 +102,6 @@ public class DesignParser
 		}
 	}
 	
-	//TODO Add confirmation popup if they select a file that already exists
 	/**
 	 * Given a valid String for a GraphViz document, this uses dot.exe to generate a PNG of the UML diagram.
 	 * @param s	The string to pass into GraphViz.
@@ -117,6 +116,29 @@ public class DesignParser
 		choose.setCurrentDirectory(new File("./files/"));
 		choose.showSaveDialog(null);
 		
+		boolean confirmOverwrite = choose.getSelectedFile().exists();
+		while(confirmOverwrite)
+		{
+			Object[] options = {"Yes", "No"};
+			int n = JOptionPane.showOptionDialog(null,
+			    "The file you have specified already exists. Are you sure you want to overwrite it?",
+			    "Overwite file?",
+			    JOptionPane.YES_NO_OPTION,
+			    JOptionPane.QUESTION_MESSAGE,
+			    null,
+			    options,
+			    options[0]);
+			
+			if (n == 0) //User says yes
+			{
+				choose.getSelectedFile().delete();
+				confirmOverwrite = false;
+			}
+			else if (n == 1) //User says no.
+			{
+				choose.showSaveDialog(null);
+			}
+		}
 		//TODO This could be prone to bugs if the user enters in odd names. Should we bother fixing?
 		String filePath;
 		if(choose.getSelectedFile().getName().lastIndexOf('.') == -1)
@@ -125,10 +147,9 @@ public class DesignParser
 		}
 		else
 		{
-			filePath = choose.getSelectedFile().getPath().substring(0, choose.getSelectedFile().getName().lastIndexOf('.') + 1);
+			filePath = choose.getSelectedFile().getPath().substring(0, choose.getSelectedFile().getAbsolutePath().lastIndexOf('.'));
 		}
 		
-		//TODO make it store the file where the user wanted it
 		PrintWriter writer = new PrintWriter(filePath + ".dot", "UTF-8");
 		writer.println(s);
 		writer.flush();

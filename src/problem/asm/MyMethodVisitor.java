@@ -6,12 +6,10 @@ public class MyMethodVisitor extends MethodVisitor {
 
 	public MyMethodVisitor(int arg0, MethodVisitor arg1) {
 		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
 	}
 
 	public MyMethodVisitor(int arg0) {
 		super(arg0);
-		// TODO Auto-generated constructor stub
 	}
 
 	/*
@@ -22,7 +20,6 @@ public class MyMethodVisitor extends MethodVisitor {
 	 */
 	@Override
 	public void visitFieldInsn(int opcode, String owner, String name, String desc) {
-		// TODO Auto-generated method stub
 		super.visitFieldInsn(opcode, owner, name, desc);
 
 	}
@@ -37,7 +34,6 @@ public class MyMethodVisitor extends MethodVisitor {
 	 */
 	@Override
 	public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-		// TODO Auto-generated method stub
 		super.visitMethodInsn(opcode, owner, name, desc, itf);
 	}
 
@@ -47,7 +43,6 @@ public class MyMethodVisitor extends MethodVisitor {
 	 */
 	@Override
 	public void visitTypeInsn(int opcode, String type) {
-		// TODO Auto-generated method stub
 		super.visitTypeInsn(opcode, type);
 	}
 
@@ -57,7 +52,6 @@ public class MyMethodVisitor extends MethodVisitor {
 	 */
 	@Override
 	public void visitVarInsn(int arg0, int arg1) {
-		// TODO Auto-generated method stub
 		super.visitVarInsn(arg0, arg1);
 	}
 

@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import org.objectweb.asm.Opcodes;
 
-public class UMLClass implements IGraphItem{
+public class UMLClass extends GraphItem{
 	
 	/**
 	 * The full path name of the class. (example: problem/asm/UMLClass)
@@ -130,8 +130,8 @@ public class UMLClass implements IGraphItem{
 		return this.fields;
 	}
 	
-	//TODO signify if something is an interface or abstract
 	//TODO Have an input for number of tabs?
+	@Override
 	public String toGraphVizString()
 	{
 		StringBuilder builder = new StringBuilder();

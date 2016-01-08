@@ -3,7 +3,7 @@ package problem.asm;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class UMLField implements IGraphItem 
+public class UMLField extends GraphItem 
 {
 	/**
 	 * The name of this field.
@@ -71,23 +71,10 @@ public class UMLField implements IGraphItem
 		this.accessType = accessType;
 	}
 	
+	@Override
 	public String toGraphVizString()
 	{
-		String access = "";
-		//TODO Extract this out into its own method, will all the access types.
-		if((accessType & Opcodes.ACC_PUBLIC) != 0)
-		{
-			access = "+ ";
-		} else if((accessType & Opcodes.ACC_PRIVATE) != 0)
-		{
-			access = "- ";
-		}
-		else if((accessType & Opcodes.ACC_PROTECTED) == Opcodes.ACC_PROTECTED)
-		{
-			access = "# ";
-		}
-				
-		return (access + this.name + " : " + this.type.toGraphVizString() + "\\l");
+		return (this.getAccessTypeSymbol(this.accessType) + " " + this.name + " : " + this.type.toGraphVizString() + "\\l");
 	}
 
 	/**

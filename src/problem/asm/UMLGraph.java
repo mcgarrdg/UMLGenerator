@@ -2,7 +2,7 @@ package problem.asm;
 
 import java.util.ArrayList;
 
-public class UMLGraph implements IGraphItem
+public class UMLGraph extends GraphItem
 {
 
 	/**
@@ -51,11 +51,10 @@ public class UMLGraph implements IGraphItem
 	 */
 	public void addMethod(UMLMethod method)
 	{
-		this.classes.get(this.classes.size()-1).addMethod(method);
+		this.classes.get(this.classes.size() - 1).addMethod(method);
 	}
 	
-	//TODO Make the arrows draw. Will have to compare class extensions/implementations
-	//against the names of the other classes that are being drawn.
+	@Override
 	public String toGraphVizString()
 	{
 		StringBuilder builder = new StringBuilder();
@@ -69,34 +68,42 @@ public class UMLGraph implements IGraphItem
 		}
 		builder.append("\n");
 
-		//TODO extract something like this into its own method to support different string types
-		// maybe not...
-		for(UMLClass c : this.classes)
+		// Draw arrows
+		for(UMLClass firstClass : this.classes)
 		{
-			ArrayList<String> implementations = c.getImplementations();
-			for(String s : implementations)
+			for(UMLClass secondClass : this.classes)
 			{
-				for(UMLClass c2 : this.classes)
+				for(String implementation : firstClass.getImplementations())
 				{
-					if(c2.getName().equals(s))
+					if(secondClass.getName().equals(implementation))
 					{
-						builder.append("\"" + c.getName() + "\" -> \"" + s + "\"" + " [arrowhead=\"onormal\", style=\"dashed\"];\n");
+						builder.append(getArrowString(firstClass.getName(), implementation, "onormal", "dashed"));
 					}
 				}
-			}
-			String extension = c.getExtension(); 
-			for(UMLClass c2 : this.classes)
-			{
-				if(c2.getName().equals(extension))
+				
+				if(secondClass.getName().equals(firstClass.getExtension()))
 				{
-					builder.append("\"" + c.getName() + "\" -> \"" + extension + "\" [arrowhead=\"onormal\", style=\"\"];\n");
+					builder.append(getArrowString(firstClass.getName(), firstClass.getExtension(), "onormal", ""));
 				}
 			}
 		}
 		builder.append("\n}");
 		return builder.toString();
 	}
-
+	
+	/**
+	 * Helper method for {@link #toGraphVizString()} that make a string that specifies an arrow between two classes.
+	 * @param nameOne		The fullName of the class the arrow will come from.
+	 * @param nameTwo		The fullName of the class the arrow will end at.
+	 * @param arrowHeadType	The type of arrow head. See GraphViz documentation.
+	 * @param lineType		The type of line for the arrow. See GraphViz documentation.
+	 * @return				The GraphViz formatted string drawing an arrow between two classes.
+	 */
+	private String getArrowString(String nameOne, String nameTwo, String arrowHeadType, String lineType)
+	{
+		return ("\"" + nameOne + "\" -> \"" + nameTwo + "\"" + " [arrowhead=\"" + arrowHeadType + "\", style=\"" + lineType + "\"];\n");
+	}
+	
 	/**
 	 * @return the classes of the graph
 	 */

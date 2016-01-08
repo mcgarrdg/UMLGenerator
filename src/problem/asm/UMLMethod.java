@@ -6,11 +6,9 @@ import java.util.Arrays;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class UMLMethod implements IGraphItem
+public class UMLMethod extends GraphItem
 {
 	
-	//TODO Perhaps these should be stored as types, not as strings? (Same for all others?)
-	//TODO Store both the full path to the class and the shortened one (for drawing arrows and stuff)
 	/**
 	 * An ArrayList of {@link TypeData} objects that represent all of the data for the arguments of this method.
 	 */
@@ -56,68 +54,35 @@ public class UMLMethod implements IGraphItem
 			argData.add(new TypeData(t.getClassName().substring(t.getClassName().lastIndexOf('.') + 1), null));
 		}
 		
-		String s = null;
 		if(signature != null)
 		{
-			s = Type.getType(signature).getElementType().toString();
-			
-			//TODO Clean this up
-			String args = signature.split("\\)")[0];
-			String[] argList = args.split("\\>\\;");
+			String s;
+			// Split the arguments from the return type, then split the arguments apart based on generics.
+			String[] argList = signature.split("\\)")[0].split("\\>\\;");
 			ArrayList<String> fullArgs = new ArrayList<String>();
+			// Split the arguments more.
 			for (String str : argList)
 			{
-				if (str.contains(";"))
-				{
-					ArrayList<String> tempList = new ArrayList<String>();
-					tempList.addAll(Arrays.asList(str.trim().split(";")));
-					for (String str2 : tempList)
-					{
-						if(!str2.isEmpty())
-						{
-							fullArgs.add(str2);
-						}
-					}
-				}
-				else
-				{
-					if (!str.isEmpty())
-					{
-						fullArgs.add(str);
-					}
-				}
+				fullArgs.addAll(Arrays.asList(str.trim().split(";")));
 			}
+			fullArgs.removeAll(Arrays.asList("", " ", null));
+			
+			// Deal with the argument data.
 			for (int i = 0; i < fullArgs.size(); i++)
 			{
-				String str = fullArgs.get(i);
-				if (str.contains("<"))
+				s = fullArgs.get(i);
+				if (s.contains("<"))
 				{
-					String[] splitString = str.split("<");
-					String temp = splitString[splitString.length - 1];
-					TypeData tempData = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null);
-					for (int x = splitString.length - 2; x > 0; x--)
-					{
-						TypeData secondData = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), tempData);
-						tempData = secondData;
-					}
-					argData.get(i).setSubData(tempData);
+					argData.get(i).setSubData(parseGenerics(s));
 				}
 			}
 			
-			// Deal with the return type data
+			// Deal with the return type data.
 			s = Type.getType(signature).getReturnType().toString();
+			s = s.substring(0, s.length() - 1);
 			if (s.contains("<"))
 			{
-				s = s.substring(0, s.length() - 1);
-				String[] splitString = s.split("<");
-				String temp = splitString[splitString.length - 1];
-				TypeData tempData = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null);
-				for (int x = splitString.length - 2; x > 0; x--)
-				{
-					TypeData secondData = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), tempData);
-					tempData = secondData;
-				}
-				this.returnType.setSubData(tempData);
+				this.returnType.setSubData(parseGenerics(s));
 			}
 		}
 	}
@@ -136,35 +101,37 @@ public class UMLMethod implements IGraphItem
 		this.argData = argumentData;
 		this.returnType = returnType;
 	}
+	
+	/**
+	 * Used to parse out the generics of a string. A helper function for UMLMethod constructor.
+	 * @param s The string to parse.
+	 * @return A {@link TypeData} object that represents the fully parsed type, with generics.
+	 */
+	private TypeData parseGenerics(String s)
+	{
+		String[] splitString = s.split("<");
+		String temp = splitString[splitString.length - 1];
+		TypeData data = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null);
+		for (int x = splitString.length - 2; x > 0; x--)
+		{
+			data = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), data);
+		}
+		return data;
+	}
 
+	@Override
 	public String toGraphVizString()
 	{
 		StringBuilder builder = new StringBuilder();
 		
-		//TODO Extract this out into its own method, will all the access types.
-		if((accessType & Opcodes.ACC_PUBLIC) != 0)
-		{
-			builder.append("+ ");
-		} else if((accessType & Opcodes.ACC_PRIVATE) != 0)
-		{
-			builder.append("- ");
-		}
-		else if((accessType & Opcodes.ACC_PROTECTED) == Opcodes.ACC_PROTECTED)
-		{
-			builder.append("# ");
-		}
-		builder.append(name);
-		builder.append("(");
+		builder.append(this.getAccessTypeSymbol(this.accessType) + " " + this.name + "(");
 		for (int i = 0; i < argData.size(); i++)
 		{
 			builder.append(argData.get(i).toGraphVizString());
 			if (i < argData.size() - 1)
 				builder.append(", ");
 		}
-
-		builder.append(") : ");
-		builder.append(this.returnType.toGraphVizString());
-		builder.append("\\l");
+		builder.append(") : " + this.returnType.toGraphVizString() + "\\l");
 		
 		return builder.toString();
 	}

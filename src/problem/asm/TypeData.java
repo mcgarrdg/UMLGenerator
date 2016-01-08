@@ -1,6 +1,6 @@
 package problem.asm;
 
-public class TypeData implements IGraphItem
+public class TypeData extends GraphItem
 {
 	/**
 	 * Just the short name of the class. (Example: TypeData)
@@ -62,6 +62,7 @@ public class TypeData implements IGraphItem
 		return this.subData.getBaseDataType();
 	}
 	
+	@Override
 	public String toGraphVizString()
 	{
 		if (subData != null)
