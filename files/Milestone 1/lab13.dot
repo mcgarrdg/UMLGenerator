@@ -2,11 +2,11 @@ digraph "Test_UML"{
 	rankdir = BT
 	"problem/AppLauncher" [
 	shape = "record",
-	label = "{problem/AppLauncher|- watcher : WatchService\l- dir : Path\l- stop : boolean\l- fileTypes : ArrayList\<FileType\>\l|init(Path) : void\l+ run() : void\l# clearEverything() : void\l+ stopGracefully() : void\l+ isRunning() : boolean\l+ getApplicationsCount() : int\l+ main(String[]) : void\l}"
+	label = "{problem/AppLauncher|- watcher : WatchService\l- dir : Path\l- stop : boolean\l- fileTypes : ArrayList\<FileType\>\l|~ init(Path) : void\l+ run() : void\l# clearEverything() : void\l+ stopGracefully() : void\l+ isRunning() : boolean\l+ getApplicationsCount() : int\l+ main(String[]) : void\l}"
 ];
 	"problem/EventData" [
 	shape = "record",
-	label = "{problem/EventData|event : WatchEvent\<Path\>\lname : Path\lfile : Path\l|init(WatchEvent\<Path\>, Path) : void\l}"
+	label = "{problem/EventData|~ event : WatchEvent\<Path\>\l~ name : Path\l~ file : Path\l|~ init(WatchEvent\<Path\>, Path) : void\l}"
 ];
 	"problem/EventHandler" [
 	shape = "record",

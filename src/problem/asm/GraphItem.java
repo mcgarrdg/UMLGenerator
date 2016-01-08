@@ -33,6 +33,6 @@ public abstract class GraphItem {
 		{
 			return "#";
 		}
-		return "";
+		return "~";
 	}
 }
