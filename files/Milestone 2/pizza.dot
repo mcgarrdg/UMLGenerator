@@ -1,0 +1,226 @@
+digraph "Test_UML"{
+	rankdir = BT
+	"headfirst/factory/pizzaaf/BlackOlives" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/BlackOlives||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/Cheese" [
+	shape = "record",
+	label = "{\<\<headfirst/factory/pizzaaf/Cheese\>\>||+ toString() : String\l}"
+];
+	"headfirst/factory/pizzas/CheesePizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzas/CheesePizza||+ init() : void\l}"
+];
+	"headfirst/factory/pizzaaf/ChicagoPizzaIngredientFactory" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/ChicagoPizzaIngredientFactory||+ init() : void\l+ createDough() : Dough\l+ createSauce() : Sauce\l+ createCheese() : Cheese\l+ createVeggies() : Veggies[]\l+ createPepperoni() : Pepperoni\l+ createClam() : Clams\l}"
+];
+	"headfirst/factory/pizzafm/ChicagoPizzaStore" [
+	shape = "record",
+	label = "{headfirst/factory/pizzafm/ChicagoPizzaStore||+ init() : void\l~ createPizza(String) : Pizza\l}"
+];
+	"headfirst/factory/pizzafm/ChicagoStyleCheesePizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzafm/ChicagoStyleCheesePizza||+ init() : void\l~ cut() : void\l}"
+];
+	"headfirst/factory/pizzafm/ChicagoStyleClamPizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzafm/ChicagoStyleClamPizza||+ init() : void\l~ cut() : void\l}"
+];
+	"headfirst/factory/pizzafm/ChicagoStylePepperoniPizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzafm/ChicagoStylePepperoniPizza||+ init() : void\l~ cut() : void\l}"
+];
+	"headfirst/factory/pizzafm/ChicagoStyleVeggiePizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzafm/ChicagoStyleVeggiePizza||+ init() : void\l~ cut() : void\l}"
+];
+	"headfirst/factory/pizzas/ClamPizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzas/ClamPizza||+ init() : void\l}"
+];
+	"headfirst/factory/pizzaaf/Clams" [
+	shape = "record",
+	label = "{\<\<headfirst/factory/pizzaaf/Clams\>\>||+ toString() : String\l}"
+];
+	"headfirst/factory/pizzafm/DependentPizzaStore" [
+	shape = "record",
+	label = "{headfirst/factory/pizzafm/DependentPizzaStore||+ init() : void\l+ createPizza(String, String) : Pizza\l}"
+];
+	"headfirst/factory/pizzaaf/Dough" [
+	shape = "record",
+	label = "{\<\<headfirst/factory/pizzaaf/Dough\>\>||+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/Eggplant" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/Eggplant||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/FreshClams" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/FreshClams||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/FrozenClams" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/FrozenClams||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/Garlic" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/Garlic||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/MarinaraSauce" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/MarinaraSauce||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/MozzarellaCheese" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/MozzarellaCheese||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/Mushroom" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/Mushroom||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/NYPizzaIngredientFactory" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/NYPizzaIngredientFactory||+ init() : void\l+ createDough() : Dough\l+ createSauce() : Sauce\l+ createCheese() : Cheese\l+ createVeggies() : Veggies[]\l+ createPepperoni() : Pepperoni\l+ createClam() : Clams\l}"
+];
+	"headfirst/factory/pizzafm/NYPizzaStore" [
+	shape = "record",
+	label = "{headfirst/factory/pizzafm/NYPizzaStore||+ init() : void\l~ createPizza(String) : Pizza\l}"
+];
+	"headfirst/factory/pizzafm/NYStyleCheesePizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzafm/NYStyleCheesePizza||+ init() : void\l}"
+];
+	"headfirst/factory/pizzafm/NYStyleClamPizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzafm/NYStyleClamPizza||+ init() : void\l}"
+];
+	"headfirst/factory/pizzafm/NYStylePepperoniPizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzafm/NYStylePepperoniPizza||+ init() : void\l}"
+];
+	"headfirst/factory/pizzafm/NYStyleVeggiePizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzafm/NYStyleVeggiePizza||+ init() : void\l}"
+];
+	"headfirst/factory/pizzaaf/Onion" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/Onion||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/ParmesanCheese" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/ParmesanCheese||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/Pepperoni" [
+	shape = "record",
+	label = "{\<\<headfirst/factory/pizzaaf/Pepperoni\>\>||+ toString() : String\l}"
+];
+	"headfirst/factory/pizzas/PepperoniPizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzas/PepperoniPizza||+ init() : void\l}"
+];
+	"headfirst/factory/pizzas/Pizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzas/Pizza|~ name : String\l~ dough : String\l~ sauce : String\l~ toppings : ArrayList\l|+ init() : void\l+ getName() : String\l+ prepare() : void\l+ bake() : void\l+ cut() : void\l+ box() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/PizzaIngredientFactory" [
+	shape = "record",
+	label = "{\<\<headfirst/factory/pizzaaf/PizzaIngredientFactory\>\>||+ createDough() : Dough\l+ createSauce() : Sauce\l+ createCheese() : Cheese\l+ createVeggies() : Veggies[]\l+ createPepperoni() : Pepperoni\l+ createClam() : Clams\l}"
+];
+	"headfirst/factory/pizzas/PizzaStore" [
+	shape = "record",
+	label = "{headfirst/factory/pizzas/PizzaStore|~ factory : SimplePizzaFactory\l|+ init(SimplePizzaFactory) : void\l+ orderPizza(String) : Pizza\l}"
+];
+	"headfirst/factory/pizzas/PizzaTestDrive" [
+	shape = "record",
+	label = "{headfirst/factory/pizzas/PizzaTestDrive||+ init() : void\l+ main(String[]) : void\l}"
+];
+	"headfirst/factory/pizzaaf/PlumTomatoSauce" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/PlumTomatoSauce||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/RedPepper" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/RedPepper||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/ReggianoCheese" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/ReggianoCheese||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/Sauce" [
+	shape = "record",
+	label = "{\<\<headfirst/factory/pizzaaf/Sauce\>\>||+ toString() : String\l}"
+];
+	"headfirst/factory/pizzas/SimplePizzaFactory" [
+	shape = "record",
+	label = "{headfirst/factory/pizzas/SimplePizzaFactory||+ init() : void\l+ createPizza(String) : Pizza\l}"
+];
+	"headfirst/factory/pizzaaf/SlicedPepperoni" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/SlicedPepperoni||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/Spinach" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/Spinach||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/ThickCrustDough" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/ThickCrustDough||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzaaf/ThinCrustDough" [
+	shape = "record",
+	label = "{headfirst/factory/pizzaaf/ThinCrustDough||+ init() : void\l+ toString() : String\l}"
+];
+	"headfirst/factory/pizzas/VeggiePizza" [
+	shape = "record",
+	label = "{headfirst/factory/pizzas/VeggiePizza||+ init() : void\l}"
+];
+	"headfirst/factory/pizzaaf/Veggies" [
+	shape = "record",
+	label = "{\<\<headfirst/factory/pizzaaf/Veggies\>\>||+ toString() : String\l}"
+];
+"headfirst/factory/pizzaaf/BlackOlives" -> "headfirst/factory/pizzaaf/Veggies" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzas/CheesePizza" -> "headfirst/factory/pizzas/Pizza" [arrowhead="onormal", style=""];
+"headfirst/factory/pizzaaf/ChicagoPizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Cheese" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/ChicagoPizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Clams" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/ChicagoPizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Dough" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/ChicagoPizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Pepperoni" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/ChicagoPizzaIngredientFactory" -> "headfirst/factory/pizzaaf/PizzaIngredientFactory" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/ChicagoPizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Sauce" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzas/ClamPizza" -> "headfirst/factory/pizzas/Pizza" [arrowhead="onormal", style=""];
+"headfirst/factory/pizzaaf/Eggplant" -> "headfirst/factory/pizzaaf/Veggies" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/FreshClams" -> "headfirst/factory/pizzaaf/Clams" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/FrozenClams" -> "headfirst/factory/pizzaaf/Clams" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/Garlic" -> "headfirst/factory/pizzaaf/Veggies" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/MarinaraSauce" -> "headfirst/factory/pizzaaf/Sauce" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/MozzarellaCheese" -> "headfirst/factory/pizzaaf/Cheese" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/Mushroom" -> "headfirst/factory/pizzaaf/Veggies" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/NYPizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Cheese" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/NYPizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Clams" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/NYPizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Dough" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/NYPizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Pepperoni" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/NYPizzaIngredientFactory" -> "headfirst/factory/pizzaaf/PizzaIngredientFactory" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/NYPizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Sauce" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/Onion" -> "headfirst/factory/pizzaaf/Veggies" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/ParmesanCheese" -> "headfirst/factory/pizzaaf/Cheese" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzas/PepperoniPizza" -> "headfirst/factory/pizzas/Pizza" [arrowhead="onormal", style=""];
+"headfirst/factory/pizzaaf/PizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Cheese" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/PizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Clams" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/PizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Dough" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/PizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Pepperoni" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/PizzaIngredientFactory" -> "headfirst/factory/pizzaaf/Sauce" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzas/PizzaStore" -> "headfirst/factory/pizzas/Pizza" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzas/PizzaStore" -> "headfirst/factory/pizzas/SimplePizzaFactory" [arrowhead="vee", style="solid"];
+"headfirst/factory/pizzas/PizzaStore" -> "headfirst/factory/pizzas/SimplePizzaFactory" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/PlumTomatoSauce" -> "headfirst/factory/pizzaaf/Sauce" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/RedPepper" -> "headfirst/factory/pizzaaf/Veggies" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/ReggianoCheese" -> "headfirst/factory/pizzaaf/Cheese" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzas/SimplePizzaFactory" -> "headfirst/factory/pizzas/Pizza" [arrowhead="vee", style="dashed"];
+"headfirst/factory/pizzaaf/SlicedPepperoni" -> "headfirst/factory/pizzaaf/Pepperoni" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/Spinach" -> "headfirst/factory/pizzaaf/Veggies" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/ThickCrustDough" -> "headfirst/factory/pizzaaf/Dough" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzaaf/ThinCrustDough" -> "headfirst/factory/pizzaaf/Dough" [arrowhead="onormal", style="dashed"];
+"headfirst/factory/pizzas/VeggiePizza" -> "headfirst/factory/pizzas/Pizza" [arrowhead="onormal", style=""];
+
+}
