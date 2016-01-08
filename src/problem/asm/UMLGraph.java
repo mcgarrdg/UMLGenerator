@@ -81,6 +81,15 @@ public class UMLGraph extends GraphItem
 					}
 				}
 				
+				for(UMLField field : firstClass.getFields())
+				{
+					String type = field.getType().getFullBaseDataType();
+					if(secondClass.getName().equals(type))
+					{
+						builder.append(getArrowString(firstClass.getName(), type, "vee", "solid"));
+					}
+				}
+				
 				if(secondClass.getName().equals(firstClass.getExtension()))
 				{
 					builder.append(getArrowString(firstClass.getName(), firstClass.getExtension(), "onormal", ""));

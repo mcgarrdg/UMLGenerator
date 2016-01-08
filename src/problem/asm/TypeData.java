@@ -23,10 +23,11 @@ public class TypeData extends GraphItem
 	 * @param type		The name of the type of data that it is. (Example: TypeData).
 	 * @param subData	Any sub data (generic type) this data has. Null for no generics.
 	 */
-	public TypeData(String type, TypeData subData) 
+	public TypeData(String type, TypeData subData, String fullName) 
 	{
 		this.baseName = type;
 		this.subData = subData;
+		this.fullName = fullName;
 	}
 	
 	/**
@@ -60,6 +61,15 @@ public class TypeData extends GraphItem
 			return this.baseName;
 		}
 		return this.subData.getBaseDataType();
+	}
+	
+	public String getFullBaseDataType()
+	{
+		if (this.subData == null)
+		{
+			return this.fullName;
+		}
+		return this.subData.getFullBaseDataType();
 	}
 	
 	@Override

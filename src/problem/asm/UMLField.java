@@ -1,5 +1,7 @@
 package problem.asm;
 
+import java.util.ArrayList;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
@@ -20,6 +22,8 @@ public class UMLField extends GraphItem
 	 */
 	private int accessType;
 	
+	public ArrayList<ArrayList<String>> shit;
+	
 	/**
 	 * Constructor.
 	 * @param name			Name of the field.
@@ -32,9 +36,13 @@ public class UMLField extends GraphItem
 		this.name = name;
 		this.accessType = accessType;
 		
-		String fieldT = Type.getReturnType(desc).getClassName();
-		fieldT = fieldT.substring(fieldT.lastIndexOf('.') + 1);
-		type = new TypeData(fieldT, null);
+		String fieldT = Type.getReturnType(desc).getClassName().replace('.', '/');
+//		fieldT = fieldT.substring(fieldT.lastIndexOf('.') + 1);
+		type = new TypeData(fieldT.substring(fieldT.lastIndexOf('/') + 1), null, fieldT);
+		
+//		String fieldT = Type.getReturnType(desc).getClassName();
+//		fieldT = fieldT.substring(fieldT.lastIndexOf('.') + 1);
+//		type = new TypeData(fieldT, null);
 		
 		String s = null;
 		if (signature != null)
@@ -47,15 +55,21 @@ public class UMLField extends GraphItem
 				s = s.substring(0, s.length() - 1);
 				String[] splitString = s.split("<");
 				String temp = splitString[splitString.length - 1];
-				TypeData tempData = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null);
+				TypeData tempData = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null, temp.substring(1));
+				//Ljava/lang/String
 				for (int x = splitString.length - 2; x > 0; x--)
 				{
-					TypeData secondData = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), tempData);
+					TypeData secondData = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), tempData, splitString[x].substring(1));
 					tempData = secondData;
 				}
 				this.type.setSubData(tempData);
 			}
 		}
+	}
+	
+	public ArrayList<ArrayList<String>> testMethod(ArrayList<String> s, int i)
+	{
+		return null;
 	}
 	
 	/**

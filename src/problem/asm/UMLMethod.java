@@ -43,15 +43,19 @@ public class UMLMethod extends GraphItem
 		this.name = this.name.replaceAll("[^\\w]", "");
 		this.accessType = accType;
 		
-		String retType = Type.getReturnType(desc).getClassName();
-		retType = retType.substring(retType.lastIndexOf('.') + 1);
-		returnType = new TypeData(retType, null);
+//		String retType = Type.getReturnType(desc).getClassName();
+//		retType = retType.substring(retType.lastIndexOf('.') + 1);
+//		returnType = new TypeData(retType, null);
+		
+		String retType = Type.getReturnType(desc).getClassName().replace('.', '/');
+//		fieldT = fieldT.substring(fieldT.lastIndexOf('.') + 1);
+		returnType = new TypeData(retType.substring(retType.lastIndexOf('/') + 1), null, retType);
 		
 		Type[] argTypes = Type.getArgumentTypes(desc);
 
 		for(Type t:argTypes)
 		{
-			argData.add(new TypeData(t.getClassName().substring(t.getClassName().lastIndexOf('.') + 1), null));
+			argData.add(new TypeData(t.getClassName().substring(t.getClassName().lastIndexOf('.') + 1), null, t.getClassName().replace('.', '/')));
 		}
 		
 		if(signature != null)
@@ -111,10 +115,10 @@ public class UMLMethod extends GraphItem
 	{
 		String[] splitString = s.split("<");
 		String temp = splitString[splitString.length - 1];
-		TypeData data = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null);
+		TypeData data = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null, temp.substring(1));
 		for (int x = splitString.length - 2; x > 0; x--)
 		{
-			data = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), data);
+			data = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), data, splitString[x].substring(1));
 		}
 		return data;
 	}
