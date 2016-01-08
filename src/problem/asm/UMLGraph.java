@@ -102,7 +102,7 @@ public class UMLGraph extends GraphItem
 					{
 						if(data.getFullBaseDataType().equals(secondClass.getName()))
 						{
-							if(!builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed")))
+							if(!(builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed")) || (builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName(), "vee", "solid")))))
 							{
 								builder.append(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed"));
 							}
@@ -110,7 +110,7 @@ public class UMLGraph extends GraphItem
 					}
 					if(meth.getReturnType().getFullBaseDataType().equals(secondClass.getName()))
 					{
-						if(!builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed")))
+						if(!(builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed")) || (builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName(), "vee", "solid")))))
 						{
 							builder.append(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed"));
 						}
