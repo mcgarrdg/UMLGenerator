@@ -29,6 +29,8 @@ public class UMLMethod extends GraphItem
 	 */
 	private int accessType;
 	
+	private ArrayList<TypeData> possibleUses;
+	
 	/**
 	 * Constructor.
 	 * @param name		The {@link #name} of this method.
@@ -38,6 +40,7 @@ public class UMLMethod extends GraphItem
 	 */
 	public UMLMethod(String name, int accType, String desc, String signature)
 	{
+		possibleUses = new ArrayList<TypeData>();
 		argData = new ArrayList<TypeData>();
 		this.name = name;
 		this.name = this.name.replaceAll("[^\\w]", "");
@@ -171,4 +174,28 @@ public class UMLMethod extends GraphItem
 	{
 		return accessType;
 	}
+	
+//	public void addPossibleUse(TypeData d) {
+//		this.possibleUses.add(d);
+//	}
+//	
+//	public ArrayList<TypeData> getPossibleUses() {
+//		return this.possibleUses;
+//	}
+//	
+//	public void filterPossibleUses(ArrayList<UMLClass> classes){
+//		ArrayList<TypeData> uses = new ArrayList<TypeData>();
+//		System.out.println(this.possibleUses.size());
+//		for(TypeData use: this.possibleUses) {
+//			for(UMLClass clazz: classes) {
+//				if(use.getFullBaseDataType().equals(clazz.getName())) {
+//					uses.add(use);
+//					break;
+//				}
+//			}
+//		}
+//		this.possibleUses = uses;
+//		
+//	}
+	
 }

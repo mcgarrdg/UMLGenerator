@@ -28,9 +28,10 @@ public class ClassMethodVisitor extends ClassVisitor {
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions)
 	{
-		this.graph.addMethod(new UMLMethod(name, access, desc, signature));
+		UMLMethod newMethod =new UMLMethod(name, access, desc, signature );
+		this.graph.addMethod(newMethod);
 		MethodVisitor toDecorate = super.visitMethod(access, name, desc, signature, exceptions);
-		MethodVisitor mine = new MyMethodVisitor(Opcodes.ASM5, toDecorate);
+		MethodVisitor mine = new MyMethodVisitor(Opcodes.ASM5, toDecorate, newMethod);
 		return mine;
 	}
 }

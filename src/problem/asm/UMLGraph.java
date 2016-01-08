@@ -110,6 +110,28 @@ public class UMLGraph extends GraphItem
 					}
 					if(meth.getReturnType().getFullBaseDataType().equals(secondClass.getName()))
 					{
+//						meth.filterPossibleUses(this.classes);
+//						ArrayList<TypeData> methUses = meth.getPossibleUses();
+//						System.out.println(methUses.size());
+//						UMLClass thirdClass = null;
+//						for(int j = 0; j < classes.size(); j++) {
+//							for(int i = 0; i < methUses.size(); i++) {
+//								if(classes.get(i).getName().equals(methUses.get(i).getBaseDataType())) {
+//									thirdClass = classes.get(j);
+//									if(thirdClass.getExtension().equals(secondClass.getName()) || thirdClass.getImplementations().contains(secondClass.getName())) {
+//									
+//										if(!builder.toString().contains(getArrowString(firstClass.getName(), thirdClass.getName() , "vee", "dashed")))
+//										{
+//											System.out.println("whoa dude");
+//											builder.append(getArrowString(firstClass.getName(), thirdClass.getName() , "vee", "dashed"));
+//										}
+//									}
+//								}
+//							}
+//						}				
+						
+						
+						
 						if(!builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed")))
 						{
 							builder.append(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed"));
@@ -165,5 +187,15 @@ public class UMLGraph extends GraphItem
 	public String getRankdir() 
 	{
 		return rankdir;
+	}
+	
+	
+	public UMLClass filterSingleClass(String name) {
+		for(int i = 0; i < classes.size(); i++) {
+			if(classes.get(i).getName() == name) {
+				return classes.get(i);
+			}
+		}
+		return null;
 	}
 }
