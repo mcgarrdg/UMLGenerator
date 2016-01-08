@@ -31,7 +31,7 @@ public class UMLClassTest {
 		argumentTypes.add(new TypeData("int", null));
 		argumentTypes.add(new TypeData("String", null));
 
-		clazz = new UMLClass(this.name, this.extension, this.implementations);
+		clazz = new UMLClass(this.name, this.extension, Opcodes.ACC_SUPER, this.implementations);
 		UMLMethod m = new UMLMethod("multiplyString", Opcodes.ACC_PUBLIC, argumentTypes, new TypeData("String", null));
 		methods.add(m);
 		clazz.addMethod(m);

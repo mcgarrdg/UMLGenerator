@@ -26,7 +26,7 @@ public class UMLGraphTest {
 		this.name = "aGraph"; 
 		g = new UMLGraph(name, rankdir); 
 		
-		c = new UMLClass("aClass", null, new String[0]);
+		c = new UMLClass("aClass", null, Opcodes.ACC_SUPER, new String[0]);
 		g.addClass(c);
 		
 		m = new UMLMethod("aMethod", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("int", null));
