@@ -1,0 +1,53 @@
+digraph "Test_UML"{
+	rankdir = BT
+	"problem/asm/ClassDeclarationVisitor" [
+	shape = "record",
+	label = "{problem/asm/ClassDeclarationVisitor|- graph : UMLGraph\l|+ init(int) : void\l+ init(int, ClassVisitor) : void\l+ init(int, UMLGraph) : void\l+ init(int, ClassVisitor, UMLGraph) : void\l+ visit(int, int, String, String, String, String[]) : void\l}"
+];
+	"problem/asm/ClassFieldVisitor" [
+	shape = "record",
+	label = "{problem/asm/ClassFieldVisitor|- graph : UMLGraph\l|+ init(int) : void\l+ init(int, ClassVisitor) : void\l+ init(int, UMLGraph) : void\l+ init(int, ClassVisitor, UMLGraph) : void\l+ visitField(int, String, String, String, Object) : FieldVisitor\l}"
+];
+	"problem/asm/ClassMethodVisitor" [
+	shape = "record",
+	label = "{problem/asm/ClassMethodVisitor|- graph : UMLGraph\l|+ init(int) : void\l+ init(int, ClassVisitor) : void\l+ init(int, UMLGraph) : void\l+ init(int, ClassVisitor, UMLGraph) : void\l+ visitMethod(int, String, String, String, String[]) : MethodVisitor\l}"
+];
+	"problem/asm/DesignParser" [
+	shape = "record",
+	label = "{problem/asm/DesignParser|- dotPath : String\l|+ init() : void\l+ main(String[]) : void\l+ getDigraphString() : String\l+ visitFiles(File[]) : UMLGraph\l+ locateGraphviz() : void\l+ generatePNG(String) : void\l}"
+];
+	"problem/asm/GraphItem" [
+	shape = "record",
+	label = "{problem/asm/GraphItem||+ init() : void\l+ toGraphVizString() : String\l+ getAccessTypeSymbol(int) : String\l}"
+];
+	"problem/asm/MyMethodVisitor" [
+	shape = "record",
+	label = "{problem/asm/MyMethodVisitor||+ init(int, MethodVisitor) : void\l+ init(int) : void\l+ visitFieldInsn(int, String, String, String) : void\l+ visitMethodInsn(int, String, String, String, boolean) : void\l+ visitTypeInsn(int, String) : void\l+ visitVarInsn(int, int) : void\l}"
+];
+	"problem/asm/TypeData" [
+	shape = "record",
+	label = "{problem/asm/TypeData|- baseName : String\l- fullName : String\l- subData : TypeData\l|+ init(String, TypeData) : void\l+ setType(String) : void\l+ setSubData(TypeData) : void\l+ getBaseDataType() : String\l+ toGraphVizString() : String\l}"
+];
+	"problem/asm/UMLClass" [
+	shape = "record",
+	label = "{problem/asm/UMLClass|- fullName : String\l- baseName : String\l- shape : String\l- extension : String\l- accessType : int\l- methods : ArrayList\<UMLMethod\>\l- fields : ArrayList\<UMLField\>\l- implementations : ArrayList\<String\>\l|+ init(String, String, int, String[]) : void\l+ addMethod(UMLMethod) : void\l+ addField(UMLField) : void\l+ getExtension() : String\l+ getImplementations() : ArrayList\<String\>\l+ getName() : String\l+ getMethods() : ArrayList\<UMLMethod\>\l+ getFields() : ArrayList\<UMLField\>\l+ toGraphVizString() : String\l}"
+];
+	"problem/asm/UMLField" [
+	shape = "record",
+	label = "{problem/asm/UMLField|- name : String\l- type : TypeData\l- accessType : int\l|+ init(String, int, String, String) : void\l+ init(String, TypeData, int) : void\l+ toGraphVizString() : String\l+ getName() : String\l+ getType() : TypeData\l+ getAccessType() : int\l}"
+];
+	"problem/asm/UMLGraph" [
+	shape = "record",
+	label = "{problem/asm/UMLGraph|- classes : ArrayList\<UMLClass\>\l- name : String\l- rankdir : String\l|+ init(String, String) : void\l+ addClass(UMLClass) : void\l+ addField(UMLField) : void\l+ addMethod(UMLMethod) : void\l+ toGraphVizString() : String\l- getArrowString(String, String, String, String) : String\l+ getClasses() : ArrayList\<UMLClass\>\l+ getName() : String\l+ getRankdir() : String\l}"
+];
+	"problem/asm/UMLMethod" [
+	shape = "record",
+	label = "{problem/asm/UMLMethod|- argData : ArrayList\<TypeData\>\l- name : String\l- returnType : TypeData\l- accessType : int\l|+ init(String, int, String, String) : void\l+ init(String, int\<TypeData\>, ArrayList, TypeData) : void\l- parseGenerics(String) : TypeData\l+ toGraphVizString() : String\l+ getArgumentData() : ArrayList\<TypeData\>\l+ getName() : String\l+ getReturnType() : TypeData\l+ getAccessType() : int\l}"
+];
+"problem/asm/TypeData" -> "problem/asm/GraphItem" [arrowhead="onormal", style=""];
+"problem/asm/UMLClass" -> "problem/asm/GraphItem" [arrowhead="onormal", style=""];
+"problem/asm/UMLField" -> "problem/asm/GraphItem" [arrowhead="onormal", style=""];
+"problem/asm/UMLGraph" -> "problem/asm/GraphItem" [arrowhead="onormal", style=""];
+"problem/asm/UMLMethod" -> "problem/asm/GraphItem" [arrowhead="onormal", style=""];
+
+}

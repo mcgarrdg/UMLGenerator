@@ -48,7 +48,7 @@ public class DesignParser
 	
 	/**
 	 * Using asm visitors, all files in the files array are visited, and a UMLGraph is constructed.
-	 * @param files	An array of {@link File Files} represneting the Java .class files to make this UML from.
+	 * @param files	An array of {@link File Files} representing the Java .class files to make this UML from.
 	 * @return	A completed UMLGraph.
 	 * @throws IOException
 	 */
