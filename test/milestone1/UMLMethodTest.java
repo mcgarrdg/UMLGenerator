@@ -20,10 +20,10 @@ public class UMLMethodTest {
 	
 	public UMLMethodTest() {
 		this.argumentTypes = new ArrayList<TypeData>(); 
-		this.argumentTypes.add(new TypeData("int", null));
-		this.argumentTypes.add(new TypeData("String", null));
+		this.argumentTypes.add(new TypeData("int", null, "int"));
+		this.argumentTypes.add(new TypeData("String", null, "java/lang/String"));
 		this.name = "multiplyString";
-		this.type = new TypeData("String", null);
+		this.type = new TypeData("String", null, "java/lang/String");
 		this.accessType = Opcodes.ACC_PUBLIC;
 		method = new UMLMethod(name, accessType, argumentTypes, type);
 		

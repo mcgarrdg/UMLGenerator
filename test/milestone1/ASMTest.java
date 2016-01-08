@@ -31,10 +31,10 @@ public class ASMTest {
 		
 		UMLGraph shouldBeG  = new UMLGraph("Test_UML", "BT");
 		shouldBeG.addClass(new UMLClass("headfirst/factory/pizzaaf/BlackOlives", null, Opcodes.ACC_SUPER, new String [] {"headfirst/factory/pizzaaf/Veggies"}));
-		shouldBeG.addMethod(new UMLMethod("init", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("void", null)));
-		shouldBeG.addMethod(new UMLMethod("toString", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("String", null)));
+		shouldBeG.addMethod(new UMLMethod("init", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("void", null, "void")));
+		shouldBeG.addMethod(new UMLMethod("toString", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("String", null, "java.lang.String")));
 		shouldBeG.addClass(new UMLClass("headfirst/factory/pizzaaf/Veggies", null, Opcodes.ACC_INTERFACE, new String[] {}));
-		shouldBeG.addMethod(new UMLMethod("toString", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("String", null) ));
+		shouldBeG.addMethod(new UMLMethod("toString", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("String", null, "java.lang.String") ));
 		assertEquals(shouldBeG.toGraphVizString(), actuallyG.toGraphVizString());
 		
 	}
@@ -61,72 +61,72 @@ public class ASMTest {
 		UMLGraph actuallyG = DesignParser.visitFiles(files);
 		
 		ArrayList<TypeData> params = new ArrayList<TypeData>(); 
-		params.add(new TypeData("Path", null));
+		params.add(new TypeData("Path", null, "java/nio/file/Path"));
 		
 		ArrayList<TypeData> empty = new ArrayList<TypeData>(); 
-		TypeData voidData = new TypeData("void", null);
+		TypeData voidData = new TypeData("void", null, "void");
 		
 		UMLGraph shouldBeG  = new UMLGraph("Test_UML", "BT");
 		shouldBeG.addClass(new UMLClass("problem/AppLauncher", null, Opcodes.ACC_PUBLIC, new String [] {} ));
-		shouldBeG.addField(new UMLField("watcher", new TypeData("WatchService", null), Opcodes.ACC_PRIVATE));
-		shouldBeG.addField(new UMLField("dir", new TypeData("Path", null), Opcodes.ACC_PRIVATE));
-		shouldBeG.addField(new UMLField("stop", new TypeData("boolean", null), Opcodes.ACC_PRIVATE));
-		shouldBeG.addField(new UMLField("fileTypes", new TypeData("ArrayList", new TypeData("FileType", null)), Opcodes.ACC_PRIVATE));
+		shouldBeG.addField(new UMLField("watcher", new TypeData("WatchService", null, "java/nio/file/WatchService"), Opcodes.ACC_PRIVATE));
+		shouldBeG.addField(new UMLField("dir", new TypeData("Path", null, "java/nio/file/Path"), Opcodes.ACC_PRIVATE));
+		shouldBeG.addField(new UMLField("stop", new TypeData("boolean", null, "boolean"), Opcodes.ACC_PRIVATE));
+		shouldBeG.addField(new UMLField("fileTypes", new TypeData("ArrayList", new TypeData("FileType", null, "problem/FileType"), "java/util/ArrayList"), Opcodes.ACC_PRIVATE));
 		shouldBeG.addMethod(new UMLMethod("init", 0, params, voidData));
 		shouldBeG.addMethod(new UMLMethod("run", Opcodes.ACC_PUBLIC, empty,voidData));
 		shouldBeG.addMethod(new UMLMethod("clearEverything", Opcodes.ACC_PROTECTED, empty, voidData));
 		shouldBeG.addMethod(new UMLMethod("stopGracefully", Opcodes.ACC_PUBLIC, empty ,  voidData));
-		shouldBeG.addMethod(new UMLMethod("isRunning", Opcodes.ACC_PUBLIC, empty, new TypeData("boolean", null)));
-		shouldBeG.addMethod(new UMLMethod("getApplicationsCount", Opcodes.ACC_PUBLIC, empty, new TypeData("int", null)));
+		shouldBeG.addMethod(new UMLMethod("isRunning", Opcodes.ACC_PUBLIC, empty, new TypeData("boolean", null, "boolean")));
+		shouldBeG.addMethod(new UMLMethod("getApplicationsCount", Opcodes.ACC_PUBLIC, empty, new TypeData("int", null, "int")));
 		params = new ArrayList<TypeData>(); 
-		params.add(new TypeData("String[]", null));
+		params.add(new TypeData("String[]", null, "java/lang/String"));
 		shouldBeG.addMethod(new UMLMethod("main", Opcodes.ACC_PUBLIC, params, voidData));
 		
 		
 		shouldBeG.addClass(new UMLClass("problem/EventData", null, Opcodes.ACC_PUBLIC, new String[] {}));
-		shouldBeG.addField(new UMLField("event", new TypeData("WatchEvent", new TypeData("Path", null)), 0));
-		shouldBeG.addField(new UMLField("name", new TypeData("Path", null), 0));
-		shouldBeG.addField(new UMLField("file", new TypeData("Path", null), 0));
+		shouldBeG.addField(new UMLField("event", new TypeData("WatchEvent", new TypeData("Path", null, "java/nio/file/Path"), "java/nio/file/WatchEvent"), 0));
+		shouldBeG.addField(new UMLField("name", new TypeData("Path", null, "java/nio/file/Path"), 0));
+		shouldBeG.addField(new UMLField("file", new TypeData("Path", null, "java/nio/file/Path"), 0));
 		params = new ArrayList<TypeData>(); 
-		params.add(new TypeData("WatchEvent", new TypeData("Path", null)));
-		params.add(new TypeData("Path", null));
+		params.add(new TypeData("WatchEvent", new TypeData("Path", null, "java/nio/file/Path"), "java/nio/file/WatchEvent"));
+		params.add(new TypeData("Path", null, "java/nio/file/Path"));
 		shouldBeG.addMethod(new UMLMethod("init", 0, params, voidData));
 		
 		
 		shouldBeG.addClass(new UMLClass("problem/FileType", null, Opcodes.ACC_ABSTRACT, new String [] {}));
-		shouldBeG.addField(new UMLField("eventHandlers", new TypeData("ArrayList", new TypeData("EventHandler", null)), Opcodes.ACC_PROTECTED));
+		shouldBeG.addField(new UMLField("eventHandlers", new TypeData("ArrayList", new TypeData("EventHandler", null, "problem/EventHandler"), "java/util/ArrayList"), Opcodes.ACC_PROTECTED));
 		shouldBeG.addMethod(new UMLMethod("init", Opcodes.ACC_PUBLIC, empty, voidData));
 		params = new ArrayList<TypeData>(); 
-		params.add(new TypeData("EventData", null));
+		params.add(new TypeData("EventData", null, "problem/EventData"));
 		shouldBeG.addMethod(new UMLMethod("updateEventData", Opcodes.ACC_PUBLIC, params, voidData));
 		params = new ArrayList<TypeData>(); 
-		params.add(new TypeData("EventHandler", null));
+		params.add(new TypeData("EventHandler", null, "problem/EventHandler"));
 		shouldBeG.addMethod(new UMLMethod("addEventHandler", Opcodes.ACC_PUBLIC, params, voidData));
 		shouldBeG.addMethod(new UMLMethod("disableAllHandlers", Opcodes.ACC_PUBLIC, empty, voidData));
 		shouldBeG.addMethod(new UMLMethod("enableAllHandlers", Opcodes.ACC_PUBLIC, empty, voidData));
 		shouldBeG.addMethod(new UMLMethod("killProcesses", Opcodes.ACC_PUBLIC, empty, voidData));
-		shouldBeG.addMethod(new UMLMethod("getApplicationsCount", Opcodes.ACC_PUBLIC, empty, new TypeData("int", null)));
+		shouldBeG.addMethod(new UMLMethod("getApplicationsCount", Opcodes.ACC_PUBLIC, empty, new TypeData("int", null, "int")));
 		shouldBeG.addMethod(new UMLMethod("diableHandlerType", Opcodes.ACC_PUBLIC, params, voidData));
 		shouldBeG.addMethod(new UMLMethod("enableHandlerType", Opcodes.ACC_PUBLIC, params, voidData));
 		
 		
 		shouldBeG.addClass(new UMLClass("problem/EventHandler", null, Opcodes.ACC_ABSTRACT, new String [] {}));
-		shouldBeG.addField(new UMLField("enabled", new TypeData("boolean", null), Opcodes.ACC_PROTECTED));
-		shouldBeG.addField(new UMLField("processes", new TypeData("List", new TypeData("Process", null)), Opcodes.ACC_PROTECTED));
-		shouldBeG.addField(new UMLField("applicationsLaunched", new TypeData("int", null), Opcodes.ACC_PROTECTED));
+		shouldBeG.addField(new UMLField("enabled", new TypeData("boolean", null, "boolean"), Opcodes.ACC_PROTECTED));
+		shouldBeG.addField(new UMLField("processes", new TypeData("List", new TypeData("Process", null, "java/lang/Process"), "java/util/List"), Opcodes.ACC_PROTECTED));
+		shouldBeG.addField(new UMLField("applicationsLaunched", new TypeData("int", null, "int"), Opcodes.ACC_PROTECTED));
 		shouldBeG.addMethod(new UMLMethod("init", Opcodes.ACC_PUBLIC, empty, voidData));
 		shouldBeG.addMethod(new UMLMethod("diable", Opcodes.ACC_PUBLIC, empty, voidData));
 		shouldBeG.addMethod(new UMLMethod("enable", Opcodes.ACC_PUBLIC, empty, voidData));
 		params = new ArrayList<TypeData>(); 
-		params.add(new TypeData("EventData", null));
+		params.add(new TypeData("EventData", null, "problem/EventData"));
 		shouldBeG.addMethod(new UMLMethod("handleEvent", Opcodes.ACC_PUBLIC, params, voidData));
 		shouldBeG.addMethod(new UMLMethod("handleEventHelper", Opcodes.ACC_PROTECTED, params, voidData));
 		shouldBeG.addMethod(new UMLMethod("killProcesses", Opcodes.ACC_PUBLIC, empty, voidData));
-		shouldBeG.addMethod(new UMLMethod("getApplicationsLaunched", Opcodes.ACC_PUBLIC, empty, new TypeData("int", null)));
+		shouldBeG.addMethod(new UMLMethod("getApplicationsLaunched", Opcodes.ACC_PUBLIC, empty, new TypeData("int", null, "int")));
 		
 		
 		params = new ArrayList<TypeData>(); 
-		params.add(new TypeData("EventData", null));
+		params.add(new TypeData("EventData", null, "problem/EventData"));
 		shouldBeG.addClass(new UMLClass("problem/PDF", "problem/FileType", Opcodes.ACC_SUPER, new String [] {}));
 		shouldBeG.addMethod(new UMLMethod("init", Opcodes.ACC_PUBLIC, empty, voidData));
 		shouldBeG.addMethod(new UMLMethod("updateEventData", Opcodes.ACC_PUBLIC, params, voidData));
@@ -146,15 +146,15 @@ public class ASMTest {
 		
 		shouldBeG.addClass(new UMLClass("problem/EvntHdlrPDFAdd", "problem/EventHandler", Opcodes.ACC_SUPER, new String [] {}));
 		shouldBeG.addMethod(new UMLMethod("init", Opcodes.ACC_PUBLIC, empty, voidData));
-		shouldBeG.addMethod(new UMLMethod("handleEventHelper", Opcodes.ACC_PUBLIC, params, new TypeData("void", null)));
+		shouldBeG.addMethod(new UMLMethod("handleEventHelper", Opcodes.ACC_PUBLIC, params, new TypeData("void", null, "void")));
 
 		shouldBeG.addClass(new UMLClass("problem/EvntHdlrTXTAdd", "problem/EventHandler", Opcodes.ACC_SUPER, new String [] {}));
 		shouldBeG.addMethod(new UMLMethod("init", Opcodes.ACC_PUBLIC, empty, voidData));
-		shouldBeG.addMethod(new UMLMethod("handleEventHelper", Opcodes.ACC_PUBLIC, params, new TypeData("void", null)));
+		shouldBeG.addMethod(new UMLMethod("handleEventHelper", Opcodes.ACC_PUBLIC, params, new TypeData("void", null, "void")));
 		
 		shouldBeG.addClass(new UMLClass("problem/EvntHdlrPrintFilenameAdd", "problem/EventHandler", Opcodes.ACC_SUPER, new String [] {}));
 		shouldBeG.addMethod(new UMLMethod("init", Opcodes.ACC_PUBLIC, empty, voidData));
-		shouldBeG.addMethod(new UMLMethod("handleEventHelper", Opcodes.ACC_PROTECTED, params, new TypeData("void", null)));
+		shouldBeG.addMethod(new UMLMethod("handleEventHelper", Opcodes.ACC_PROTECTED, params, new TypeData("void", null, "void")));
 		
 		
 		

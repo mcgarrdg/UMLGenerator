@@ -20,8 +20,8 @@ public class UMLFieldTest {
 
 	public UMLFieldTest() {
 		this.name = "bestField";
-		this.generic = new TypeData("Box", null);
-		this.type = new TypeData("T", this.generic);
+		this.generic = new TypeData("Box", null, "explosives/Box");
+		this.type = new TypeData("T", this.generic, "T");
 		this.accessType = Opcodes.ACC_PUBLIC;
 		
 		

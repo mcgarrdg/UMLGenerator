@@ -29,8 +29,8 @@ public class UMLGraphTest {
 		c = new UMLClass("aClass", null, Opcodes.ACC_SUPER, new String[0]);
 		g.addClass(c);
 		
-		m = new UMLMethod("aMethod", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("int", null));
-		f = new UMLField("aField", new TypeData("int", null), Opcodes.ACC_PRIVATE); 
+		m = new UMLMethod("aMethod", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("int", null, "int"));
+		f = new UMLField("aField", new TypeData("int", null, "int"), Opcodes.ACC_PRIVATE); 
 		
 		g.addMethod(m);
 		g.addField(f);

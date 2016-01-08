@@ -28,15 +28,15 @@ public class UMLClassTest {
 		
 		
 		ArrayList<TypeData> argumentTypes = new ArrayList<TypeData>();
-		argumentTypes.add(new TypeData("int", null));
-		argumentTypes.add(new TypeData("String", null));
+		argumentTypes.add(new TypeData("int", null, "int"));
+		argumentTypes.add(new TypeData("String", null, "java/lang/String"));
 
 		clazz = new UMLClass(this.name, this.extension, Opcodes.ACC_SUPER, this.implementations);
-		UMLMethod m = new UMLMethod("multiplyString", Opcodes.ACC_PUBLIC, argumentTypes, new TypeData("String", null));
+		UMLMethod m = new UMLMethod("multiplyString", Opcodes.ACC_PUBLIC, argumentTypes, new TypeData("String", null, "java/lang/String"));
 		methods.add(m);
 		clazz.addMethod(m);
 
-		UMLField f = new UMLField("bestField", new TypeData("String", null),  Opcodes.ACC_PUBLIC);
+		UMLField f = new UMLField("bestField", new TypeData("String", null, "java/lang/String"),  Opcodes.ACC_PUBLIC);
 		fields.add(f);
 		clazz.addField(f);
 
