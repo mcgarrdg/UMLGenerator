@@ -77,7 +77,10 @@ public class UMLGraph extends GraphItem
 				{
 					if(secondClass.getName().equals(implementation))
 					{
-						builder.append(getArrowString(firstClass.getName(), implementation, "onormal", "dashed"));
+						if(!builder.toString().contains(getArrowString(firstClass.getName(), implementation, "onormal", "dashed")))
+						{
+							builder.append(getArrowString(firstClass.getName(), implementation, "onormal", "dashed"));
+						}
 					}
 				}
 				
@@ -86,13 +89,40 @@ public class UMLGraph extends GraphItem
 					String type = field.getType().getFullBaseDataType();
 					if(secondClass.getName().equals(type))
 					{
-						builder.append(getArrowString(firstClass.getName(), type, "vee", "solid"));
+						if(!builder.toString().contains(getArrowString(firstClass.getName(), type, "vee", "solid")))
+						{
+							builder.append(getArrowString(firstClass.getName(), type, "vee", "solid"));
+						}
+					}
+				}
+				
+				for(UMLMethod meth : firstClass.getMethods())
+				{
+					for(TypeData data : meth.getArgumentData())
+					{
+						if(data.getFullBaseDataType().equals(secondClass.getName()))
+						{
+							if(!builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed")))
+							{
+								builder.append(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed"));
+							}
+						}
+					}
+					if(meth.getReturnType().getFullBaseDataType().equals(secondClass.getName()))
+					{
+						if(!builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed")))
+						{
+							builder.append(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed"));
+						}
 					}
 				}
 				
 				if(secondClass.getName().equals(firstClass.getExtension()))
 				{
-					builder.append(getArrowString(firstClass.getName(), firstClass.getExtension(), "onormal", ""));
+					if(!builder.toString().contains(getArrowString(firstClass.getName(), firstClass.getExtension(), "onormal", "")))
+					{
+						builder.append(getArrowString(firstClass.getName(), firstClass.getExtension(), "onormal", ""));
+					}
 				}
 			}
 		}
