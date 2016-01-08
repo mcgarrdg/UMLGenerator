@@ -22,8 +22,6 @@ public class UMLField extends GraphItem
 	 */
 	private int accessType;
 	
-	public ArrayList<ArrayList<String>> shit;
-	
 	/**
 	 * Constructor.
 	 * @param name			Name of the field.
@@ -37,12 +35,7 @@ public class UMLField extends GraphItem
 		this.accessType = accessType;
 		
 		String fieldT = Type.getReturnType(desc).getClassName().replace('.', '/');
-//		fieldT = fieldT.substring(fieldT.lastIndexOf('.') + 1);
 		type = new TypeData(fieldT.substring(fieldT.lastIndexOf('/') + 1), null, fieldT);
-		
-//		String fieldT = Type.getReturnType(desc).getClassName();
-//		fieldT = fieldT.substring(fieldT.lastIndexOf('.') + 1);
-//		type = new TypeData(fieldT, null);
 		
 		String s = null;
 		if (signature != null)
@@ -65,11 +58,6 @@ public class UMLField extends GraphItem
 				this.type.setSubData(tempData);
 			}
 		}
-	}
-	
-	public ArrayList<ArrayList<String>> testMethod(ArrayList<String> s, int i)
-	{
-		return null;
 	}
 	
 	/**

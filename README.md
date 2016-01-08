@@ -21,7 +21,7 @@ UMLGraph's toGraphVizString() is responsible for returning the full string input
 
 Milestone 2:
 The design of our tool didn't really change much from milestone one to milestone two. One class was added, the methodVisitor class. 
-This class allowed us to look through the code of methods to help with uses arrows.
+This class allowed us to look through the code of methods to help with uses arrows. Sadly, we couldn't get it to work how we wanted, so it doesn't really do anything.
 
 
 
