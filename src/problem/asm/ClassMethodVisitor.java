@@ -30,7 +30,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 	{
 		this.graph.addMethod(new UMLMethod(name, access, desc, signature));
 		MethodVisitor toDecorate = super.visitMethod(access, name, desc, signature, exceptions);
-		MethodVisitor mine = new MyMethodVisitor(Opcodes.ASM5, toDecorate);
+		MethodVisitor mine = new InnerMethodVisitor(Opcodes.ASM5, toDecorate, this.graph);
 		return mine;
 	}
 }

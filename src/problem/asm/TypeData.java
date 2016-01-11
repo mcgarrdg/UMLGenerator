@@ -1,6 +1,6 @@
 package problem.asm;
 
-public class TypeData extends GraphItem
+public class TypeData extends UMLGraphItem
 {
 	/**
 	 * Just the short name of the class. (Example: TypeData)
@@ -63,6 +63,10 @@ public class TypeData extends GraphItem
 		return this.subData.getBaseDataType();
 	}
 	
+	/**
+	 * Finds the full name of the base data type of this typedata. Eg List<List<String>> would return String.
+	 * @return	The full name of the base data type.
+	 */
 	public String getFullBaseDataType()
 	{
 		if (this.subData == null)

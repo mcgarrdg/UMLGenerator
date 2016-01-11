@@ -2,7 +2,7 @@ package problem.asm;
 
 import java.util.ArrayList;
 
-public class UMLGraph extends GraphItem
+public class UMLGraph extends UMLGraphItem
 {
 
 	/**
@@ -54,6 +54,15 @@ public class UMLGraph extends GraphItem
 		this.classes.get(this.classes.size() - 1).addMethod(method);
 	}
 	
+	/**
+	 * Adds a class that has been used in a method to the most recently added method.
+	 * @param fullClassName	Full name of used class.
+	 */
+	public void addClassUsedToMethod(String fullClassName)
+	{
+		this.classes.get(this.classes.size() - 1).addUsedClassToMethod(fullClassName);
+	}
+	
 	@Override
 	public String toGraphVizString()
 	{
@@ -67,80 +76,21 @@ public class UMLGraph extends GraphItem
 			builder.append(c.toGraphVizString());
 		}
 		builder.append("\n");
-
-		// Draw arrows
+		
 		for(UMLClass firstClass : this.classes)
 		{
-			for(UMLClass secondClass : this.classes)
+			firstClass.generateArrows(this.classes);
+		}
+		for(UMLClass firstClass : this.classes)
+		{
+			firstClass.removeExtraArrows();
+			for(UMLArrow arrow : firstClass.getUMLArrows())
 			{
-				for(String implementation : firstClass.getImplementations())
-				{
-					if(secondClass.getName().equals(implementation))
-					{
-						if(!builder.toString().contains(getArrowString(firstClass.getName(), implementation, "onormal", "dashed")))
-						{
-							builder.append(getArrowString(firstClass.getName(), implementation, "onormal", "dashed"));
-						}
-					}
-				}
-				
-				for(UMLField field : firstClass.getFields())
-				{
-					String type = field.getType().getFullBaseDataType();
-					if(secondClass.getName().equals(type))
-					{
-						if(!builder.toString().contains(getArrowString(firstClass.getName(), type, "vee", "solid")))
-						{
-							builder.append(getArrowString(firstClass.getName(), type, "vee", "solid"));
-						}
-					}
-				}
-				
-				for(UMLMethod meth : firstClass.getMethods())
-				{
-					for(TypeData data : meth.getArgumentData())
-					{
-						if(data.getFullBaseDataType().equals(secondClass.getName()))
-						{
-							if(!(builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed")) || (builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName(), "vee", "solid")))))
-							{
-								builder.append(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed"));
-							}
-						}
-					}
-					if(meth.getReturnType().getFullBaseDataType().equals(secondClass.getName()))
-					{
-						if(!(builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed")) || (builder.toString().contains(getArrowString(firstClass.getName(), secondClass.getName(), "vee", "solid")))))
-						{
-							builder.append(getArrowString(firstClass.getName(), secondClass.getName() , "vee", "dashed"));
-						}
-					}
-				}
-				
-				if(secondClass.getName().equals(firstClass.getExtension()))
-				{
-					if(!builder.toString().contains(getArrowString(firstClass.getName(), firstClass.getExtension(), "onormal", "")))
-					{
-						builder.append(getArrowString(firstClass.getName(), firstClass.getExtension(), "onormal", ""));
-					}
-				}
+				builder.append(arrow.toGraphVizString());
 			}
 		}
-		builder.append("\n}");
+		builder.append("}");
 		return builder.toString();
-	}
-	
-	/**
-	 * Helper method for {@link #toGraphVizString()} that make a string that specifies an arrow between two classes.
-	 * @param nameOne		The fullName of the class the arrow will come from.
-	 * @param nameTwo		The fullName of the class the arrow will end at.
-	 * @param arrowHeadType	The type of arrow head. See GraphViz documentation.
-	 * @param lineType		The type of line for the arrow. See GraphViz documentation.
-	 * @return				The GraphViz formatted string drawing an arrow between two classes.
-	 */
-	private String getArrowString(String nameOne, String nameTwo, String arrowHeadType, String lineType)
-	{
-		return ("\"" + nameOne + "\" -> \"" + nameTwo + "\"" + " [arrowhead=\"" + arrowHeadType + "\", style=\"" + lineType + "\"];\n");
 	}
 	
 	/**

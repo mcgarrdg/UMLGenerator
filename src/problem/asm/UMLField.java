@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class UMLField extends GraphItem 
+public class UMLField extends UMLGraphItem 
 {
 	/**
 	 * The name of this field.

@@ -2,17 +2,14 @@ package problem.asm;
 
 import org.objectweb.asm.Opcodes;
 
-public abstract class GraphItem {
+public abstract class UMLGraphItem {
 
 	/**
 	 * This should take the information in this class, and return a string in a format
 	 * that describes the data in a way that GraphViz can recognize.
 	 * @return	String describing data in a GraphViz format.
 	 */
-	public String toGraphVizString() 
-	{
-		return null;
-	}
+	public abstract String toGraphVizString(); 
 
 	/**
 	 * Returns the string representation of the appropriate access symbol for the given accessType.

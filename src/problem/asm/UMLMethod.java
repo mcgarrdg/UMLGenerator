@@ -6,7 +6,7 @@ import java.util.Arrays;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class UMLMethod extends GraphItem
+public class UMLMethod extends UMLGraphItem
 {
 	
 	/**
@@ -30,6 +30,11 @@ public class UMLMethod extends GraphItem
 	private int accessType;
 	
 	/**
+	 * Stores all of the types of classes that are used in this method.
+	 */
+	private ArrayList<TypeData> usedClasses;
+	
+	/**
 	 * Constructor.
 	 * @param name		The {@link #name} of this method.
 	 * @param accType	The {@link #accessType} of this method.
@@ -42,13 +47,9 @@ public class UMLMethod extends GraphItem
 		this.name = name;
 		this.name = this.name.replaceAll("[^\\w]", "");
 		this.accessType = accType;
-		
-//		String retType = Type.getReturnType(desc).getClassName();
-//		retType = retType.substring(retType.lastIndexOf('.') + 1);
-//		returnType = new TypeData(retType, null);
-		
+		this.usedClasses = new ArrayList<TypeData>();
+
 		String retType = Type.getReturnType(desc).getClassName().replace('.', '/');
-//		fieldT = fieldT.substring(fieldT.lastIndexOf('.') + 1);
 		returnType = new TypeData(retType.substring(retType.lastIndexOf('/') + 1), null, retType);
 		
 		Type[] argTypes = Type.getArgumentTypes(desc);
@@ -89,6 +90,18 @@ public class UMLMethod extends GraphItem
 				this.returnType.setSubData(parseGenerics(s));
 			}
 		}
+		
+		for(TypeData d : this.argData)
+		{
+			if(!this.usedClasses.contains(d))
+			{
+				this.usedClasses.add(d);
+			}
+		}
+		if(!this.usedClasses.contains(this.returnType))
+		{
+			this.usedClasses.add(this.returnType);
+		}
 	}
 	
 	/**
@@ -104,6 +117,19 @@ public class UMLMethod extends GraphItem
 		this.accessType = accType;
 		this.argData = argumentData;
 		this.returnType = returnType;
+	}
+	
+	/**
+	 * Used to add a class to this method that has been used.
+	 * @param fullClassName	The full name of the class that was used.
+	 */
+	public void addUsedClass(String fullClassName)
+	{
+		TypeData type = new TypeData(fullClassName.substring(fullClassName.lastIndexOf('/') + 1), null, fullClassName);
+		if(!this.usedClasses.contains(type))
+		{
+			this.usedClasses.add(type);
+		}
 	}
 	
 	/**
@@ -170,5 +196,13 @@ public class UMLMethod extends GraphItem
 	public int getAccessType() 
 	{
 		return accessType;
+	}
+	
+	/**
+	 * @return	ArrayList of TypeData containing the classes used in this method
+	 */
+	public ArrayList<TypeData> getClassesUsed()
+	{
+		return new ArrayList<TypeData>(this.usedClasses);
 	}
 }
