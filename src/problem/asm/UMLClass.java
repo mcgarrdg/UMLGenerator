@@ -230,6 +230,14 @@ public class UMLClass extends UMLGraphItem{
 			}
 		}
 		
+		for(UMLArrow arrow : this.arrows)
+		{
+			if(arrow.extendsOrImplements())
+			{
+				pointedTo.add(arrow.getEndClass());
+			}
+		}
+		
 		for(UMLArrow arrow : new ArrayList<UMLArrow>(this.arrows))
 		{
 			if(!pointedTo.contains(arrow.getEndClass()))
