@@ -70,25 +70,27 @@ public class UMLGraph extends UMLGraphItem
 		
 		builder.append("digraph \"" + this.name + "\"{\n\trankdir = " + this.rankdir);
 		
+		for(UMLClass firstClass : this.classes)
+		{
+			firstClass.generateArrows(this.classes);
+		}
+		
+		for(UMLClass firstClass : this.classes)
+		{
+			firstClass.removeExtraArrows();
+		}
+		
+		for(UMLClass firstClass : this.classes)
+		{
+			firstClass.removeRedundantUsesArrows();
+		}
+		
 		for(UMLClass c : this.classes)
 		{
 			builder.append("\n\t");
 			builder.append(c.toGraphVizString());
 		}
 		builder.append("\n");
-		
-		for(UMLClass firstClass : this.classes)
-		{
-			firstClass.generateArrows(this.classes);
-		}
-		for(UMLClass firstClass : this.classes)
-		{
-			firstClass.removeExtraArrows();
-			for(UMLArrow arrow : firstClass.getUMLArrows())
-			{
-				builder.append(arrow.toGraphVizString());
-			}
-		}
 		builder.append("}");
 		return builder.toString();
 	}

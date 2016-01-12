@@ -1,7 +1,6 @@
 package milestone1;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.objectweb.asm.Opcodes;

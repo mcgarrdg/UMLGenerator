@@ -29,10 +29,26 @@ public class DesignParser
 	
 	public static void main(String[] args) throws IOException, InterruptedException 
 	{
-		locateGraphviz();
-		String g = getDigraphString();
-		System.out.println(g);
-		generatePNG(g);
+		int mode = selectMode();
+		if(mode == 0)
+		{
+			locateGraphviz();
+			String g = getDigraphString();
+			System.out.println(g);
+			generatePNG(g);
+		}
+		else if(mode == 1)
+		{
+			//TODO make this more interactive
+			String methodSig = JOptionPane.showInputDialog("Please input a fully qualified method signature:");
+			//ClassReader reader = new ClassReader(className);
+//			problem.asm.DesignParser
+//			problem.asm.UMLClass 
+//			problem.asm.UMLField 
+//			problem.asm.UMLGraph 
+//			problem.asm.IGraphItem
+			//TODO Sequence diagram
+		}
 	}
 	
 	public static String getDigraphString() throws IOException
@@ -72,6 +88,20 @@ public class DesignParser
 		return graph;
 	}
 
+	public static int selectMode()
+	{
+		Object[] options = {"UML", "Sequence Diagram"};
+		int n = JOptionPane.showOptionDialog(null,
+		    "Please select a mode.",
+		    "Mode Selection",
+		    JOptionPane.YES_NO_OPTION,
+		    JOptionPane.QUESTION_MESSAGE,
+		    null,
+		    options,
+		    options[0]);
+		return n;
+	}
+	
 	/**
 	 * A function that opens a window, prompting the user to locate Graphviz's dot.exe if it is not in the default path.
 	 * The user does this with a {@link JFileChooser}.

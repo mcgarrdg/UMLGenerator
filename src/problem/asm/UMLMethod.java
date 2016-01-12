@@ -205,4 +205,42 @@ public class UMLMethod extends UMLGraphItem
 	{
 		return new ArrayList<TypeData>(this.usedClasses);
 	}
+
+	/**
+	 * Checks to see if two UMLMethods have the same signature. (Same arguments, same return, same name)
+	 * @param other
+	 * @return
+	 */
+	//TODO Should I check the classes used here? I currently do not.
+	public boolean sameSignature(UMLMethod other)
+	{
+		if(other == null)
+		{
+			return false;
+		}
+		
+		if(!this.name.equals(other.name))
+		{
+			return false;
+		}
+		
+		if(!this.returnType.equals(other.returnType))
+		{
+			return false;
+		}
+		
+		if(this.argData.size() != other.argData.size())
+		{
+			return false;
+		}
+		
+		for(int i = 0; i < this.argData.size(); i++)
+		{
+			if(!this.argData.get(i).equals(other.argData.get(i)))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 }

@@ -39,6 +39,16 @@ public class UMLArrow extends UMLGraphItem
 		return (this.startClass.equals(startClass) && this.endClass.equals(endClass));
 	}
 	
+	public boolean isUsesArrow()
+	{
+		if(this.arrowType.equals("vee"))
+		{
+			if(this.lineType.equals("dashed"))
+				return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * @return true if this is an extends or implements arrow, false otherwise.
 	 */

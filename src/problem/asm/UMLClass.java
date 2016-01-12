@@ -147,7 +147,7 @@ public class UMLClass extends UMLGraphItem{
 	}
 	
 	/**
-	 * Should be called after all classes have been parsed. This generates the different arrow types
+	 * Should be called after all classes have been parsed. This generates the different arrow types.
 	 * connecting the classes in the UML.
 	 * @param classes	A list of all classes in the UML.
 	 */
@@ -215,6 +215,7 @@ public class UMLClass extends UMLGraphItem{
 			pointedTo.add(arrow.getEndClass());
 		}
 		
+		
 		for(UMLClass firstClass : new ArrayList<UMLClass>(pointedTo))
 		{
 			for(UMLClass secondClass : new ArrayList<UMLClass>(pointedTo))
@@ -230,6 +231,7 @@ public class UMLClass extends UMLGraphItem{
 			}
 		}
 		
+		//Add back in extends/implements arrows
 		for(UMLArrow arrow : this.arrows)
 		{
 			if(arrow.extendsOrImplements())
@@ -245,6 +247,213 @@ public class UMLClass extends UMLGraphItem{
 				this.arrows.remove(arrow);
 			}
 		}
+	}
+	
+	public void removeRedundantUsesArrows()
+	{
+		ArrayList<UMLClass> extendsOrImplements = this.getAllExtendsOrImplements();
+		ArrayList<UMLClass> thisUsed = this.getAllUsedClasses();
+
+//		for(UMLClass otherClass : extendsOrImplements)
+//		{
+//			for(UMLClass otherUsed : otherClass.getAllUsedClasses())
+//			{
+//				if(thisUsed.contains(otherUsed))
+//				{
+//					boolean methodWasUnique = false;
+//					for(UMLMethod thisMethod : this.getMethods())
+//					{
+//						boolean foundSameSignature = false;
+//						boolean thisMethodUsedOtherUsed = false;
+//						for(TypeData typeUsed : thisMethod.getClassesUsed())
+//						{
+//							if(typeUsed.getFullBaseDataType().equals(otherUsed))
+//							{
+//								thisMethodUsedOtherUsed = true;
+//								break;
+//							}
+//						}
+//						if(thisMethodUsedOtherUsed)
+//						{
+//							for(UMLMethod otherMethod : otherClass.getMethods())
+//							{
+//								boolean otherMethodUsedOtherUsed = false;
+//								for(TypeData typeUsed : otherMethod.getClassesUsed())
+//								{
+//									if(typeUsed.getFullBaseDataType().equals(otherUsed.getName()))
+//									{
+//										otherMethodUsedOtherUsed = true;
+//										break;
+//									}
+//								}
+//								if(otherMethodUsedOtherUsed)
+//								{
+//									if(thisMethod.sameSignature(otherMethod))
+//									{
+//										foundSameSignature = true;
+//										break;
+//									}
+//								}
+//							}
+//						}
+//						if(!foundSameSignature)
+//						{
+//							methodWasUnique = true;
+//							break;
+//						}
+//					}
+//					if(!methodWasUnique)
+//					{
+//						for(UMLArrow arrow : new ArrayList<UMLArrow>(this.arrows))
+//						{
+//							if(arrow.isUsesArrow() && arrow.getEndClass().fullName.equals(otherUsed.fullName))
+//							{
+//								this.arrows.remove(arrow);
+//							}
+//						}
+//					}
+//				}
+//			}
+//			
+//		}
+		
+		
+		
+		
+		
+		//Go through everything this class extends or implements (directly or indirectly)
+		for(UMLClass otherClass : extendsOrImplements)
+		{
+			ArrayList<UMLClass> otherUsed = otherClass.getAllUsedClasses();
+			//Go through all of the classes that this class uses
+			for(UMLClass used : thisUsed)
+			{
+				boolean removeArrow = true;
+				//If the other class uses the same thing as this class, check to see
+				//if all instances where that is used is the same in both classes
+				//or not used in this class. If so, remove the arrow from this class.
+				if(otherUsed.contains(used))
+				{
+					//Check everything for type, and if they are the same in the two
+					//If everything is the same, remove this class' used arrow for that thing
+					for(UMLMethod methOne : this.methods)
+					{
+						boolean wasUsed = false;
+						//TODO Is this less efficient?
+						//Check to see if this method uses the used class at all
+						for(TypeData d : methOne.getClassesUsed())
+						{
+							if(d.getFullBaseDataType().equals(used.getName()))
+							{
+								wasUsed = true;
+								break;
+							}
+						}
+						//The class was used in the method. Check to see if there is an identical method in the other.
+						if(wasUsed)
+						{
+							boolean isSame = false;
+							for(UMLMethod methTwo : otherClass.getMethods())
+							{
+								//If the methods have the same signature
+								if(methOne.sameSignature(methTwo))
+								{
+									isSame = true;
+									break;
+								}
+							}
+							if(isSame == false)
+							{
+								removeArrow = false;
+								break;
+							}
+						}
+					}
+					if(removeArrow)
+					{
+						for(UMLArrow arrow : new ArrayList<UMLArrow>(this.arrows))
+						{
+							if(arrow.isUsesArrow() && arrow.getEndClass().getName().equals(used.getName()))
+							{
+								this.arrows.remove(arrow);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public ArrayList<UMLClass> getAllUsedClasses()
+	{
+		ArrayList<UMLClass> usedClasses = new ArrayList<UMLClass>();
+		for(UMLArrow arrow : this.arrows)
+		{
+			if(arrow.isUsesArrow())
+			{
+				usedClasses.add(arrow.getEndClass());
+			}
+		}
+		return usedClasses;
+	}
+	
+	public ArrayList<UMLClass> getAllExtendsOrImplements()
+	{
+		ArrayList<UMLClass> finalList = new ArrayList<UMLClass>();
+		ArrayList<UMLClass> extendsOrImplements = new ArrayList<UMLClass>();
+		
+		for(UMLArrow arrow : this.arrows)
+		{
+			if(arrow.extendsOrImplements())
+			{
+				extendsOrImplements.add(arrow.getEndClass());
+			}
+		}
+		
+		for(UMLClass uClass : extendsOrImplements)
+		{
+//			ArrayList<UMLClass> temp = uClass.getAllExtendsOrImplements();
+//			for(UMLClass uClass2 : temp)
+//			{
+//				if(!finalList.contains(uClass2))
+//				{
+//					finalList.add(uClass2);
+//				}
+//			}
+			finalList.addAll(uClass.getAllExtendsOrImplementsHelper());
+		}
+		
+		return finalList;
+	}
+	
+	private ArrayList<UMLClass> getAllExtendsOrImplementsHelper()
+	{
+		ArrayList<UMLClass> finalList = new ArrayList<UMLClass>();
+		ArrayList<UMLClass> extendsOrImplements = new ArrayList<UMLClass>();
+		
+		for(UMLArrow arrow : this.arrows)
+		{
+			if(arrow.extendsOrImplements())
+			{
+				extendsOrImplements.add(arrow.getEndClass());
+			}
+		}
+		
+		for(UMLClass uClass : extendsOrImplements)
+		{
+			ArrayList<UMLClass> temp = uClass.getAllExtendsOrImplementsHelper();
+			for(UMLClass uClass2 : temp)
+			{
+				if(!finalList.contains(uClass2))
+				{
+					finalList.add(uClass2);
+				}
+			}
+		}
+		
+		finalList.add(this);
+		return finalList;
 	}
 	
 	/**
@@ -348,7 +557,11 @@ public class UMLClass extends UMLGraphItem{
 		{
 			builder.append(m.toGraphVizString());
 		}
-		builder.append("}\"\n];");
+		builder.append("}\"\n];\n");
+		for(UMLArrow arrow : this.arrows)
+		{
+			builder.append(arrow.toGraphVizString());
+		}
 		return builder.toString();
 	}
 }
