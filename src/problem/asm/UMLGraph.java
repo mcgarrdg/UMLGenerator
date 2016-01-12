@@ -80,10 +80,10 @@ public class UMLGraph extends UMLGraphItem
 			firstClass.removeExtraArrows();
 		}
 		
-		for(UMLClass firstClass : this.classes)
-		{
-			firstClass.removeRedundantUsesArrows();
-		}
+//		for(UMLClass firstClass : this.classes)
+//		{
+//			firstClass.removeRedundantUsesArrows();
+//		}
 		
 		for(UMLClass c : this.classes)
 		{

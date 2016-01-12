@@ -170,8 +170,8 @@ public class UMLClass extends UMLGraphItem{
 				this.addArrow(secondClass, "onormal", "");
 			}
 			
-			//TODO Are these technically backwards?
 			//Check for association arrows
+			//Keep in mind, if we do the diamonds this is technically backwards.
 			for(UMLField field : this.fields)
 			{
 				String type = field.getType().getFullBaseDataType();
@@ -215,7 +215,7 @@ public class UMLClass extends UMLGraphItem{
 			pointedTo.add(arrow.getEndClass());
 		}
 		
-		
+		//TODO If the used class is in a field, ignore it?
 		for(UMLClass firstClass : new ArrayList<UMLClass>(pointedTo))
 		{
 			for(UMLClass secondClass : new ArrayList<UMLClass>(pointedTo))
@@ -249,136 +249,98 @@ public class UMLClass extends UMLGraphItem{
 		}
 	}
 	
+	/**
+	 * This should be called after removeExtraArrows is called on everything
+	 */
+	//TODO Move these methods into UMLGraph where it makes more sense?
 	public void removeRedundantUsesArrows()
 	{
 		ArrayList<UMLClass> extendsOrImplements = this.getAllExtendsOrImplements();
-		ArrayList<UMLClass> thisUsed = this.getAllUsedClasses();
-
-//		for(UMLClass otherClass : extendsOrImplements)
-//		{
-//			for(UMLClass otherUsed : otherClass.getAllUsedClasses())
-//			{
-//				if(thisUsed.contains(otherUsed))
-//				{
-//					boolean methodWasUnique = false;
-//					for(UMLMethod thisMethod : this.getMethods())
-//					{
-//						boolean foundSameSignature = false;
-//						boolean thisMethodUsedOtherUsed = false;
-//						for(TypeData typeUsed : thisMethod.getClassesUsed())
-//						{
-//							if(typeUsed.getFullBaseDataType().equals(otherUsed))
-//							{
-//								thisMethodUsedOtherUsed = true;
-//								break;
-//							}
-//						}
-//						if(thisMethodUsedOtherUsed)
-//						{
-//							for(UMLMethod otherMethod : otherClass.getMethods())
-//							{
-//								boolean otherMethodUsedOtherUsed = false;
-//								for(TypeData typeUsed : otherMethod.getClassesUsed())
-//								{
-//									if(typeUsed.getFullBaseDataType().equals(otherUsed.getName()))
-//									{
-//										otherMethodUsedOtherUsed = true;
-//										break;
-//									}
-//								}
-//								if(otherMethodUsedOtherUsed)
-//								{
-//									if(thisMethod.sameSignature(otherMethod))
-//									{
-//										foundSameSignature = true;
-//										break;
-//									}
-//								}
-//							}
-//						}
-//						if(!foundSameSignature)
-//						{
-//							methodWasUnique = true;
-//							break;
-//						}
-//					}
-//					if(!methodWasUnique)
-//					{
-//						for(UMLArrow arrow : new ArrayList<UMLArrow>(this.arrows))
-//						{
-//							if(arrow.isUsesArrow() && arrow.getEndClass().fullName.equals(otherUsed.fullName))
-//							{
-//								this.arrows.remove(arrow);
-//							}
-//						}
-//					}
-//				}
-//			}
-//			
-//		}
-		
-		
-		
-		
+		ArrayList<UMLClass> thisUsed = this.getAllUsedClasses();		
 		
 		//Go through everything this class extends or implements (directly or indirectly)
-		for(UMLClass otherClass : extendsOrImplements)
+		for(UMLClass extendedClass : extendsOrImplements)
 		{
-			ArrayList<UMLClass> otherUsed = otherClass.getAllUsedClasses();
+			ArrayList<UMLClass> otherUsed = extendedClass.getAllUsedClasses();
 			//Go through all of the classes that this class uses
-			for(UMLClass used : thisUsed)
+			for(UMLClass usedClass : thisUsed)
 			{
 				boolean removeArrow = true;
 				//If the other class uses the same thing as this class, check to see
 				//if all instances where that is used is the same in both classes
 				//or not used in this class. If so, remove the arrow from this class.
-				if(otherUsed.contains(used))
+				if(otherUsed.contains(usedClass))
 				{
-					//Check everything for type, and if they are the same in the two
-					//If everything is the same, remove this class' used arrow for that thing
-					for(UMLMethod methOne : this.methods)
+					//Check if the used class is within a field
+					boolean foundField = false;
+					for(UMLField field : this.getFields())
 					{
-						boolean wasUsed = false;
-						//TODO Is this less efficient?
-						//Check to see if this method uses the used class at all
-						for(TypeData d : methOne.getClassesUsed())
+						if(field.getType().getFullBaseDataType().equals(usedClass.getName()))
 						{
-							if(d.getFullBaseDataType().equals(used.getName()))
-							{
-								wasUsed = true;
-								break;
-							}
+							foundField = true;
+							removeArrow = false;
 						}
-						//The class was used in the method. Check to see if there is an identical method in the other.
-						if(wasUsed)
+					}
+					//If the used class is in a field, don't remove the arrow, so skip the arrow checks.
+					if(!foundField)
+					{
+						//Check everything for type, and if they are the same in the two
+						//If everything is the same, remove this class' used arrow for that thing
+						for(UMLMethod thisMethod : this.methods)
 						{
-							boolean isSame = false;
-							for(UMLMethod methTwo : otherClass.getMethods())
+							boolean wasUsed = false;
+							//TODO Is this less efficient?
+							//Check to see if this method uses the used class at all
+							for(TypeData d : thisMethod.getClassesUsed())
 							{
-								//If the methods have the same signature
-								if(methOne.sameSignature(methTwo))
+								if(d.getFullBaseDataType().equals(usedClass.getName()))
 								{
-									isSame = true;
+									wasUsed = true;
 									break;
 								}
 							}
-							if(isSame == false)
+							//The class was used in the method. Check to see if there is an identical method in the other.
+							if(wasUsed)
 							{
-								removeArrow = false;
-								break;
+								boolean isSame = false;
+								for(UMLMethod extendedMethod : extendedClass.getMethods())
+								{
+									//If the methods have the same signature
+									if(thisMethod.sameSignature(extendedMethod))
+									{
+										isSame = true;
+										break;
+									}
+								}
+								if(isSame == false)
+								{
+									removeArrow = false;
+									break;
+								}
 							}
 						}
 					}
 					if(removeArrow)
 					{
-						for(UMLArrow arrow : new ArrayList<UMLArrow>(this.arrows))
-						{
-							if(arrow.isUsesArrow() && arrow.getEndClass().getName().equals(used.getName()))
+//						boolean foundField = false;
+//						for(UMLField field : this.getFields())
+//						{
+//							if(field.getType().getFullBaseDataType().equals(usedClass.getName()))
+//							{
+//								foundField = true;
+//							}
+//						}
+//						if(!foundField)
+//						{
+							for(UMLArrow arrow : new ArrayList<UMLArrow>(this.arrows))
 							{
-								this.arrows.remove(arrow);
-								break;
+								if(arrow.isUsesArrow() && arrow.getEndClass().getName().equals(usedClass.getName()))
+								{
+									this.arrows.remove(arrow);
+									break;
+								}
 							}
-						}
+//						}
 					}
 				}
 			}
@@ -413,14 +375,6 @@ public class UMLClass extends UMLGraphItem{
 		
 		for(UMLClass uClass : extendsOrImplements)
 		{
-//			ArrayList<UMLClass> temp = uClass.getAllExtendsOrImplements();
-//			for(UMLClass uClass2 : temp)
-//			{
-//				if(!finalList.contains(uClass2))
-//				{
-//					finalList.add(uClass2);
-//				}
-//			}
 			finalList.addAll(uClass.getAllExtendsOrImplementsHelper());
 		}
 		
