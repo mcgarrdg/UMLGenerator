@@ -7,6 +7,7 @@ import org.objectweb.asm.Opcodes;
 public class ClassMethodVisitor extends ClassVisitor {
 
 	private UMLGraph graph;
+
 	public ClassMethodVisitor(int arg0) {
 		super(arg0);
 	}
@@ -14,7 +15,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 	public ClassMethodVisitor(int arg0, ClassVisitor arg1) {
 		super(arg0, arg1);
 	}
-	
+
 	public ClassMethodVisitor(int arg0, UMLGraph g) {
 		super(arg0);
 		this.graph = g;
@@ -26,8 +27,10 @@ public class ClassMethodVisitor extends ClassVisitor {
 	}
 
 	@Override
-	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions)
-	{
+	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+		// TODO Move the actual creation of the UMLMethod into the class, just
+		// pass the strings down
+		// so then the owner name can be added in right there
 		this.graph.addMethod(new UMLMethod(name, access, desc, signature));
 		MethodVisitor toDecorate = super.visitMethod(access, name, desc, signature, exceptions);
 		MethodVisitor mine = new InnerMethodVisitor(Opcodes.ASM5, toDecorate, this.graph);

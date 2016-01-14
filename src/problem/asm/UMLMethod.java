@@ -36,7 +36,9 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 	 */
 	private ArrayList<TypeData> usedClasses;
 
-	private ArrayList<String> methodCalls;
+	private String fullOwnerName;
+
+	private ArrayList<UMLMethod> methodCalls;
 
 	/**
 	 * Constructor.
@@ -57,7 +59,8 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 		this.name = this.name.replaceAll("[^\\w]", "");
 		this.accessType = accType;
 		this.usedClasses = new ArrayList<TypeData>();
-		this.methodCalls = new ArrayList<String>();
+		this.methodCalls = new ArrayList<UMLMethod>();
+		this.fullOwnerName = null;
 
 		String retType = Type.getReturnType(desc).getClassName().replace('.', '/');
 		returnType = new TypeData(retType.substring(retType.lastIndexOf('/') + 1), null, retType);
@@ -130,9 +133,9 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 		this.argData = argumentData;
 		this.returnType = returnType;
 		this.usedClasses = new ArrayList<TypeData>();
-		this.methodCalls = new ArrayList<String>();
+		this.methodCalls = new ArrayList<UMLMethod>();
+		this.fullOwnerName = null;
 
-		
 	}
 
 	/**
@@ -250,6 +253,34 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 		return true;
 	}
 
+	public boolean sameFullQualifiedSignature(UMLMethod other) {
+		if (other == null) {
+			return false;
+		}
+
+		if (!this.name.equals(other.name)) {
+			return false;
+		}
+
+		if (!this.fullOwnerName.equals(other.fullOwnerName)) {
+			return false;
+		}
+
+		if (this.argData.size() != other.argData.size()) {
+			return false;
+		}
+
+		for (int i = 0; i < this.argData.size(); i++) {
+			// if
+			// (!this.argData.get(i).getFullName().equals(other.argData.get(i).getFullName()))
+			if (!this.argData.get(i).getBaseName().equals(other.argData.get(i).getBaseName())) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	@Override
 	public String toSDEditString() {
 		// System.out.println(this);
@@ -271,14 +302,30 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 		return self.toString();
 	}
 
-	public void addUsedMethodToMethod(String methodSig) {
+	public void setFullOwnerName(String owner) {
+		this.fullOwnerName = owner;
+	}
+
+	public String getFullownerName() {
+		return this.fullOwnerName;
+	}
+
+	public void addUsedMethodToMethod(String owner, String name, String desc) {
+
+		// Note, we don't care what the access type of the method is for the
+		// sequence diagram,
+		// so I jsut always pass in public.
+		// TODO Currently don't know how to get the signatue for the method,
+		// right now jsut treat it as null.
+		UMLMethod newMethod = new UMLMethod(name, Opcodes.ACC_PUBLIC, desc, null);
+		newMethod.fullOwnerName = owner;
+
 		// TODO Auto-generated method stub
-		this.methodCalls.add(methodSig);
-
+		this.methodCalls.add(newMethod);
 	}
 
-	public ArrayList<String> getMethodCalls() {
-		return new ArrayList<String>( this.methodCalls);
+	public ArrayList<UMLMethod> getMethodCalls() {
+		return new ArrayList<UMLMethod>(this.methodCalls);
 	}
-	
+
 }

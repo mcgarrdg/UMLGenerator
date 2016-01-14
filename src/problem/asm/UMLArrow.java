@@ -1,21 +1,24 @@
 package problem.asm;
 
-public class UMLArrow extends UMLGraphItem
-{
+public class UMLArrow extends UMLGraphItem {
 	private UMLClass startClass;
 	private UMLClass endClass;
 	private String lineType;
 	private String arrowType;
-	
+
 	/**
 	 * Creates a new UMLArrow object
-	 * @param startClassName	The full name of the class the arrow will start from
-	 * @param endClassName		The full name of the class the arrow will end at
-	 * @param arrowHeadType		The type of arrow head. See GraphViz documentation.
-	 * @param lineType			The type of line for the arrow. See GraphViz documentation.
+	 * 
+	 * @param startClassName
+	 *            The full name of the class the arrow will start from
+	 * @param endClassName
+	 *            The full name of the class the arrow will end at
+	 * @param arrowHeadType
+	 *            The type of arrow head. See GraphViz documentation.
+	 * @param lineType
+	 *            The type of line for the arrow. See GraphViz documentation.
 	 */
-	public UMLArrow(UMLClass startClass, UMLClass endClass, String arrowHeadType, String lineType) 
-	{
+	public UMLArrow(UMLClass startClass, UMLClass endClass, String arrowHeadType, String lineType) {
 		this.startClass = startClass;
 		this.endClass = endClass;
 		this.arrowType = arrowHeadType;
@@ -23,58 +26,56 @@ public class UMLArrow extends UMLGraphItem
 	}
 
 	@Override
-	public String toGraphVizString() 
-	{
-		return ("\"" + startClass.getName() + "\" -> \"" + endClass.getName() + "\"" + " [arrowhead=\"" + arrowType + "\", style=\"" + lineType + "\"];\n");
+	public String toGraphVizString() {
+		return ("\"" + startClass.getName() + "\" -> \"" + endClass.getName() + "\"" + " [arrowhead=\"" + arrowType
+				+ "\", style=\"" + lineType + "\"];\n");
 	}
-	
+
 	/**
-	 * Tells whether or not this UMLArrow connects two classes in the specified direction.
-	 * @param startClass	Class the arrow would start at.
-	 * @param endClass		Class the arrow would end at.
-	 * @return	true if this arrow starts at start class and ends at end class. false otherwise.
+	 * Tells whether or not this UMLArrow connects two classes in the specified
+	 * direction.
+	 * 
+	 * @param startClass
+	 *            Class the arrow would start at.
+	 * @param endClass
+	 *            Class the arrow would end at.
+	 * @return true if this arrow starts at start class and ends at end class.
+	 *         false otherwise.
 	 */
-	public boolean connects(UMLClass startClass, UMLClass endClass)
-	{
+	public boolean connects(UMLClass startClass, UMLClass endClass) {
 		return (this.startClass.equals(startClass) && this.endClass.equals(endClass));
 	}
-	
-	public boolean isUsesArrow()
-	{
-		if(this.arrowType.equals("vee"))
-		{
-			if(this.lineType.equals("dashed"))
+
+	public boolean isUsesArrow() {
+		if (this.arrowType.equals("vee")) {
+			if (this.lineType.equals("dashed"))
 				return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @return true if this is an extends or implements arrow, false otherwise.
 	 */
-	public boolean extendsOrImplements()
-	{
-		if(this.arrowType.equals("onormal"))
-		{
-			if(this.lineType.equals("dashed") || this.lineType.equals("") || this.lineType.equals("solid"))
+	public boolean extendsOrImplements() {
+		if (this.arrowType.equals("onormal")) {
+			if (this.lineType.equals("dashed") || this.lineType.equals("") || this.lineType.equals("solid"))
 				return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @return The class that this arrow starts at.
 	 */
-	public UMLClass getStartClass()
-	{
+	public UMLClass getStartClass() {
 		return this.startClass;
 	}
-	
+
 	/**
 	 * @return THe class that this arrow ends at.
 	 */
-	public UMLClass getEndClass()
-	{
+	public UMLClass getEndClass() {
 		return this.endClass;
 	}
 }
