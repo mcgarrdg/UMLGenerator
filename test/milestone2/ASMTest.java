@@ -202,4 +202,25 @@ public class ASMTest {
 		assertTrue(res.contains("\"problem/EventHandler\" -> \"problem/EventData\" [arrowhead=\"vee\", style=\"dashed\"]"));
 	}
 	
+	@Test
+	public void testFactoryConcreteProduct() throws IOException {
+		
+		File f1 = new File("./files/factory/ChicagoPizzaIngredientFactory.class");
+		File f2 = new File("./files/factory/Dough.class");
+		File f3 = new File("./files/factory/ThickCrustDough.class");
+		
+		File[] files = {f1, f2, f3};
+		UMLGraph actuallyG = DesignParser.visitFiles(files);
+		
+		String res = actuallyG.toGraphVizString();
+		
+		assertTrue(res.contains("\"headfirst/factory/pizzaaf/ChicagoPizzaIngredientFactory\" -> \"headfirst/factory/pizzaaf/ThickCrustDough\" [arrowhead=\"vee\", style=\"dashed\"]"));
+		assertTrue(res.contains("\"headfirst/factory/pizzaaf/ThickCrustDough\" -> \"headfirst/factory/pizzaaf/Dough\" [arrowhead=\"onormal\", style=\"dashed\"]"));
+		assertFalse(res.contains("\"headfirst/factory/pizzaaf/ChicagoPizzaIngredientFactory\" -> \"headfirst/factory/pizzaaf/Dough\" [arrowhead=\"vee\", style=\"dashed\"]"));
+		
+		
+		
+		
+	}
+	
 }
