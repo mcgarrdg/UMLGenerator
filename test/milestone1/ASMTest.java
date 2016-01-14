@@ -24,17 +24,23 @@ public class ASMTest {
 	
 	@Test
 	public void testRandom() throws IOException{
-		File file1 = new File("./files/headfirst/factory/pizzaaf/BlackOlives.class");
-		File file2 = new File("./files/headfirst/factory/pizzaaf/Veggies.class");
+		File file1 = new File("./files/factory/BlackOlives.class");
+		File file2 = new File("./files/factory/Veggies.class");
 		File[] files = {file1, file2};
 		UMLGraph actuallyG = DesignParser.visitFiles(files);
 		
 		UMLGraph shouldBeG  = new UMLGraph("Test_UML", "BT");
 		shouldBeG.addClass(new UMLClass("headfirst/factory/pizzaaf/BlackOlives", null, Opcodes.ACC_SUPER, new String [] {"headfirst/factory/pizzaaf/Veggies"}));
+		
+		
+		
 		shouldBeG.addMethod(new UMLMethod("init", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("void", null, "void")));
 		shouldBeG.addMethod(new UMLMethod("toString", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("String", null, "java.lang.String")));
 		shouldBeG.addClass(new UMLClass("headfirst/factory/pizzaaf/Veggies", null, Opcodes.ACC_INTERFACE, new String[] {}));
 		shouldBeG.addMethod(new UMLMethod("toString", Opcodes.ACC_PUBLIC, new ArrayList<TypeData>(), new TypeData("String", null, "java.lang.String") ));
+		
+		
+		System.out.println(actuallyG.toGraphVizString());
 		assertEquals(shouldBeG.toGraphVizString(), actuallyG.toGraphVizString());
 		
 	}

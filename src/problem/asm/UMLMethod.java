@@ -129,6 +129,10 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 		this.accessType = accType;
 		this.argData = argumentData;
 		this.returnType = returnType;
+		this.usedClasses = new ArrayList<TypeData>();
+		this.methodCalls = new ArrayList<String>();
+
+		
 	}
 
 	/**
@@ -274,6 +278,7 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 	}
 
 	public ArrayList<String> getMethodCalls() {
-		return this.methodCalls;
+		return new ArrayList<String>( this.methodCalls);
 	}
+	
 }

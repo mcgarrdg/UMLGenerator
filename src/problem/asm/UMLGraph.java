@@ -84,10 +84,10 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 			firstClass.removeExtraArrows();
 		}
 
-		// for(UMLClass firstClass : this.classes)
-		// {
-		// firstClass.removeRedundantUsesArrows();
-		// }
+		 for(UMLClass firstClass : this.classes)
+		 {
+		 firstClass.removeRedundantUsesArrows();
+		 }
 
 		for (UMLClass c : this.classes) {
 			builder.append("\n\t");

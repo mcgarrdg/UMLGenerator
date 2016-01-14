@@ -243,7 +243,7 @@ public class UMLClass extends UMLGraphItem implements SDGraphItem{
 		
 		for(UMLArrow arrow : new ArrayList<UMLArrow>(this.arrows))
 		{
-			if(!pointedTo.contains(arrow.getEndClass()))
+			if((!pointedTo.contains(arrow.getEndClass())) && arrow.isUsesArrow())
 			{
 				this.arrows.remove(arrow);
 			}

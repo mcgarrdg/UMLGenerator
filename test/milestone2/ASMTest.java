@@ -165,9 +165,9 @@ public class ASMTest {
 		File[] files = {f1, f2, f3, f4, f5, f6, f7, f8, f9, f10};
 		UMLGraph actuallyG = DesignParser.visitFiles(files);
 		
-		//Count taken from hand made graph of lab 1-3   = 11 +  3(from subclasses) + 2(from subclasses) 
+		//Count taken from hand made graph of lab 1-3   = 11 +  2 (circular arrows) + 6(uses from within method calls) 
 		//had problems removing the extra arrows from sublcasses. TODO: fix code and adjust this to get the proper 11 arrows.
-		int numberOfArrows = 16;
+		int numberOfArrows = 20;
 		String res = actuallyG.toGraphVizString();
 		String[] resArray = res.split(";");
 		int counter = 0;
