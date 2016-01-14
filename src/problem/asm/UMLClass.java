@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import org.objectweb.asm.Opcodes;
 
-public class UMLClass extends UMLGraphItem{
+public class UMLClass extends UMLGraphItem implements SDGraphItem{
 	
 	/**
 	 * The full path name of the class. (example: problem/asm/UMLClass)
@@ -53,6 +53,7 @@ public class UMLClass extends UMLGraphItem{
 	 * Populated by the {@link #generateArrows(ArrayList)} method.
 	 */
 	private ArrayList<UMLArrow> arrows;
+	
 
 	/**
 	 * Constructor.
@@ -517,5 +518,17 @@ public class UMLClass extends UMLGraphItem{
 			builder.append(arrow.toGraphVizString());
 		}
 		return builder.toString();
+	}
+
+	public void addUsedMethodToMethod(String methodSig) {
+		// TODO Auto-generated method stub
+		this.methods.get(methods.size()-1).addUsedMethodToMethod(methodSig);
+	}
+
+	@Override
+	public String toSDEditString() {
+		// TODO Auto-generated method stub
+		String self = ": " + this.fullName + " ";
+		return self;
 	}
 }

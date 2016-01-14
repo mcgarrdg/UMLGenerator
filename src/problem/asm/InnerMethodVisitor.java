@@ -44,8 +44,12 @@ public class InnerMethodVisitor extends MethodVisitor {
 	@Override
 	public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
 		super.visitMethodInsn(opcode, owner, name, desc, itf);
-//		System.out.println("Owner: " + owner + "     desc: " + desc);
+//		System.out.println("Owner: " + owner + "    name: " + name + "     desc: " + desc);
 		this.graph.addClassUsedToMethod(owner);
+		String methodSig = owner.replace("/", ".") + "."+ name;
+		this.graph.addMethodUsedToMethod(methodSig);
+		
+		
 	}
 
 	/*
