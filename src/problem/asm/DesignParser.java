@@ -48,6 +48,17 @@ public class DesignParser
 //			problem.asm.UMLGraph 
 //			problem.asm.IGraphItem
 			//TODO Sequence diagram
+			String classSig = methodSig.substring(0, methodSig.lastIndexOf("."));
+			
+			ClassReader reader = new ClassReader(classSig);
+			UMLGraph graph = new UMLGraph("Test_SD", "BT");
+			
+			ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, graph);
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, declVisitor, graph);
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, graph);
+			
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+					
 		}
 	}
 	
