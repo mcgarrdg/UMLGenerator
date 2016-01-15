@@ -16,13 +16,9 @@ import problem.asm.UMLGraph;
 
 public class SDEditTest {
 
-	
-	public SDEditTest() {
-		
-	}
-	
-	@Test
-	public void testCollectionsShuffle() throws IOException {
+	UMLGraph graph;
+	String res;
+	public SDEditTest() throws IOException {
 		ClassReader reader = new ClassReader("java.util.Collections");
 		UMLGraph graph = new UMLGraph("Test_SD", "BT");
 
@@ -31,14 +27,42 @@ public class SDEditTest {
 		ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, graph);
 
 		reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
-		graph.generateCallSequence("java.util.Collections.shuffle(List<T> list)", 5);
+		graph.generateCallSequence("java.util.Collections.shuffle(List<T> list)", 3);
 		
-		String res = graph.toSDEditString();
+		res = graph.toSDEditString();
+	}
+	
+	@Test
+	public void testCollectionsShuffle() {
 		assertTrue(res.contains("Random:long=System.nanoTime()"));
 		assertTrue(res.contains("Collections:ListIterator=List.listIterator()"));
 		assertTrue(res.contains("Collections:Object=ListIterator.next()"));
 		assertTrue(res.contains("Random:int=Random.next(int)"));
 		
+	}
+	
+	@Test 
+	public void testCallOrder() {
+		String[] split = res.split("Collections:ListIterator=List.listIterator()");
+		assertTrue(!split[0].contains("Collections:Object=ListIterator.next()"));
+		assertTrue(split[1].contains("Collections:Object=ListIterator.next()"));
+		split = res.split("Collections:Random.new()");
+		assertTrue(!split[0].contains("Random:long=System.nanoTime()"));
+		assertTrue(split[1].contains("Random:long=System.nanoTime()"));
 		
+	}
+		
+	@Test
+	public void testCallDepth() {
+		String[] split = res.split("\n");
+		int i =0;
+		System.out.println(split.length);
+		while( !split[i].equals("Collections:Random.new()")) {
+			System.out.println(split[i]);
+			i++;
+		}
+		System.out.println(i);
+		assertTrue(split[i].equals("Collections:Random.new()"));
+		assertTrue(split[i+1].equals("Random:long=Random.seedUniquifier()"));
 	}
 }
