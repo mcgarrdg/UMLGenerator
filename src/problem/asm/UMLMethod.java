@@ -103,11 +103,6 @@ public class UMLMethod extends UMLGraphItem {
 			s = Type.getType(signature).getReturnType().toString();
 			s = s.substring(0, s.length() - 1);
 			if (s.contains("<")) {
-				if(this.name.equals("getClass"))
-				{
-					int i = 0;
-					i +=2;
-				}
 				this.returnType.setSubData(parseGenerics(s));
 			}
 		}
@@ -272,6 +267,8 @@ public class UMLMethod extends UMLGraphItem {
 	}
 
 	public boolean sameFullQualifiedSignature(UMLMethod other) {
+		ArrayList<Integer> ints = new ArrayList<Integer>();
+		ints.add(Integer.valueOf(5));
 		if (other == null) {
 			return false;
 		}

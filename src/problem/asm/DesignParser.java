@@ -43,7 +43,7 @@ public class DesignParser {
 			
 			//TODO Check for user input errors.
 			int callDepth = Integer.parseInt(JOptionPane.showInputDialog("Please input the call depth:", "5"));
-			
+			System.out.println(callDepth);
 			locateSDEdit();
 
 			ClassReader reader = new ClassReader(classSig);

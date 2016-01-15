@@ -133,7 +133,7 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		builder.append("\n");
 		for(SDGraphMethodData data : this.sdEditMethodData)
 		{
-			if((!builder.toString().contains("\n" + data.getClassCalledOn() + ":")) && (!builder.toString().contains("\n/" + data.getClassCalledOn() + ":")))
+			if(!((builder.toString().contains("\n" + data.getClassCalledOn() + ":")) || (builder.toString().contains("\n/" + data.getClassCalledOn() + ":"))))
 			{
 				if(data.getMethodName().equals("init"))
 				{
@@ -144,14 +144,33 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 					builder.append(data.getClassCalledOn() + ":" + data.getClassCalledOn() + "[a]\n");
 				}
 			}
+			else if(!((builder.toString().contains("\n" + data.getClassCalledFrom() + ":")) || (builder.toString().contains("\n/" + data.getClassCalledFrom() + ":"))))
+			{
+				if(data.getMethodName().equals("init"))
+				{
+					builder.append("/" + data.getClassCalledFrom() + ":" + data.getClassCalledFrom() + "[a]\n");
+				}
+				else
+				{
+					builder.append(data.getClassCalledFrom() + ":" + data.getClassCalledFrom() + "[a]\n");
+				}
+			}
 			else
 			{
 				if(data.getMethodName().equals("init"))
 				{
+//					this.sdEditMethodData.remove(data);
 					data.setMethodName("new2");
 				}
 			}
 		}
+//		for(SDGraphMethodData data : new ArrayList<SDGraphMethodData>(this.sdEditMethodData))
+//		{
+//			if(data.getMethodName().equals("new2"))
+//			{
+//				this.sdEditMethodData.remove(data);
+//			}
+//		}
 		
 		builder.append("\n");
 		
@@ -195,7 +214,12 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		// call sequence for
 		UMLMethod newMethod = new UMLMethod(methodName, Opcodes.ACC_PUBLIC, tempArgs, new TypeData("temp", null, "temp"));
 		newMethod.setFullOwnerName(fullOwnerName);
-
+		
+		if(callDepth <= 0)
+		{
+			return;
+		}
+		
 		for (UMLMethod meth : clazz.getMethods()) {
 			if (meth.sameFullQualifiedSignature(newMethod)) {
 				this.sdEditMethodData.add(meth.toSDGraphMethodData());
@@ -218,8 +242,9 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 							ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, this);
 
 							reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+//							this.generateCallSequenceHelper(usedMethod, meth, callDepth - 1);
 						}
-						this.generateCallSequenceHelper(usedMethod, meth, callDepth);
+						this.generateCallSequenceHelper(usedMethod, meth, callDepth - 1);
 					}
 				}
 			}
@@ -230,7 +255,9 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		// Not sure if I can just look at the last class added, because there
 		// could
 		// be a method used from a class I added previously
-		if(callDepth == 0)
+		System.out.println(callDepth + ": " + method.getName());
+		this.sdEditMethodData.add(method.toSDGraphMethodData(prevLevelMethod));
+		if(callDepth <= 0)
 		{
 			return;
 		}
@@ -245,19 +272,31 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 
 		for (UMLMethod meth : clazz.getMethods()) {
 			if (meth.sameFullQualifiedSignature(method)) {
-				this.sdEditMethodData.add(meth.toSDGraphMethodData(prevLevelMethod));
+//				this.sdEditMethodData.add(meth.toSDGraphMethodData(prevLevelMethod));
 
 				for (UMLMethod usedMethod : meth.getMethodCalls()) {
 					if (!usedMethod.sameFullQualifiedSignature(meth)) {
-						ClassReader reader = new ClassReader(usedMethod.getFullownerName().replace('/', '.'));
-
-						ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, this);
-						ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, declVisitor, this);
-						ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, this);
-
-						reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+						boolean alreadyHasClass = false;
+						for (UMLClass tempClass : this.classes) {
+							if (usedMethod.getFullownerName().equals(tempClass.getName())) {
+								alreadyHasClass = true;
+								break;
+							}
+						}
+						
+						if(!alreadyHasClass)
+						{
+							ClassReader reader = new ClassReader(usedMethod.getFullownerName().replace('/', '.'));
+	
+							ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, this);
+							ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, declVisitor, this);
+							ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, this);
+	
+							reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+						}
+						this.generateCallSequenceHelper(usedMethod, meth, callDepth - 1);
 					}
-					this.generateCallSequenceHelper(usedMethod, meth, callDepth - 1);
+//					this.generateCallSequenceHelper(usedMethod, meth, callDepth - 1);
 				}
 			}
 		}
