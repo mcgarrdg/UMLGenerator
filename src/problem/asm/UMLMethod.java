@@ -207,7 +207,7 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 	 * @return the {@link #argData argument data} of the method
 	 */
 	public ArrayList<TypeData> getArgumentData() {
-		return argData;
+		return new ArrayList<TypeData>(argData);
 	}
 
 	/**
@@ -301,6 +301,7 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 
 	@Override
 	public String toSDEditString() {
+		
 		/*
 		StringBuilder self = new StringBuilder();
 		String retType = this.returnType.getFullBaseDataType();
@@ -355,6 +356,41 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 			self.deleteCharAt(self.length() - 1);
 		self.append(")");
 		return self.toString();
+	}
+	
+	public SDGraphMethodData toSDGraphMethodData()
+	{
+		return new SDGraphMethodData(
+				this.fullOwnerName.substring(this.fullOwnerName.lastIndexOf('/') + 1),
+				this.name, this.fullOwnerName.substring(this.fullOwnerName.lastIndexOf('/') + 1), 
+				this.returnType.getExtendedName(), this.getArgumentData());
+	}
+	
+	public SDGraphMethodData toSDGraphMethodData(UMLMethod prevLevelMeth)
+	{
+		return new SDGraphMethodData(
+				prevLevelMeth.fullOwnerName.substring(prevLevelMeth.fullOwnerName.lastIndexOf('/') + 1),
+				this.name, this.fullOwnerName.substring(this.fullOwnerName.lastIndexOf('/') + 1), 
+				this.returnType.getExtendedName(), this.getArgumentData());
+//		SDGraphMethodData data = new SDGraphMethodData();
+//		data.setClassCalledFrom(prevLevelMeth.fullOwnerName.substring(prevLevelMeth.fullOwnerName.lastIndexOf('/') + 1));
+//		if (!this.returnType.getFullBaseDataType().equals("void")) 
+//		{
+//			data.setReturnName(this.returnType.getExtendedName());
+//		}
+//		data.setClassCalledOn(this.fullOwnerName.substring(this.fullOwnerName.lastIndexOf('/') + 1));
+//		//The function is an init function
+//		if(this.name.equals("init"))
+//		{
+//			data.setMethodName("new");
+//		}
+//		else
+//		{
+//			data.setMethodName(this.name);
+//		}
+//		data.setArgumentData(this.argData);
+//		
+//		return data;
 	}
 
 	public void setFullOwnerName(String owner) {
