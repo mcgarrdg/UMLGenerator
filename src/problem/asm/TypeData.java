@@ -81,6 +81,19 @@ public class TypeData extends UMLGraphItem {
 		}
 		return this.subData.getFullBaseDataType();
 	}
+	
+	/**
+	 * Gets The name of this type, appended with all subtypes. Eg "ArrayList<String>"
+	 * @return
+	 */
+	public String getExtendedName()
+	{
+		if(this.subData == null)
+		{
+			return this.baseName;
+		}
+		return this.baseName + "<" + this.subData.getExtendedName() + ">";
+	}
 
 	public String getFullName() {
 		return this.fullName;

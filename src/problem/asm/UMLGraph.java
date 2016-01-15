@@ -129,6 +129,7 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 
 	StringBuilder ret = new StringBuilder();
 
+	//TODO account for call depth
 	public void generateCallSequence(String fullQualMethodSig, String offset) throws IOException {
 		// TODO Auto-generated method stub
 		UMLClass clazz = this.classes.get(this.classes.size() - 1);
@@ -161,15 +162,14 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		// a temporary method
 		// to go through the class and find the method that we want to build the
 		// call sequence for
-		UMLMethod newMethod = new UMLMethod(methodName, Opcodes.ACC_PUBLIC, tempArgs,
-				new TypeData("temp", null, "temp"));
+		UMLMethod newMethod = new UMLMethod(methodName, Opcodes.ACC_PUBLIC, tempArgs, new TypeData("temp", null, "temp"));
 		newMethod.setFullOwnerName(fullOwnerName);
 
 		for (UMLMethod meth : clazz.getMethods()) {
 			// if (meth.getName().equals(methodName)) {
 			if (meth.sameFullQualifiedSignature(newMethod)) {
-				ret.append(offset);
-				ret.append(clazz.toSDEditString());
+//				ret.append(offset);
+//				ret.append(clazz.toSDEditString());
 				ret.append(meth.toSDEditString());
 				ret.append("\n");
 
@@ -192,11 +192,12 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 
 							reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 						}
+						
 						// if (!methSig.contains("<init>"))
 						// this.generateCallSequence(
 						// methSig.substring(methSig.lastIndexOf(".") + 1), " -
 						// " + offset);
-						this.generateCallSequenceHelper(usedMethod, " - " + offset);
+						this.generateCallSequenceHelper(usedMethod, " - " + offset, meth);
 					}
 				}
 				// for (String methSig : meth.getMethodCalls()) {
@@ -223,7 +224,8 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		}
 	}
 
-	private void generateCallSequenceHelper(UMLMethod method, String offset) throws IOException {
+	//TODO Account for call depth
+	private void generateCallSequenceHelper(UMLMethod method, String offset, UMLMethod prevLevelMethod) throws IOException {
 		// Not sure if I can just look at the last class added, because there
 		// could
 		// be a method used from a class I added previously
@@ -238,9 +240,9 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		for (UMLMethod meth : clazz.getMethods()) {
 			// if (meth.getName().equals(methodName)) {
 			if (meth.sameFullQualifiedSignature(method)) {
-				ret.append(offset);
-				ret.append(clazz.toSDEditString());
-				ret.append(meth.toSDEditString());
+//				ret.append(offset);
+//				ret.append(clazz.toSDEditString());
+				ret.append(meth.toSDEditString(prevLevelMethod));
 				ret.append("\n");
 
 				for (UMLMethod usedMethod : meth.getMethodCalls()) {
@@ -253,7 +255,7 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 
 						reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 					}
-					this.generateCallSequenceHelper(usedMethod, " - " + offset);
+					this.generateCallSequenceHelper(usedMethod, " - " + offset, meth);
 				}
 			}
 		}

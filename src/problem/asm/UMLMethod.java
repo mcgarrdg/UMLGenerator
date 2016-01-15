@@ -3,6 +3,8 @@ package problem.asm;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
@@ -99,8 +101,13 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 
 			// Deal with the return type data.
 			s = Type.getType(signature).getReturnType().toString();
-			s = s.substring(0, s.length() - 1);
+			s = s.substring(0, s.length() - 1); //TODO does this do anything???
 			if (s.contains("<")) {
+				if(this.name.equals("getClass"))
+				{
+					int i = 0;
+					i +=2;
+				}
 				this.returnType.setSubData(parseGenerics(s));
 			}
 		}
@@ -163,9 +170,20 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 	private TypeData parseGenerics(String s) {
 		String[] splitString = s.split("<");
 		String temp = splitString[splitString.length - 1];
-		TypeData data = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null, temp.substring(1));
-		for (int x = splitString.length - 2; x > 0; x--) {
-			data = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), data, splitString[x].substring(1));
+		TypeData data = null;// = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null, temp.substring(1));
+		if(temp.contains("/"))
+		{
+			data = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null, temp.substring(1));
+			for (int x = splitString.length - 2; x > 0; x--) {
+				data = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), data, splitString[x].substring(1));
+			}
+		}
+		else if(temp.contains("*")) //Special case.
+		{
+			data = new TypeData("*", null, "*");
+		} else
+		{
+			//Some odd generic type that we don't account for
 		}
 		return data;
 	}
@@ -283,7 +301,7 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 
 	@Override
 	public String toSDEditString() {
-		// System.out.println(this);
+		/*
 		StringBuilder self = new StringBuilder();
 		String retType = this.returnType.getFullBaseDataType();
 		if (!retType.equals("void")) {
@@ -293,7 +311,44 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 		self.append(this.name);
 		self.append("(");
 		for (TypeData arg : this.argData) {
-			self.append(arg.getBaseDataType());
+			self.append(arg.getExtendedName());
+			self.append(",");
+		}
+		if (self.charAt(self.length() - 1) == ',')
+			self.deleteCharAt(self.length() - 1);
+		self.append(")");
+		return self.toString();
+		*/
+		return "";
+	}
+	
+	public String toSDEditString(UMLMethod prevLevelMeth)
+	{
+		// System.out.println(this);
+		StringBuilder self = new StringBuilder();
+		String retType = this.returnType.getFullBaseDataType();
+		//TODO Don't currently care about return type. Might later.
+		self.append(prevLevelMeth.fullOwnerName.substring(prevLevelMeth.fullOwnerName.lastIndexOf('/') + 1));
+		self.append(":");
+		if (!retType.equals("void")) {
+//			self.append(this.returnType.getFullBaseDataType());
+			self.append(this.returnType.getExtendedName());
+			self.append("=");
+		}
+		
+		self.append(this.fullOwnerName.substring(this.fullOwnerName.lastIndexOf('/') + 1));
+		//The function is an init function
+		if(this.name.equals("init"))
+		{
+			self.append(".new");
+		}
+		else
+		{
+			self.append("." + this.name);
+		}
+		self.append("(");
+		for (TypeData arg : this.argData) {
+			self.append(arg.getExtendedName());
 			self.append(",");
 		}
 		if (self.charAt(self.length() - 1) == ',')
