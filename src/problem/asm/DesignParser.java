@@ -26,6 +26,8 @@ public class DesignParser {
 	 * A string that represents where the GraphViz dot.exe file is.
 	 */
 	private static String dotPath;
+	
+	private static String sdEditPath;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		int mode = selectMode();
@@ -33,7 +35,7 @@ public class DesignParser {
 			locateGraphviz();
 			String g = getDigraphString();
 			System.out.println(g);
-			generatePNG(g);
+			generateUMLPNG(g);
 		} else if (mode == 1) {
 			// TODO make this more interactive
 			String methodSig = JOptionPane.showInputDialog("Please input a fully qualified method signature:");
@@ -41,6 +43,8 @@ public class DesignParser {
 			
 			//TODO Check for user input errors.
 			int callDepth = Integer.parseInt(JOptionPane.showInputDialog("Please input the call depth:", "5"));
+			
+			locateSDEdit();
 
 			ClassReader reader = new ClassReader(classSig);
 			UMLGraph graph = new UMLGraph("Test_SD", "BT");
@@ -52,8 +56,7 @@ public class DesignParser {
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 			graph.generateCallSequence(methodSig, callDepth);
 			
-			System.out.println(graph.toSDEditString());
-
+			generateSDEditPNG(graph.toSDEditString());
 		}
 	}
 
@@ -123,6 +126,22 @@ public class DesignParser {
 			dotPath = "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot";
 		}
 	}
+	
+	public static void locateSDEdit() {
+		Object[] options = { "Yes", "No, select another path" };
+		int n = JOptionPane.showOptionDialog(null,
+				"Is your SDEdit dot path C:\\Program Files (x86)\\SDEdit\\sdedit-4.2-beta1?", "Locate SDEdit",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		if (n == 1) {
+			JFileChooser sdChooser = new JFileChooser();
+			sdChooser.setMultiSelectionEnabled(false);
+			sdChooser.setCurrentDirectory(new File("C:\\"));
+			sdChooser.showOpenDialog(null);
+			sdEditPath = sdChooser.getSelectedFile().getAbsolutePath();
+		} else {
+			sdEditPath = "C:\\Program Files (x86)\\SDEdit\\sdedit-4.2-beta1";
+		}
+	}
 
 	/**
 	 * Given a valid String for a GraphViz document, this uses dot.exe to
@@ -133,7 +152,7 @@ public class DesignParser {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public static void generatePNG(String s) throws IOException, InterruptedException {
+	public static void generateUMLPNG(String s) throws IOException, InterruptedException {
 		JFileChooser choose = new JFileChooser();
 		choose.setMultiSelectionEnabled(false);
 		choose.setFileFilter(new FileNameExtensionFilter("PNG images", "png"));
@@ -172,9 +191,56 @@ public class DesignParser {
 		writer.flush();
 		writer.close();
 		File f = new File(filePath + ".dot");
-		while (!f.exists())
-			;
+		while (!f.exists());
 		String command = "\"" + dotPath + "\" -Tpng " + filePath + ".dot -o " + filePath + ".png";
+		Runtime rt = Runtime.getRuntime();
+		Process pr = rt.exec(command);
+		pr.waitFor();
+		pr.destroy();
+	}
+	
+	public static void generateSDEditPNG(String s) throws IOException, InterruptedException {
+		JFileChooser choose = new JFileChooser();
+		choose.setMultiSelectionEnabled(false);
+		choose.setFileFilter(new FileNameExtensionFilter("PNG images", "png"));
+		choose.setCurrentDirectory(new File("./files/"));
+		choose.showSaveDialog(null);
+
+		boolean confirmOverwrite = choose.getSelectedFile().exists();
+		while (confirmOverwrite) {
+			Object[] options = { "Yes", "No" };
+			int n = JOptionPane.showOptionDialog(null,
+					"The file you have specified already exists. Are you sure you want to overwrite it?",
+					"Overwite file?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+					options[0]);
+
+			if (n == 0) // User says yes
+			{
+				choose.getSelectedFile().delete();
+				confirmOverwrite = false;
+			} else if (n == 1) // User says no.
+			{
+				choose.showSaveDialog(null);
+			}
+		}
+		// This could be prone to bugs if the user enters in odd names.
+		// Should we bother fixing?
+		String filePath;
+		if (choose.getSelectedFile().getName().lastIndexOf('.') == -1) {
+			filePath = choose.getSelectedFile().getPath();
+		} else {
+			filePath = choose.getSelectedFile().getPath().substring(0,
+					choose.getSelectedFile().getAbsolutePath().lastIndexOf('.'));
+		}
+
+		PrintWriter writer = new PrintWriter(filePath + ".sd", "UTF-8");
+		writer.println(s);
+		writer.flush();
+		writer.close();
+		File f = new File(filePath + ".sd");
+		while (!f.exists());
+		
+		String command = "\"" + sdEditPath + "\" -o " + filePath + ".png -t png " + filePath + ".sd";
 		Runtime rt = Runtime.getRuntime();
 		Process pr = rt.exec(command);
 		pr.waitFor();
