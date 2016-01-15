@@ -29,10 +29,66 @@ public class DesignParser
 	
 	public static void main(String[] args) throws IOException, InterruptedException 
 	{
+<<<<<<< Updated upstream
 		locateGraphviz();
 		String g = getDigraphString();
 		System.out.println(g);
 		generatePNG(g);
+=======
+		int mode = selectMode();
+		if(mode == 0)
+		{
+			locateGraphviz();
+			String g = getDigraphString();
+			System.out.println(g);
+			generatePNG(g);
+		}
+		else if(mode == 1)
+		{
+			//TODO make this more interactive
+			String methodSig = JOptionPane.showInputDialog("Please input a fully qualified method signature:");
+			//ClassReader reader = new ClassReader(className);
+//			problem.asm.DesignParser
+//			problem.asm.UMLClass 
+//			problem.asm.UMLField 
+//			problem.asm.UMLGraph 
+//			problem.asm.IGraphItem
+			//TODO Sequence diagram
+			String classSig = methodSig.substring(0, methodSig.lastIndexOf("."));
+			
+			ClassReader reader = new ClassReader(classSig);
+			UMLGraph graph = new UMLGraph("Test_SD", "BT");
+			
+			ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, graph);
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, declVisitor, graph);
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, graph);
+			
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+			
+			
+			//want methodSiig in the form package.class.method(Datatype, Datatype,...);
+			
+			//remove local names on parameters
+			StringBuilder adjMethodSig = new StringBuilder();
+			String params = methodSig.substring(methodSig.indexOf("("), methodSig.indexOf(")")+1);
+			String[] split = params.split(" ");
+			adjMethodSig.append(methodSig.substring(methodSig.lastIndexOf(".") +1, methodSig.lastIndexOf("(")));
+			for(int i = 0; i < split.length; i++) {
+				if(i%2 == 0) {
+					adjMethodSig.append(split[i]);
+				}
+				else if(split[i].contains(",")) {
+					adjMethodSig.append(",");
+				}
+			}
+			adjMethodSig.append(")");
+			graph.generateCallSequence(adjMethodSig.toString(), "");
+			System.out.println(graph.toSDEditString());
+			
+			
+					
+		}
+>>>>>>> Stashed changes
 	}
 	
 	public static String getDigraphString() throws IOException

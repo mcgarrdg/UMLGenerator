@@ -81,5 +81,47 @@ public class TypeData extends GraphItem
 		}
 		return this.baseName;
 	}
+<<<<<<< Updated upstream
+=======
+	
+	public String getDataType() {
+		if (subData != null)
+		{
+			return (this.baseName + "<" + subData.toGraphVizString() + ">");
+		}
+		return this.baseName;
+	}
+	@Override
+	public boolean equals(Object other)
+	{
+		if(other == null)
+		{
+			return false;
+		}
+		
+		if(this.getClass() != other.getClass())
+		{
+			return false;
+		}
+		TypeData oD = ((TypeData)other);
+		
+		if(!this.fullName.equals(oD.fullName))
+		{
+			return false;
+		}
+		if(this.subData == null)
+		{
+			if(oD.subData == null)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return this.subData.equals(oD.subData);
+	}
+>>>>>>> Stashed changes
 
 }

@@ -163,4 +163,20 @@ public class UMLClass extends GraphItem{
 		builder.append("}\"\n];");
 		return builder.toString();
 	}
+<<<<<<< Updated upstream
+=======
+
+	public void addUsedMethodToMethod(String methodSig) {
+		// TODO Auto-generated method stub
+		this.methods.get(methods.size()-1).addUsedMethodToMethod(methodSig);
+	}
+
+	@Override
+	public String toSDEditString() {
+		// TODO Auto-generated method stub
+//		System.out.println(fullName);
+		String self = ": " + this.fullName + " ";
+		return self;
+	}
+>>>>>>> Stashed changes
 }

@@ -174,6 +174,7 @@ public class UMLMethod extends GraphItem
 	{
 		return accessType;
 	}
+<<<<<<< Updated upstream
 	
 //	public void addPossibleUse(TypeData d) {
 //		this.possibleUses.add(d);
@@ -197,5 +198,79 @@ public class UMLMethod extends GraphItem
 //		this.possibleUses = uses;
 //		
 //	}
+=======
+
+	/**
+	 * @return ArrayList of TypeData containing the classes used in this method
+	 */
+	public ArrayList<TypeData> getClassesUsed() {
+		return new ArrayList<TypeData>(this.usedClasses);
+	}
+
+	/**
+	 * Checks to see if two UMLMethods have the same signature. (Same arguments,
+	 * same return, same name)
+	 * 
+	 * @param other
+	 * @return
+	 */
+	// TODO Should I check the classes used here? I currently do not.
+	public boolean sameSignature(UMLMethod other) {
+		if (other == null) {
+			return false;
+		}
+
+		if (!this.name.equals(other.name)) {
+			return false;
+		}
+
+		if (!this.returnType.equals(other.returnType)) {
+			return false;
+		}
+
+		if (this.argData.size() != other.argData.size()) {
+			return false;
+		}
+
+		for (int i = 0; i < this.argData.size(); i++) {
+			if (!this.argData.get(i).equals(other.argData.get(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public String toSDEditString() {
+		// System.out.println(this);
+		StringBuilder self = new StringBuilder();
+		String retType = this.returnType.getDataType();
+		if (!retType.equals("void")) {
+			self.append(retType);
+			self.append(" = ");
+		}
+		self.append(this.name);
+		self.append("(");
+	
+		for (TypeData arg : this.argData) {
+			self.append(arg.getDataType());
+			self.append(",");
+		}
+		if (self.charAt(self.length() - 1) == ',')
+			self.deleteCharAt(self.length() - 1);
+		self.append(")");
+		return self.toString();
+	}
+
+	public void addUsedMethodToMethod(String methodSig) {
+		// TODO Auto-generated method stub
+		this.methodCalls.add(methodSig);
+
+	}
+
+	public ArrayList<String> getMethodCalls() {
+		return new ArrayList<String>( this.methodCalls);
+	}
+>>>>>>> Stashed changes
 	
 }

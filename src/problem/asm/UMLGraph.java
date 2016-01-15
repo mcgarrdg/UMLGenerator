@@ -188,12 +188,72 @@ public class UMLGraph extends GraphItem
 	{
 		return rankdir;
 	}
+<<<<<<< Updated upstream
 	
 	
 	public UMLClass filterSingleClass(String name) {
 		for(int i = 0; i < classes.size(); i++) {
 			if(classes.get(i).getName() == name) {
 				return classes.get(i);
+=======
+
+	public void addMethodUsedToMethod(String methodSig) {
+		this.classes.get(this.classes.size() - 1).addUsedMethodToMethod(methodSig);
+	}
+	
+
+	@Override
+	public String toSDEditString() {
+		return ret.toString();
+	}
+
+	StringBuilder ret = new StringBuilder();
+
+	public void generateCallSequence(String method, String offset) throws IOException {
+		// TODO Still need to check method by number of arguments. Currently, if we have doSomething() and doSomething(a), this will generate the sequence for both.
+		
+		
+//		String[] methodPieces = method.split("\\(");
+//		String methodName = methodPieces[0];
+//		String[] args = {};
+//		if(methodPieces.length > 1) {
+//			methodPieces[1] = methodPieces[1].substring(0, methodPieces[1].length()-1);
+//			if(!methodPieces[1].equals("")) {
+//				args = methodPieces[1].split(",");
+//			}
+//		}
+		
+		
+		//find method from UMLClass/UMLMethod: 
+		
+		UMLClass clazz = this.classes.get(this.classes.size()-1);
+		for(UMLMethod meth : clazz.getMethods()) {
+			
+		}
+		
+	}
+	private void generateCallSequenceHelper(UMLClass clazz, UMLMethod method, String offset) {
+		
+		for (UMLMethod meth : clazz.getMethods()) {
+			if(meth.sameSignature(method)) {
+				ret.append(offset);
+				ret.append(clazz.toSDEditString());
+				ret.append(meth.toSDEditString());
+				ret.append("\n");
+				for (String methSig : meth.getMethodCalls()) {
+					if (!methSig.substring(methSig.lastIndexOf(".") + 1).equals(methodName)) {
+						ClassReader reader = new ClassReader(methSig.substring(0, methSig.lastIndexOf(".")));
+
+						ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, this);
+						ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, declVisitor, this);
+						ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, this);
+
+						reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+							this.generateCallSequence(
+									methSig.substring(methSig.lastIndexOf(".") + 1), " - " + offset);
+					}
+				}
+>>>>>>> Stashed changes
 			}
 		}
 		return null;
