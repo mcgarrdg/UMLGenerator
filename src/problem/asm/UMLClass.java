@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import org.objectweb.asm.Opcodes;
 
-public class UMLClass extends UMLGraphItem implements SDGraphItem {
+public class UMLClass extends UMLGraphItem {
 
 	/**
 	 * The full path name of the class. (example: problem/asm/UMLClass)
@@ -477,12 +477,5 @@ public class UMLClass extends UMLGraphItem implements SDGraphItem {
 		// TODO Auto-generated method stub
 
 		this.methods.get(methods.size() - 1).addUsedMethodToMethod(owner, name, desc);
-	}
-
-	@Override
-	public String toSDEditString() {
-		// TODO Auto-generated method stub
-		String self = ": " + this.fullName + " ";
-		return self;
 	}
 }

@@ -2,7 +2,7 @@ package problem.asm;
 
 import java.util.ArrayList;
 
-public class SDGraphMethodData implements SDGraphItem {
+public class SDGraphMethodData implements SDGraphItem{
 
 	String classCalledFrom;
 	String methodName;
@@ -27,24 +27,6 @@ public class SDGraphMethodData implements SDGraphItem {
 		this.returnName = null;
 		this.argData = new ArrayList<TypeData>();
 	}
-	
-	
-	
-//	public void setClassCalledFrom(String classFrom)
-//	{
-//		this.classCalledFrom = classFrom;
-//	}
-//	
-//	public void setMethodSignature(String methSig)
-//	{
-//		this.methodSignature = methSig;
-//	}
-//	
-//	public void setClassCalledOn(String classOn)
-//	{
-//		this.classCalledOn = classOn;
-//	}
-	
 	
 	@Override
 	public String toSDEditString() {

@@ -24,14 +24,11 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 	 */
 	private String rankdir;
 	
-	private StringBuilder sdEditBuilder;
-	
 	private ArrayList<SDGraphMethodData> sdEditMethodData;
 
 	public UMLGraph(String name, String rankdir) {
 		this.name = name;
 		this.rankdir = rankdir;
-		this.sdEditBuilder = new StringBuilder();
 		this.sdEditMethodData = new ArrayList<SDGraphMethodData>();
 		classes = new ArrayList<UMLClass>();
 	}
@@ -131,12 +128,9 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 	@Override
 	public String toSDEditString() 
 	{
-//		return sdEditBuilder.toString();
 		StringBuilder builder = new StringBuilder();
-//		StringBuilder builder = new StringBuilder();
 		for(SDGraphMethodData data : this.sdEditMethodData)
 		{
-//			if(!start.toString().contains(data.classCalledFrom))
 			if(!builder.toString().contains(data.getClassCalledOn()))
 			{
 				if(data.getMethodName().equals("init"))
@@ -164,31 +158,10 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 			builder.append(data.toSDEditString());
 		}
 		return builder.toString();
-		
-//		String[] lines = sdEditBuilder.toString().split("\n");
-//		ArrayList<SDGraphMethodData> methodLineData = new ArrayList<SDGraphMethodData>();
-//		for(String line : lines)
-//		{
-//			String calledFrom = line.substring(0, line.indexOf(":"));
-//			String methodSig = line.substring(line.indexOf(".") + 1);
-////			methodLineData.add(new SDGraphMethodData())
-//			
-////			String test = "Random:long=Random.seedUniquifier()";
-////			String test = "Collections:Random.new()";
-//			String returnType = null;
-//			String calledOn = null;
-//			if(line.contains("="))
-//			{
-//				
-//			}
-//		}
-//		return sdEditBuilder.toString();
 	}
 
 	//callDepth of 0 will still print out the initial call specified.
-	public void generateCallSequence(String fullQualMethodSig, String offset, int callDepth) throws IOException {
-		sdEditBuilder = new StringBuilder();
-		// TODO Auto-generated method stub
+	public void generateCallSequence(String fullQualMethodSig, int callDepth) throws IOException {
 		UMLClass clazz = this.classes.get(this.classes.size() - 1);
 		String fullOwnerName = fullQualMethodSig.substring(0, fullQualMethodSig.lastIndexOf('.'));
 		fullOwnerName = fullOwnerName.replace('.', '/');
@@ -223,13 +196,8 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		newMethod.setFullOwnerName(fullOwnerName);
 
 		for (UMLMethod meth : clazz.getMethods()) {
-			// if (meth.getName().equals(methodName)) {
 			if (meth.sameFullQualifiedSignature(newMethod)) {
-//				ret.append(offset);
-//				ret.append(clazz.toSDEditString());
 				this.sdEditMethodData.add(meth.toSDGraphMethodData());
-				sdEditBuilder.append(meth.toSDEditString());
-				sdEditBuilder.append("\n");
 
 				for (UMLMethod usedMethod : meth.getMethodCalls()) {
 					if (!usedMethod.sameFullQualifiedSignature(meth)) {
@@ -250,40 +218,15 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 
 							reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 						}
-						
-						// if (!methSig.contains("<init>"))
-						// this.generateCallSequence(
-						// methSig.substring(methSig.lastIndexOf(".") + 1), " -
-						// " + offset);
-						this.generateCallSequenceHelper(usedMethod, " - " + offset, meth, callDepth);
+						this.generateCallSequenceHelper(usedMethod, meth, callDepth);
 					}
 				}
-				// for (String methSig : meth.getMethodCalls()) {
-				// if (!methSig.substring(methSig.lastIndexOf(".") +
-				// 1).equals(methodName)) {
-				// ClassReader reader = new ClassReader(methSig.substring(0,
-				// methSig.lastIndexOf(".")));
-				//
-				// ClassVisitor declVisitor = new
-				// ClassDeclarationVisitor(Opcodes.ASM5, this);
-				// ClassVisitor fieldVisitor = new
-				// ClassFieldVisitor(Opcodes.ASM5, declVisitor, this);
-				// ClassVisitor methodVisitor = new
-				// ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, this);
-				//
-				// reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
-				// if (!methSig.contains("<init>"))
-				// this.generateCallSequence(
-				// methSig.substring(methSig.lastIndexOf(".") + 1), " - " +
-				// offset);
-				// }
-				// }
 			}
 		}
 	}
 
 	//TODO Account for call depth
-	private void generateCallSequenceHelper(UMLMethod method, String offset, UMLMethod prevLevelMethod, int callDepth) throws IOException {
+	private void generateCallSequenceHelper(UMLMethod method, UMLMethod prevLevelMethod, int callDepth) throws IOException {
 		// Not sure if I can just look at the last class added, because there
 		// could
 		// be a method used from a class I added previously
@@ -301,13 +244,8 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		}
 
 		for (UMLMethod meth : clazz.getMethods()) {
-			// if (meth.getName().equals(methodName)) {
 			if (meth.sameFullQualifiedSignature(method)) {
-//				ret.append(offset);
-//				ret.append(clazz.toSDEditString());
 				this.sdEditMethodData.add(meth.toSDGraphMethodData(prevLevelMethod));
-				sdEditBuilder.append(meth.toSDEditString(prevLevelMethod));
-				sdEditBuilder.append("\n");
 
 				for (UMLMethod usedMethod : meth.getMethodCalls()) {
 					if (!usedMethod.sameFullQualifiedSignature(meth)) {
@@ -319,7 +257,7 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 
 						reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 					}
-					this.generateCallSequenceHelper(usedMethod, " - " + offset, meth, callDepth - 1);
+					this.generateCallSequenceHelper(usedMethod, meth, callDepth - 1);
 				}
 			}
 		}

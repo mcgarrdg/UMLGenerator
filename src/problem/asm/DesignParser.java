@@ -54,7 +54,7 @@ public class DesignParser {
 			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, graph);
 
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
-			graph.generateCallSequence(methodSig, "", 2);
+			graph.generateCallSequence(methodSig, 2);
 			// graph.generateCallSequence(methodSig.substring(methodSig.lastIndexOf(".")+1,
 			// methodSig.lastIndexOf("(")), "");
 

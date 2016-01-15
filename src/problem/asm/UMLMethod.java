@@ -8,7 +8,7 @@ import javax.swing.plaf.synth.SynthSeparatorUI;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class UMLMethod extends UMLGraphItem implements SDGraphItem {
+public class UMLMethod extends UMLGraphItem {
 
 	/**
 	 * An ArrayList of {@link TypeData} objects that represent all of the data
@@ -289,73 +289,12 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 		}
 
 		for (int i = 0; i < this.argData.size(); i++) {
-			// if
-			// (!this.argData.get(i).getFullName().equals(other.argData.get(i).getFullName()))
 			if (!this.argData.get(i).getBaseName().equals(other.argData.get(i).getBaseName())) {
 				return false;
 			}
 		}
 
 		return true;
-	}
-
-	@Override
-	public String toSDEditString() {
-		
-		/*
-		StringBuilder self = new StringBuilder();
-		String retType = this.returnType.getFullBaseDataType();
-		if (!retType.equals("void")) {
-			self.append(this.returnType.getFullBaseDataType());
-			self.append(" = ");
-		}
-		self.append(this.name);
-		self.append("(");
-		for (TypeData arg : this.argData) {
-			self.append(arg.getExtendedName());
-			self.append(",");
-		}
-		if (self.charAt(self.length() - 1) == ',')
-			self.deleteCharAt(self.length() - 1);
-		self.append(")");
-		return self.toString();
-		*/
-		return "";
-	}
-	
-	public String toSDEditString(UMLMethod prevLevelMeth)
-	{
-		// System.out.println(this);
-		StringBuilder self = new StringBuilder();
-		String retType = this.returnType.getFullBaseDataType();
-		//TODO Don't currently care about return type. Might later.
-		self.append(prevLevelMeth.fullOwnerName.substring(prevLevelMeth.fullOwnerName.lastIndexOf('/') + 1));
-		self.append(":");
-		if (!retType.equals("void")) {
-//			self.append(this.returnType.getFullBaseDataType());
-			self.append(this.returnType.getExtendedName());
-			self.append("=");
-		}
-		
-		self.append(this.fullOwnerName.substring(this.fullOwnerName.lastIndexOf('/') + 1));
-		//The function is an init function
-		if(this.name.equals("init"))
-		{
-			self.append(".new");
-		}
-		else
-		{
-			self.append("." + this.name);
-		}
-		self.append("(");
-		for (TypeData arg : this.argData) {
-			self.append(arg.getExtendedName());
-			self.append(",");
-		}
-		if (self.charAt(self.length() - 1) == ',')
-			self.deleteCharAt(self.length() - 1);
-		self.append(")");
-		return self.toString();
 	}
 	
 	public SDGraphMethodData toSDGraphMethodData()
@@ -372,25 +311,6 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 				prevLevelMeth.fullOwnerName.substring(prevLevelMeth.fullOwnerName.lastIndexOf('/') + 1),
 				this.name, this.fullOwnerName.substring(this.fullOwnerName.lastIndexOf('/') + 1), 
 				this.returnType.getExtendedName(), this.getArgumentData());
-//		SDGraphMethodData data = new SDGraphMethodData();
-//		data.setClassCalledFrom(prevLevelMeth.fullOwnerName.substring(prevLevelMeth.fullOwnerName.lastIndexOf('/') + 1));
-//		if (!this.returnType.getFullBaseDataType().equals("void")) 
-//		{
-//			data.setReturnName(this.returnType.getExtendedName());
-//		}
-//		data.setClassCalledOn(this.fullOwnerName.substring(this.fullOwnerName.lastIndexOf('/') + 1));
-//		//The function is an init function
-//		if(this.name.equals("init"))
-//		{
-//			data.setMethodName("new");
-//		}
-//		else
-//		{
-//			data.setMethodName(this.name);
-//		}
-//		data.setArgumentData(this.argData);
-//		
-//		return data;
 	}
 
 	public void setFullOwnerName(String owner) {
@@ -405,9 +325,9 @@ public class UMLMethod extends UMLGraphItem implements SDGraphItem {
 
 		// Note, we don't care what the access type of the method is for the
 		// sequence diagram,
-		// so I jsut always pass in public.
-		// TODO Currently don't know how to get the signatue for the method,
-		// right now jsut treat it as null.
+		// so I just always pass in public.
+		// TODO Currently don't know how to get the signature for the method,
+		// right now just treat it as null.
 		UMLMethod newMethod = new UMLMethod(name, Opcodes.ACC_PUBLIC, desc, null);
 		newMethod.fullOwnerName = owner;
 
