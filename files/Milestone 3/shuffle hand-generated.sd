@@ -8,7 +8,7 @@ it:ListIterator
 [c:alt if (r == null)]
 	Collections:Collections.shuffle(List<T>)
 	Collections:Random=r.new()
-	r:System.nanoTime()
+	r:long=System.nanoTime()
 [/c]
 Collections:Collections.shuffle(List<T>, Random)
 Collections:int=list.size()
@@ -40,7 +40,7 @@ Collections:int=list.size()
 	[/c]
 	Collections:ListIterator=list.listIterator()
 	[c:loop (0 <= i < arr[].length]
-		Collections:it.next()
+		Collections:E=it.next()
 		Collections:it.set(E)
 	[/c]
 [/c]
