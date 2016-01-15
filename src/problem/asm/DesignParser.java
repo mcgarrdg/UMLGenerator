@@ -37,14 +37,10 @@ public class DesignParser {
 		} else if (mode == 1) {
 			// TODO make this more interactive
 			String methodSig = JOptionPane.showInputDialog("Please input a fully qualified method signature:");
-			// ClassReader reader = new ClassReader(className);
-			// problem.asm.DesignParser
-			// problem.asm.UMLClass
-			// problem.asm.UMLField
-			// problem.asm.UMLGraph
-			// problem.asm.IGraphItem
-			// TODO Sequence diagram
 			String classSig = methodSig.substring(0, methodSig.lastIndexOf("."));
+			
+			//TODO Check for user input errors.
+			int callDepth = Integer.parseInt(JOptionPane.showInputDialog("Please input the call depth:", "5"));
 
 			ClassReader reader = new ClassReader(classSig);
 			UMLGraph graph = new UMLGraph("Test_SD", "BT");
@@ -54,11 +50,8 @@ public class DesignParser {
 			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, graph);
 
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
-			graph.generateCallSequence(methodSig, 2);
-			// graph.generateCallSequence(methodSig.substring(methodSig.lastIndexOf(".")+1,
-			// methodSig.lastIndexOf("(")), "");
-
-			//System.out.println(graph.toSDEditString());
+			graph.generateCallSequence(methodSig, callDepth);
+			
 			System.out.println(graph.toSDEditString());
 
 		}

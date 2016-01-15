@@ -129,9 +129,11 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 	public String toSDEditString() 
 	{
 		StringBuilder builder = new StringBuilder();
+//		ArrayList<String> begin = new ArrayList<String>();
+		builder.append("\n");
 		for(SDGraphMethodData data : this.sdEditMethodData)
 		{
-			if(!builder.toString().contains(data.getClassCalledOn()))
+			if((!builder.toString().contains("\n" + data.getClassCalledOn() + ":")) && (!builder.toString().contains("\n/" + data.getClassCalledOn() + ":")))
 			{
 				if(data.getMethodName().equals("init"))
 				{
@@ -142,7 +144,7 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 					builder.append(data.getClassCalledOn() + ":" + data.getClassCalledOn() + "[a]\n");
 				}
 			}
-			else if(builder.toString().contains(data.getClassCalledOn()))
+			else
 			{
 				if(data.getMethodName().equals("init"))
 				{
