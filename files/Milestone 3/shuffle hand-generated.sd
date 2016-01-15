@@ -1,0 +1,55 @@
+Collections:Collections[a]
+list:List<T>
+/r:Random[]
+System:Sytem[a]
+arr[]:Object
+it:ListIterator
+
+[c:alt if (r == null)]
+	Collections:Collections.shuffle(List<T>)
+	Collections:Random=r.new()
+	r:System.nanoTime()
+[/c]
+Collections:Collections.shuffle(List<T>, Random)
+Collections:int=list.size()
+[c:alt if(size < SHUFFLE_THRESHOLD ||list instanceof RandomAccess)]
+	[c:loop (size >= i > 1)]
+		Collections:int=r.nextInt(i)
+			[c:alt if (n &-n) ==n)]
+				r:int=r.next(int)
+			[/c]
+			[c:loop while (bits-val + n -1 < 0)]
+				r:int=r.next(int)
+			[/c]
+			Collections:Collections.swap(List<T>, int, int)
+	[/c]
+	Collections:E=list.get(int)
+	Collections:E=list.set(int, E element)
+	Collections:E=list.set(int, E element)
+--else
+	Collections:arr[]=list.toArray()
+	[c:loop (size >= i > 1)]
+		Collections:int=r.nextInt(i)
+			[c:alt if (n &-n) ==n)]
+				r:int=r.next(int)
+			[/c]
+			[c:loop while (bits-val + n -1 < 0)]
+				r:int=r.next(int)
+			[/c]
+		Collections:Collections.swap(List<T>, int, int)
+	[/c]
+	Collections:ListIterator=list.listIterator()
+	[c:loop (0 <= i < arr[].length]
+		Collections:it.next()
+		Collections:it.set(E)
+	[/c]
+[/c]
+
+
+
+
+
+
+
+
+
