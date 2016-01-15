@@ -16,7 +16,6 @@ public class SDGraphMethodData implements SDGraphItem{
 		this.classCalledOn = calledOn;
 		this.returnName = retrnName;
 		this.argData = args;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public SDGraphMethodData()

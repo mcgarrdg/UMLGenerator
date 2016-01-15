@@ -157,7 +157,7 @@ public class DesignParser {
 				choose.showSaveDialog(null);
 			}
 		}
-		// TODO This could be prone to bugs if the user enters in odd names.
+		// This could be prone to bugs if the user enters in odd names.
 		// Should we bother fixing?
 		String filePath;
 		if (choose.getSelectedFile().getName().lastIndexOf('.') == -1) {

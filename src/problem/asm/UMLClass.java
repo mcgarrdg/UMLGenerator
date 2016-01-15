@@ -217,7 +217,7 @@ public class UMLClass extends UMLGraphItem {
 			pointedTo.add(arrow.getEndClass());
 		}
 
-		// TODO If the used class is in a field, ignore it?
+		// If the used class is in a field, ignore it.
 		for (UMLClass firstClass : new ArrayList<UMLClass>(pointedTo)) {
 			for (UMLClass secondClass : new ArrayList<UMLClass>(pointedTo)) {
 				if (firstClass.checkExtendsOrImplements(secondClass)) {
@@ -281,7 +281,6 @@ public class UMLClass extends UMLGraphItem {
 						// arrow for that thing
 						for (UMLMethod thisMethod : this.methods) {
 							boolean wasUsed = false;
-							// TODO Is this less efficient?
 							// Check to see if this method uses the used class
 							// at all
 							for (TypeData d : thisMethod.getClassesUsed()) {
@@ -428,9 +427,8 @@ public class UMLClass extends UMLGraphItem {
 	 *            The type of line. See GraphViz documentation.
 	 */
 	private void addArrow(UMLClass end, String arrowType, String lineType) {
-		// TODO Instead of just checking to see if the arrow exists, check the
-		// priority of the arrow.
-		// eg association overwrites uses
+		// TODO Instead of just checking to see if the arrow exists, check the priority of the arrow.
+		// eg association overwrites uses so it's no longer dependant on what arrows we make first.
 		boolean isConnected = false;
 		for (UMLArrow arrow : arrows) {
 			if (arrow.connects(this, end)) {
@@ -474,8 +472,6 @@ public class UMLClass extends UMLGraphItem {
 	}
 
 	public void addUsedMethodToMethod(String owner, String name, String desc) {
-		// TODO Auto-generated method stub
-
 		this.methods.get(methods.size() - 1).addUsedMethodToMethod(owner, name, desc);
 	}
 }

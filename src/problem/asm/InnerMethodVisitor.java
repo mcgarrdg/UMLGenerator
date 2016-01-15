@@ -63,8 +63,6 @@ public class InnerMethodVisitor extends MethodVisitor {
 
 		// TODO Maybe more than just new are important?
 		if ((opcode & Opcodes.NEW) == Opcodes.NEW) {
-			// System.out.println(type);
-			// System.out.println(Type.getReturnType(type) + "\n");
 			this.graph.addClassUsedToMethod(type);
 		}
 	}

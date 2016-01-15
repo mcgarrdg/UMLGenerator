@@ -185,8 +185,7 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		}
 
 		for (String argName : splitArgs) {
-			// TODO I can't get the full name path of the arguments, so I just
-			// pass in the base name twice.
+			// I can't get the full name path of the arguments, so I just pass in the base name twice.
 			tempArgs.add(new TypeData(argName, null, argName));
 		}
 
@@ -227,7 +226,6 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		}
 	}
 
-	//TODO Account for call depth
 	private void generateCallSequenceHelper(UMLMethod method, UMLMethod prevLevelMethod, int callDepth) throws IOException {
 		// Not sure if I can just look at the last class added, because there
 		// could

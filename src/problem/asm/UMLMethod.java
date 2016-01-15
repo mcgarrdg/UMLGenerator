@@ -101,7 +101,7 @@ public class UMLMethod extends UMLGraphItem {
 
 			// Deal with the return type data.
 			s = Type.getType(signature).getReturnType().toString();
-			s = s.substring(0, s.length() - 1); //TODO does this do anything???
+			s = s.substring(0, s.length() - 1);
 			if (s.contains("<")) {
 				if(this.name.equals("getClass"))
 				{
@@ -245,7 +245,7 @@ public class UMLMethod extends UMLGraphItem {
 	 * @param other
 	 * @return
 	 */
-	// TODO Should I check the classes used here? I currently do not.
+	// Should I check the classes used here? I currently do not.
 	public boolean sameSignature(UMLMethod other) {
 		if (other == null) {
 			return false;
@@ -324,14 +324,11 @@ public class UMLMethod extends UMLGraphItem {
 	public void addUsedMethodToMethod(String owner, String name, String desc) {
 
 		// Note, we don't care what the access type of the method is for the
-		// sequence diagram,
-		// so I just always pass in public.
-		// TODO Currently don't know how to get the signature for the method,
-		// right now just treat it as null.
+		// sequence diagram, so I just always pass in public. We also do not care 
+		// about the signature, so it is just null.
 		UMLMethod newMethod = new UMLMethod(name, Opcodes.ACC_PUBLIC, desc, null);
 		newMethod.fullOwnerName = owner;
 
-		// TODO Auto-generated method stub
 		this.methodCalls.add(newMethod);
 	}
 
