@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class SDGraphMethodData implements SDGraphItem{
 
-	String classCalledFrom;
-	String methodName;
-	ArrayList<TypeData> argData;
-	String classCalledOn;
-	String returnName;
+	private String classCalledFrom;
+	private String methodName;
+	private ArrayList<TypeData> argData;
+	private String classCalledOn;
+	private String returnName;
 	
 	public SDGraphMethodData(String calledFrom, String method, String calledOn, String retrnName, ArrayList<TypeData> args) {
 		this.classCalledFrom = 	calledFrom;

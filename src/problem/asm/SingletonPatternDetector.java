@@ -56,7 +56,7 @@ public class SingletonPatternDetector implements IPatternDetector {
 			if (privateConstructor && getInstancemMethod && instanceField) {
 				// is a singleton
 				c.setColor(UMLClass.COLOR_BLUE);
-				c.addPatternName("\\<\\<Singleton\\>\\>");
+				c.addPatternName("Singleton");
 			}
 
 		}

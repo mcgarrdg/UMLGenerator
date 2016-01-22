@@ -192,9 +192,22 @@ public class UMLClass extends UMLGraphItem {
 		return this.fields;
 	}
 	
+	/**
+	 * Adds the specified pattern name to the list of pattern names that this class has.
+	 * @param name	Name of the pattern.
+	 */
 	public void addPatternName(String name)
 	{
 		this.patternNames.add(name);
+	}
+	
+	/**
+	 * Gets a list of all the pattern names that this class is.
+	 * @return	ArrayList of the pattern names.
+	 */
+	public ArrayList<String> getPatternNames()
+	{
+		return this.patternNames;
 	}
 
 	/**
