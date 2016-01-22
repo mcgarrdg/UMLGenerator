@@ -82,7 +82,7 @@ public class DesignParser {
 	 */
 	public static UMLGraph visitFiles(File[] files) throws IOException {
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
-
+		graph.addPatternDetector(new SingletonPatternDetector()); //Add detectors here
 		for (File f : files) {
 			InputStream in = new FileInputStream(f);
 			ClassReader reader = new ClassReader(in);
@@ -94,7 +94,7 @@ public class DesignParser {
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 			in.close();
 		}
-
+		graph.detectPatterns();
 		return graph;
 	}
 

@@ -42,7 +42,14 @@ public class UMLClass extends UMLGraphItem {
 	 * A list of UMLFields that this class has.
 	 */
 	private ArrayList<UMLField> fields;
-
+	
+	/**
+	 * A string representing the color of the box on the graphViz.
+	 * The string is in the format #ffffff where that is the
+	 * hexidecimal representation of an RBG value.
+	 */
+	private String color;
+	
 	/**
 	 * A list of the full names of the classes that this class implements.
 	 */
@@ -53,6 +60,23 @@ public class UMLClass extends UMLGraphItem {
 	 * {@link #generateArrows(ArrayList)} method.
 	 */
 	private ArrayList<UMLArrow> arrows;
+	
+	/**
+	 * The defualt color for classes.
+	 */
+	public static String DEFUALT_COLOR = "#000000";
+	
+	/**
+	 * Some predefined color strings for easy coloring.
+	 */
+	public static String COLOR_BLUE = "#0000ff";
+	public static String COLOR_BLACK = "#000000";
+	
+	/**
+	 * A list of all of the pattern names that should be appended after the class name in the UML Diagram.
+	 * AKA Names of all the patterns that this class is a part of.
+	 */
+	public ArrayList<String> patternNames;
 
 	/**
 	 * Constructor.
@@ -76,6 +100,8 @@ public class UMLClass extends UMLGraphItem {
 		this.accessType = access;
 		this.extension = extension;
 		this.arrows = new ArrayList<UMLArrow>();
+		this.patternNames = new ArrayList<String>();
+		this.color = UMLClass.COLOR_BLACK;
 		shape = "\"record\"";
 	}
 
@@ -119,6 +145,15 @@ public class UMLClass extends UMLGraphItem {
 	public String getExtension() {
 		return extension;
 	}
+	
+	/**
+	 * Sets the color that this class should be.
+	 * @param color	A string representing the hexidecimal value of the color. See {@link #color}.
+	 */
+	public void setColor(String color)
+	{
+		this.color = color;
+	}
 
 	/**
 	 * Gets an {@link ArrayList} of the {@link #fullName}s that this class
@@ -155,6 +190,11 @@ public class UMLClass extends UMLGraphItem {
 	 */
 	public ArrayList<UMLField> getFields() {
 		return this.fields;
+	}
+	
+	public void addPatternName(String name)
+	{
+		this.patternNames.add(name);
 	}
 
 	/**
@@ -453,8 +493,13 @@ public class UMLClass extends UMLGraphItem {
 		} else {
 			builder.append(this.fullName);
 		}
+		
+		for(String s : this.patternNames)
+		{
+			builder.append(s + "\\l");
+		}
 
-		if (this.fields.size() != 0 || this.methods.size() != 0) {
+		if (this.fields.size() != 0 || this.methods.size() != 0) { //TODO Shouldn't this always do this?
 			builder.append("|");
 		}
 		for (UMLField f : this.fields) {
@@ -464,7 +509,7 @@ public class UMLClass extends UMLGraphItem {
 		for (UMLMethod m : this.methods) {
 			builder.append(m.toGraphVizString());
 		}
-		builder.append("}\"\n];\n");
+		builder.append("}\"\ncolor=\"" + this.color + "\"\n];\n");
 		for (UMLArrow arrow : this.arrows) {
 			builder.append(arrow.toGraphVizString());
 		}

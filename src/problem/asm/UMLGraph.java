@@ -13,6 +13,11 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 	 * The list of classes that this UMLGraph will contain.
 	 */
 	private ArrayList<UMLClass> classes;
+	
+	/**
+	 * The list of patterns that will be detected in this graph.
+	 */
+	private ArrayList<IPatternDetector> patternDetectors;
 
 	/**
 	 * The name of the UMLGraph.
@@ -30,17 +35,26 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		this.name = name;
 		this.rankdir = rankdir;
 		this.sdEditMethodData = new ArrayList<SDGraphMethodData>();
-		classes = new ArrayList<UMLClass>();
+		this.patternDetectors = new ArrayList<IPatternDetector>();
+		this.classes = new ArrayList<UMLClass>();
 	}
 
 	/**
 	 * Adds a class to the UMLGraph.
 	 * 
-	 * @param clss
-	 *            The class to be added.
+	 * @param clss The class to be added.
 	 */
 	public void addClass(UMLClass clss) {
 		this.classes.add(clss);
+	}
+	
+	/**
+	 * Adds a pattern that this graph should detect to the list of pattern detectors.
+	 * @param d	Pattern to be detected.
+	 */
+	public void addPatternDetector(IPatternDetector d)
+	{
+		this.patternDetectors.add(d);
 	}
 
 	/**
@@ -72,7 +86,18 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 	public void addClassUsedToMethod(String fullClassName) {
 		this.classes.get(this.classes.size() - 1).addUsedClassToMethod(fullClassName);
 	}
-
+	
+	/**
+	 * Detects all of the patterns of the classes currently in this graph, for the patterns given in {@link #patternDetectors}
+	 */
+	public void detectPatterns()
+	{
+		for(IPatternDetector detector : this.patternDetectors)
+		{
+			detector.detectPatterns(this.classes);
+		}
+	}
+	
 	@Override
 	public String toGraphVizString() {
 		StringBuilder builder = new StringBuilder();

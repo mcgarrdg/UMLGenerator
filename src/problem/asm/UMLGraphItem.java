@@ -11,7 +11,7 @@ public abstract class UMLGraphItem {
 	 * @return String describing data in a GraphViz format.
 	 */
 	public abstract String toGraphVizString();
-
+	
 	/**
 	 * Returns the string representation of the appropriate access symbol for
 	 * the given accessType.
@@ -22,7 +22,6 @@ public abstract class UMLGraphItem {
 	 * @return The string representation of the access symbol.
 	 */
 	public String getAccessTypeSymbol(int accessType) {
-
 		if ((accessType & Opcodes.ACC_PUBLIC) == Opcodes.ACC_PUBLIC) {
 			return "+";
 		} else if ((accessType & Opcodes.ACC_PRIVATE) == Opcodes.ACC_PRIVATE) {

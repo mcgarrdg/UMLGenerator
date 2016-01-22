@@ -38,7 +38,7 @@ public class UMLField extends UMLGraphItem {
 	public UMLField(String name, int accessType, String desc, String signature) {
 		this.name = name;
 		this.accessType = accessType;
-
+		
 		String fieldT = Type.getReturnType(desc).getClassName().replace('.', '/');
 		type = new TypeData(fieldT.substring(fieldT.lastIndexOf('/') + 1), null, fieldT);
 
