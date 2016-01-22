@@ -509,7 +509,7 @@ public class UMLClass extends UMLGraphItem {
 		
 		for(String s : this.patternNames)
 		{
-			builder.append(s + "\\l");
+			builder.append("\\l\\<\\<" + s + "\\>\\>");
 		}
 
 		if (this.fields.size() != 0 || this.methods.size() != 0) { //TODO Shouldn't this always do this?
