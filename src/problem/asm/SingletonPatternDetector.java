@@ -21,6 +21,7 @@ public class SingletonPatternDetector implements IPatternDetector {
 
 			for (UMLMethod m : c.getMethods()) {
 				// check constructors
+				System.out.println(m.getName());
 				if (m.getName().equals("init")) {
 					if (!((m.getAccessType() & Opcodes.ACC_PRIVATE) == Opcodes.ACC_PRIVATE)) {
 						privateConstructor = false;
@@ -34,7 +35,8 @@ public class SingletonPatternDetector implements IPatternDetector {
 						;
 					else if (((m.getAccessType() & Opcodes.ACC_PROTECTED) == Opcodes.ACC_PROTECTED))
 						;
-					else if (m.getReturnType().getFullName() == c.getName()) {
+					else if (m.getReturnType().getFullName().equals(c.getName())) {
+						System.out.println("method found");
 						getInstancemMethod = true;
 						break;
 					}
@@ -45,7 +47,7 @@ public class SingletonPatternDetector implements IPatternDetector {
 
 				for (UMLField f : c.getFields()) {
 					if (((f.getAccessType() & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC)
-							&& (f.getType().getFullName() == c.getName())) {
+							&& (f.getType().getFullName().equals(c.getName()))) {
 						instanceField = true;
 						break;
 					}
