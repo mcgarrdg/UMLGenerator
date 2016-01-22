@@ -30,6 +30,7 @@ public class SDEditTest {
 		graph.generateCallSequence("java.util.Collections.shuffle(List<T> list)", 3);
 		
 		res = graph.toSDEditString();
+		System.out.println(res);
 		
 	}
 	
@@ -38,7 +39,7 @@ public class SDEditTest {
 		assertTrue(res.contains("Random:long=System.nanoTime()"));
 		assertTrue(res.contains("Collections:ListIterator=List.listIterator()"));
 		assertTrue(res.contains("Collections:Object=ListIterator.next()"));
-		assertTrue(res.contains("Random:int=Random.next(int)"));
+		assertTrue(res.contains("Collections:int=Random.nextInt(int)"));
 		
 	}
 	
