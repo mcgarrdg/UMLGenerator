@@ -48,7 +48,10 @@ public class InnerMethodVisitor extends MethodVisitor {
 		this.graph.addClassUsedToMethod(owner);
 		// String methodSig = owner.replace("/", ".") + "."+ name;
 		//Ignore the special invokings of things. We don't care about those.
-//		if(name.equals("<init>") || (opcode & Opcodes.INVOKESPECIAL) != Opcodes.INVOKESPECIAL)
+//		if(name.equals("<init>") || ((opcode & Opcodes.INVOKESPECIAL) != Opcodes.INVOKESPECIAL && 
+//				(opcode & Opcodes.INVOKESTATIC) != Opcodes.INVOKESTATIC &&
+//				(opcode & Opcodes.INVOKEINTERFACE) != Opcodes.INVOKEINTERFACE &&
+//				(opcode & Opcodes.INVOKEVIRTUAL) != Opcodes.INVOKEVIRTUAL))
 //		if((opcode & Opcodes.INVOKESPECIAL) != Opcodes.INVOKESPECIAL)
 //		{
 			this.graph.addMethodUsedToMethod(owner, name, desc);

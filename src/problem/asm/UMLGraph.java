@@ -170,6 +170,10 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 //			{
 //				this.sdEditMethodData.remove(data);
 //			}
+//			if(data.getClassCalledOn().equals("String"))
+//			{
+//				this.sdEditMethodData.remove(data);
+//			}
 //		}
 		
 		builder.append("\n");
@@ -205,7 +209,10 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 
 		for (String argName : splitArgs) {
 			// I can't get the full name path of the arguments, so I just pass in the base name twice.
-			tempArgs.add(new TypeData(argName, null, argName));
+			if(argName.length() > 0)
+			{
+				tempArgs.add(new TypeData(argName, null, argName));
+			}
 		}
 
 		// We don't care about the access type or the return type, this is just
@@ -225,6 +232,7 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 				this.sdEditMethodData.add(meth.toSDGraphMethodData());
 
 				for (UMLMethod usedMethod : meth.getMethodCalls()) {
+					//TODO Uncomment for recursion
 					if (!usedMethod.sameFullQualifiedSignature(meth)) {
 						boolean alreadyHasClass = false;
 						for (UMLClass tempClass : this.classes) {
@@ -255,8 +263,8 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		// Not sure if I can just look at the last class added, because there
 		// could
 		// be a method used from a class I added previously
-		System.out.println(callDepth + ": " + method.getName());
-		this.sdEditMethodData.add(method.toSDGraphMethodData(prevLevelMethod));
+//		System.out.println(callDepth + ": " + method.getName());
+//		this.sdEditMethodData.add(method.toSDGraphMethodData(prevLevelMethod));
 		if(callDepth <= 0)
 		{
 			return;
@@ -272,9 +280,11 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 
 		for (UMLMethod meth : clazz.getMethods()) {
 			if (meth.sameFullQualifiedSignature(method)) {
-//				this.sdEditMethodData.add(meth.toSDGraphMethodData(prevLevelMethod));
+				this.sdEditMethodData.add(meth.toSDGraphMethodData(prevLevelMethod));
+				System.out.println(callDepth + ": " + method.getName() + " " + prevLevelMethod.getName());
 
 				for (UMLMethod usedMethod : meth.getMethodCalls()) {
+					//TODO Uncomment for recursion
 					if (!usedMethod.sameFullQualifiedSignature(meth)) {
 						boolean alreadyHasClass = false;
 						for (UMLClass tempClass : this.classes) {

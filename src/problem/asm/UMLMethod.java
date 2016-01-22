@@ -170,7 +170,14 @@ public class UMLMethod extends UMLGraphItem {
 		{
 			data = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null, temp.substring(1));
 			for (int x = splitString.length - 2; x > 0; x--) {
-				data = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), data, splitString[x].substring(1));
+//				System.out.println(x);
+//				System.out.println(temp.lastIndexOf("/"));
+//				System.out.println(temp);
+//				System.out.println(splitString[x]);
+//				String first = splitString[x].substring(temp.lastIndexOf("/") + 1);
+//				String last = splitString[x].substring(1);
+//				data = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), data, splitString[x].substring(1));
+				data = new TypeData(splitString[x].substring(splitString[x].lastIndexOf("/") + 1), data, splitString[x].substring(1));
 			}
 		}
 		else if(temp.contains("*")) //Special case.
@@ -267,8 +274,6 @@ public class UMLMethod extends UMLGraphItem {
 	}
 
 	public boolean sameFullQualifiedSignature(UMLMethod other) {
-		ArrayList<Integer> ints = new ArrayList<Integer>();
-		ints.add(Integer.valueOf(5));
 		if (other == null) {
 			return false;
 		}
