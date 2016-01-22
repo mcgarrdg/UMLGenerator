@@ -38,7 +38,13 @@ SDGraphItem simply provides the base for printing out the required strings to bu
 In terms of design patterns, our project still largely implements the visitor pattern. However, unlike the code that builds UML graphs, the sequence diagram tool
 only visits classes as they are discovered by method calls. The nature of sequence diagrams also forced our project to rely more heavily upon the MethodVisitor. 
  
-
+Milestone 4: 
+Few changes were made during this milestone. The changes made include: the addition of a PatternDetector interface, a SingletonPatternDetector, new method and field in 
+UMLGraph, and a new field within UMLClass. We coded to an interface with the SingletonPatternDetector,
+which simply searches through the collected class data stored in UMLClass to find the singleton pattern. 
+Because UMLGraph contained the necessary data for finding the Singleton Pattern, we connected and ran the PatternDectors within a new UMLGraph method: detectPatterns. 
+If more patterns were wished to be added, the user would add a pattern to the ArrayList within DesignParser which is then passed to UMLGraph. 
+UMLClasses now store a list of patterns that they implement, which allows a user to see which patterns a class may help implement. 
 
 
 
@@ -56,6 +62,10 @@ Milestone 2:
 Milestone 3: 
 -Improved the drawing of arrows for the UML diagrams.
 -Implemented building a sequence diagram string for SDEdit. 
+MileStone 4: 
+-Modified the Sequence Diagram code to method returns (not needed for project, but wished to fix for visual accuracy)
+-Created the PatternDector interface 
+-Changed UMLMethod, UMLClass, and DesignParser to support design patterns.
 -
 
 
@@ -74,7 +84,11 @@ Milestone 3:
 -Improved the drawing of arrows for the UML diagrams. 
 -Fixed some issues with arrows for the UML diagrams.
 -Helped implement building a sequence diagram string for SDEdit
--Updated Readme
+-Updated README
+Milestone 4: 
+-Created the SingletonPatternDetector class. 
+-Wrote the test cases for the milestone. 
+-Updated README
 
 
 

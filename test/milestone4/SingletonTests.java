@@ -1,11 +1,8 @@
 package milestone4;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.junit.Test;
 import org.objectweb.asm.ClassReader;
