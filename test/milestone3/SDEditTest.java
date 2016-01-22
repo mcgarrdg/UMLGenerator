@@ -30,6 +30,7 @@ public class SDEditTest {
 		graph.generateCallSequence("java.util.Collections.shuffle(List<T> list)", 3);
 		
 		res = graph.toSDEditString();
+		
 	}
 	
 	@Test
@@ -56,12 +57,9 @@ public class SDEditTest {
 	public void testCallDepth() {
 		String[] split = res.split("\n");
 		int i =0;
-		System.out.println(split.length);
 		while( !split[i].equals("Collections:Random.new()")) {
-			System.out.println(split[i]);
 			i++;
 		}
-		System.out.println(i);
 		assertTrue(split[i].equals("Collections:Random.new()"));
 		assertTrue(split[i+1].equals("Random:long=Random.seedUniquifier()"));
 	}
