@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.objectweb.asm.Opcodes;
 
+//TODO Move all of the things that build the GraphViz crap into its own class???
 public class UMLClass extends UMLGraphItem {
 
 	/**
@@ -62,15 +63,33 @@ public class UMLClass extends UMLGraphItem {
 	private ArrayList<UMLArrow> arrows;
 	
 	/**
-	 * The defualt color for classes.
+	 * The default color for classes.
 	 */
-	public static String DEFUALT_COLOR = "#000000";
+	public static String DEFAULT_LINE_COLOR = "#000000";
+
+	/**
+	 * The color that this class box will be filled with in GraphViz.
+	 */
+	private String fillColor;
+
+	public String getFillColor() {
+		return fillColor;
+	}
+
+	public void setFillColor(String fillColor) {
+		this.fillColor = fillColor;
+	}
+
+	/**
+	 * The default color for the color of the box.
+	 */
+	public static String DEFAULT_FILL_COLOR = "#ffffff";
 	
 	/**
 	 * Some predefined color strings for easy coloring.
 	 */
-	public static String COLOR_BLUE = "#0000ff";
-	public static String COLOR_BLACK = "#000000";
+	public static final String COLOR_BLUE = "#0000ff";
+	public static final String COLOR_BLACK = "#000000";
 	
 	/**
 	 * A list of all of the pattern names that should be appended after the class name in the UML Diagram.
@@ -80,7 +99,7 @@ public class UMLClass extends UMLGraphItem {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param className
 	 *            The {@link #fullName} of the class.
 	 * @param extension
@@ -102,6 +121,7 @@ public class UMLClass extends UMLGraphItem {
 		this.arrows = new ArrayList<UMLArrow>();
 		this.patternNames = new ArrayList<String>();
 		this.color = UMLClass.COLOR_BLACK;
+		this.fillColor = UMLClass.DEFAULT_FILL_COLOR;
 		shape = "\"record\"";
 	}
 
@@ -184,7 +204,7 @@ public class UMLClass extends UMLGraphItem {
 	}
 
 	/**
-	 * Gets an ArrayList of the {@link UMLFields}s that this class contains.
+	 * Gets an ArrayList of the {@link UMLField}s that this class contains.
 	 * 
 	 * @return An ArrayList of the fields that this class contains.
 	 */
@@ -299,6 +319,7 @@ public class UMLClass extends UMLGraphItem {
 	 * This should be called after removeExtraArrows is called on everything
 	 */
 	// TODO Move these methods into UMLGraph where it makes more sense?
+	// TODO Have a seperate array stored for all of the arrows?
 	public void removeRedundantUsesArrows() {
 		ArrayList<UMLClass> extendsOrImplements = this.getAllExtendsOrImplements();
 		ArrayList<UMLClass> thisUsed = this.getAllUsedClasses();
@@ -353,7 +374,7 @@ public class UMLClass extends UMLGraphItem {
 										break;
 									}
 								}
-								if (isSame == false) {
+								if (!isSame) {
 									removeArrow = false;
 									break;
 								}
@@ -499,17 +520,25 @@ public class UMLClass extends UMLGraphItem {
 	public String toGraphVizString() {
 		StringBuilder builder = new StringBuilder();
 
-		builder.append("\"" + this.fullName + "\" [\n\tshape = " + this.shape + ",\n\tlabel = \"{");
+		builder.append("\"");
+		builder.append(this.fullName);
+		builder.append("\" [\n\tshape = ");
+		builder.append(this.shape);
+		builder.append(",\n\tlabel = \"{");
 		// TODO Change for other types of classes.
 		if ((this.accessType & Opcodes.ACC_INTERFACE) == Opcodes.ACC_INTERFACE) {
-			builder.append("\\<\\<" + this.fullName + "\\>\\>");
+			builder.append("\\<\\<");
+			builder.append(this.fullName);
+			builder.append("\\>\\>");
 		} else {
 			builder.append(this.fullName);
 		}
 		
 		for(String s : this.patternNames)
 		{
-			builder.append("\\l\\<\\<" + s + "\\>\\>");
+			builder.append("\\n\\<\\<");
+			builder.append(s);
+			builder.append("\\>\\>");
 		}
 
 		if (this.fields.size() != 0 || this.methods.size() != 0) { //TODO Shouldn't this always do this?
@@ -522,7 +551,10 @@ public class UMLClass extends UMLGraphItem {
 		for (UMLMethod m : this.methods) {
 			builder.append(m.toGraphVizString());
 		}
-		builder.append("}\"\ncolor=\"" + this.color + "\"\n];\n");
+		builder.append("}\"\nstyle=filled\nfillcolor=\"");
+		builder.append(this.fillColor);
+		builder.append("\"");
+		builder.append("\ncolor=\"").append(this.color).append("\"\n];\n");
 		for (UMLArrow arrow : this.arrows) {
 			builder.append(arrow.toGraphVizString());
 		}

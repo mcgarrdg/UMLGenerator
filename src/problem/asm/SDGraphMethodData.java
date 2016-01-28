@@ -37,11 +37,11 @@ public class SDGraphMethodData implements SDGraphItem{
 		}
 		if(!this.returnName.equals("void"))
 		{
-			builder.append(this.classCalledFrom + ":" + this.returnName + "=" + this.classCalledOn + "." + modifiedName + "(");
+			builder.append(this.classCalledFrom).append(":").append(this.returnName).append("=").append(this.classCalledOn).append(".").append(modifiedName).append("(");
 		}
 		else
 		{
-			builder.append(this.classCalledFrom + ":" + this.classCalledOn + "." + modifiedName + "(");
+			builder.append(this.classCalledFrom).append(":").append(this.classCalledOn).append(".").append(modifiedName).append("(");
 		}
 		for (TypeData arg : this.argData) {
 			builder.append(arg.getExtendedName());

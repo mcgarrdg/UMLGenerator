@@ -1,7 +1,5 @@
 package problem.asm;
 
-import java.util.ArrayList;
-
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
@@ -42,13 +40,12 @@ public class UMLField extends UMLGraphItem {
 		String fieldT = Type.getReturnType(desc).getClassName().replace('.', '/');
 		type = new TypeData(fieldT.substring(fieldT.lastIndexOf('/') + 1), null, fieldT);
 
-		String s = null;
 		if (signature != null) {
 			// I don't think the extra precautions are needed here, because if
 			// the signature
 			// isn't null in a field, it should have generics, but I'm leaving
 			// them just in case.
-			s = Type.getType(signature).getReturnType().toString();
+			String s = Type.getType(signature).getReturnType().toString();
 			if (s.contains("<")) {
 				s = s.substring(0, s.length() - 1);
 				String[] splitString = s.split("<");
@@ -56,9 +53,8 @@ public class UMLField extends UMLGraphItem {
 				TypeData tempData = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null, temp.substring(1));
 				// Ljava/lang/String
 				for (int x = splitString.length - 2; x > 0; x--) {
-					TypeData secondData = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), tempData,
+					tempData = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), tempData,
 							splitString[x].substring(1));
-					tempData = secondData;
 				}
 				this.type.setSubData(tempData);
 			}

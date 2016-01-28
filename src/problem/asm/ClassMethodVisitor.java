@@ -33,7 +33,6 @@ public class ClassMethodVisitor extends ClassVisitor {
 		// so then the owner name can be added in right there
 		this.graph.addMethod(new UMLMethod(name, access, desc, signature));
 		MethodVisitor toDecorate = super.visitMethod(access, name, desc, signature, exceptions);
-		MethodVisitor mine = new InnerMethodVisitor(Opcodes.ASM5, toDecorate, this.graph);
-		return mine;
+		return new InnerMethodVisitor(Opcodes.ASM5, toDecorate, this.graph);
 	}
 }

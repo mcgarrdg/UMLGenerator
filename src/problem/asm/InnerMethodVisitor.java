@@ -6,7 +6,7 @@ import org.objectweb.asm.Type;
 
 public class InnerMethodVisitor extends MethodVisitor {
 
-	UMLGraph graph;
+	private UMLGraph graph;
 
 	public InnerMethodVisitor(int arg0, MethodVisitor arg1) {
 		super(arg0, arg1);

@@ -100,9 +100,8 @@ public class DesignParser {
 
 	public static int selectMode() {
 		Object[] options = { "UML", "Sequence Diagram" };
-		int n = JOptionPane.showOptionDialog(null, "Please select a mode.", "Mode Selection", JOptionPane.YES_NO_OPTION,
+		return JOptionPane.showOptionDialog(null, "Please select a mode.", "Mode Selection", JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-		return n;
 	}
 
 	/**

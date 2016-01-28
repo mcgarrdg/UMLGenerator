@@ -27,8 +27,7 @@ public class ClassFieldVisitor extends ClassVisitor {
 
 	public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
 		this.graph.addField(new UMLField(name, access, desc, signature));
-		FieldVisitor toDecorate = super.visitField(access, name, desc, signature, value);
-		return toDecorate;
+		return super.visitField(access, name, desc, signature, value);
 	}
 
 }

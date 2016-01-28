@@ -102,7 +102,10 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 	public String toGraphVizString() {
 		StringBuilder builder = new StringBuilder();
 
-		builder.append("digraph \"" + this.name + "\"{\n\trankdir = " + this.rankdir);
+		builder.append("digraph \"");
+		builder.append(this.name);
+		builder.append("\"{\n\trankdir = ");
+		builder.append(this.rankdir);
 
 		for (UMLClass firstClass : this.classes) {
 			firstClass.generateArrows(this.classes);
@@ -162,22 +165,36 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 			{
 				if(data.getMethodName().equals("init"))
 				{
-					builder.append("/" + data.getClassCalledOn() + ":" + data.getClassCalledOn() + "[a]\n");
+					builder.append("/");
+					builder.append(data.getClassCalledOn());
+					builder.append(":");
+					builder.append(data.getClassCalledOn());
+					builder.append("[a]\n");
 				}
 				else
 				{
-					builder.append(data.getClassCalledOn() + ":" + data.getClassCalledOn() + "[a]\n");
+					builder.append(data.getClassCalledOn());
+					builder.append(":");
+					builder.append(data.getClassCalledOn());
+					builder.append("[a]\n");
 				}
 			}
 			else if(!((builder.toString().contains("\n" + data.getClassCalledFrom() + ":")) || (builder.toString().contains("\n/" + data.getClassCalledFrom() + ":"))))
 			{
 				if(data.getMethodName().equals("init"))
 				{
-					builder.append("/" + data.getClassCalledFrom() + ":" + data.getClassCalledFrom() + "[a]\n");
+					builder.append("/");
+					builder.append(data.getClassCalledFrom());
+					builder.append(":");
+					builder.append(data.getClassCalledFrom());
+					builder.append("[a]\n");
 				}
 				else
 				{
-					builder.append(data.getClassCalledFrom() + ":" + data.getClassCalledFrom() + "[a]\n");
+					builder.append(data.getClassCalledFrom());
+					builder.append(":");
+					builder.append(data.getClassCalledFrom());
+					builder.append("[a]\n");
 				}
 			}
 			else
@@ -256,32 +273,36 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 			if (meth.sameFullQualifiedSignature(newMethod)) {
 				this.sdEditMethodData.add(meth.toSDGraphMethodData());
 
-				for (UMLMethod usedMethod : meth.getMethodCalls()) {
-					//TODO Uncomment for recursion
-					if (!usedMethod.sameFullQualifiedSignature(meth)) {
-						boolean alreadyHasClass = false;
-						for (UMLClass tempClass : this.classes) {
-							if (usedMethod.getFullownerName().equals(tempClass.getName())) {
-								alreadyHasClass = true;
-								break;
-							}
-						}
-
-						if (!alreadyHasClass) {
-							ClassReader reader = new ClassReader(usedMethod.getFullownerName().replace('/', '.'));
-
-							ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, this);
-							ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, declVisitor, this);
-							ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, this);
-
-							reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
-//							this.generateCallSequenceHelper(usedMethod, meth, callDepth - 1);
-						}
-						this.generateCallSequenceHelper(usedMethod, meth, callDepth - 1);
-					}
-				}
+				generateCallSequenceVisit(callDepth, meth);
 			}
 		}
+	}
+
+	private void generateCallSequenceVisit(int callDepth, UMLMethod meth) throws IOException {
+		for (UMLMethod usedMethod : meth.getMethodCalls()) {
+            //TODO Uncomment for recursion
+            if (!usedMethod.sameFullQualifiedSignature(meth)) {
+                boolean alreadyHasClass = false;
+                for (UMLClass tempClass : this.classes) {
+                    if (usedMethod.getFullownerName().equals(tempClass.getName())) {
+                        alreadyHasClass = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyHasClass) {
+                    ClassReader reader = new ClassReader(usedMethod.getFullownerName().replace('/', '.'));
+
+                    ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, this);
+                    ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, declVisitor, this);
+                    ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, this);
+
+                    reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+//							this.generateCallSequenceHelper(usedMethod, meth, callDepth - 1);
+                }
+                this.generateCallSequenceHelper(usedMethod, meth, callDepth - 1);
+            }
+        }
 	}
 
 	private void generateCallSequenceHelper(UMLMethod method, UMLMethod prevLevelMethod, int callDepth) throws IOException {
@@ -308,31 +329,7 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 				this.sdEditMethodData.add(meth.toSDGraphMethodData(prevLevelMethod));
 				System.out.println(callDepth + ": " + method.getName() + " " + prevLevelMethod.getName());
 
-				for (UMLMethod usedMethod : meth.getMethodCalls()) {
-					//TODO Uncomment for recursion
-					if (!usedMethod.sameFullQualifiedSignature(meth)) {
-						boolean alreadyHasClass = false;
-						for (UMLClass tempClass : this.classes) {
-							if (usedMethod.getFullownerName().equals(tempClass.getName())) {
-								alreadyHasClass = true;
-								break;
-							}
-						}
-						
-						if(!alreadyHasClass)
-						{
-							ClassReader reader = new ClassReader(usedMethod.getFullownerName().replace('/', '.'));
-	
-							ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, this);
-							ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, declVisitor, this);
-							ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, this);
-	
-							reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
-						}
-						this.generateCallSequenceHelper(usedMethod, meth, callDepth - 1);
-					}
-//					this.generateCallSequenceHelper(usedMethod, meth, callDepth - 1);
-				}
+				generateCallSequenceVisit(callDepth, meth);
 			}
 		}
 	}

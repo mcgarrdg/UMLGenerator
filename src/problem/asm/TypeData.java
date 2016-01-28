@@ -9,7 +9,7 @@ public class TypeData extends UMLGraphItem {
 	/**
 	 * The full path name of the type. (example: problem/asm/TypeData)
 	 */
-	private String fullName;
+	private final String fullName;
 
 	/**
 	 * A {@link TypeData} object that represents generic types of this object.
@@ -122,11 +122,7 @@ public class TypeData extends UMLGraphItem {
 			return false;
 		}
 		if (this.subData == null) {
-			if (oD.subData == null) {
-				return true;
-			} else {
-				return false;
-			}
+			return oD.subData == null;
 		}
 		return this.subData.equals(oD.subData);
 	}

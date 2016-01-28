@@ -3,8 +3,6 @@ package problem.asm;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
@@ -194,13 +192,18 @@ public class UMLMethod extends UMLGraphItem {
 	public String toGraphVizString() {
 		StringBuilder builder = new StringBuilder();
 
-		builder.append(this.getAccessTypeSymbol(this.accessType) + " " + this.name + "(");
+		builder.append(this.getAccessTypeSymbol(this.accessType));
+		builder.append(" ");
+		builder.append(this.name);
+		builder.append("(");
 		for (int i = 0; i < argData.size(); i++) {
 			builder.append(argData.get(i).toGraphVizString());
 			if (i < argData.size() - 1)
 				builder.append(", ");
 		}
-		builder.append(") : " + this.returnType.toGraphVizString() + "\\l");
+		builder.append(") : ");
+		builder.append(this.returnType.toGraphVizString());
+		builder.append("\\l");
 
 		return builder.toString();
 	}

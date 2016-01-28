@@ -30,10 +30,8 @@ public class SingletonPatternDetector implements IPatternDetector {
 
 				// check other methods
 				else {
-					if (((m.getAccessType() & Opcodes.ACC_PRIVATE) == Opcodes.ACC_PRIVATE))
-						;
-					else if (((m.getAccessType() & Opcodes.ACC_PROTECTED) == Opcodes.ACC_PROTECTED))
-						;
+					if (((m.getAccessType() & Opcodes.ACC_PRIVATE) == Opcodes.ACC_PRIVATE));
+					else if (((m.getAccessType() & Opcodes.ACC_PROTECTED) == Opcodes.ACC_PROTECTED));
 					else if (m.getReturnType().getFullName().equals(c.getName())) {
 						getInstancemMethod = true;
 						break;

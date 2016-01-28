@@ -1,10 +1,10 @@
 package problem.asm;
 
 public class UMLArrow extends UMLGraphItem {
-	private UMLClass startClass;
-	private UMLClass endClass;
-	private String lineType;
-	private String arrowType;
+	private final UMLClass startClass;
+	private final UMLClass endClass;
+	private final String lineType;
+	private final String arrowType;
 
 	/**
 	 * Creates a new UMLArrow object
