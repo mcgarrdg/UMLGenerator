@@ -16,7 +16,7 @@ public class SingletonPatternDetector implements IPatternDetector {
 		for (UMLClass c : classList) {
 			// check fields
 			boolean privateConstructor = true;
-			boolean getInstancemMethod = false;
+			boolean getInstanceMethod = false;
 			boolean instanceField = false;
 
 			for (UMLMethod m : c.getMethods()) {
@@ -33,13 +33,13 @@ public class SingletonPatternDetector implements IPatternDetector {
 					if (((m.getAccessType() & Opcodes.ACC_PRIVATE) == Opcodes.ACC_PRIVATE));
 					else if (((m.getAccessType() & Opcodes.ACC_PROTECTED) == Opcodes.ACC_PROTECTED));
 					else if (m.getReturnType().getFullName().equals(c.getName())) {
-						getInstancemMethod = true;
+						getInstanceMethod = true;
 						break;
 					}
 				}
 
 			}
-			if (privateConstructor && getInstancemMethod) {
+			if (privateConstructor && getInstanceMethod) {
 
 				for (UMLField f : c.getFields()) {
 					if (((f.getAccessType() & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC)
@@ -49,7 +49,7 @@ public class SingletonPatternDetector implements IPatternDetector {
 					}
 				}
 			}
-			if (privateConstructor && getInstancemMethod && instanceField) {
+			if (privateConstructor && getInstanceMethod && instanceField) {
 				// is a singleton
 				c.setColor(UMLClass.COLOR_BLUE);
 				c.addPatternName("Singleton");
