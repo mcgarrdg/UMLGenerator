@@ -46,6 +46,15 @@ Because UMLGraph contained the necessary data for finding the Singleton Pattern,
 If more patterns were wished to be added, the user would add a pattern to the ArrayList within DesignParser which is then passed to UMLGraph. 
 UMLClasses now store a list of patterns that they implement, which allows a user to see which patterns a class may help implement. 
 
+Milestone 5: 
+Very few modifications to the pre-existing classes were made as the design from previous milestones made adding new pattern detectors require minimal work. 
+Modifications to the existing structure include: 
+1) Slight reordering of UMLGraph code to allow Pattern Detectors to interact with arrows. 
+2) A new field label, with getter and setter methods to allow additions of labels to arrows. 
+3) Fixes to logic of the removal of "redundant" arrows. 
+New additions to the project in this milestone are the two new PatternDetectors, which implement IPatternDetector from Milestone 4. 
+These pattern detectors are DecoratorPatternDetector and AdapterPatternDetector which identify the Decorator and Adapter patterns respectively. 
+
 
 
 Who did what: 
@@ -62,11 +71,13 @@ Milestone 2:
 Milestone 3: 
 -Improved the drawing of arrows for the UML diagrams.
 -Implemented building a sequence diagram string for SDEdit. 
-MileStone 4: 
+Milestone 4: 
 -Modified the Sequence Diagram code to method returns (not needed for project, but wished to fix for visual accuracy)
 -Created the PatternDector interface 
 -Changed UMLMethod, UMLClass, and DesignParser to support design patterns.
--
+Milestone 5:
+-wrote the AdapterPatternDetector
+-refactored Design parser
 
 
 Dan McGarry
@@ -89,7 +100,10 @@ Milestone 4:
 -Created the SingletonPatternDetector class. 
 -Wrote the test cases for the milestone. 
 -Updated README
-
+Milestone 5: 
+-Wrote the DecoratorPatternDetector
+-Wrote the test cases for the milestone
+-updated README
 
 
 
