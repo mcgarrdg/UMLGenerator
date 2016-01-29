@@ -29,6 +29,11 @@ public class DecoratorPatternDetector implements IPatternDetector {
 				superClass = c1.getExtension();
 				decoratorSubset.add(c1);
 				isAbstract = true;
+				for (UMLArrow arrow : c1.getUMLArrows()) {
+					if (arrow.isAssociationArrow() && arrow.getEndClass().getName().equals(superClass)) {
+						decoratesArrows.add(arrow);
+					}
+				}
 				for (UMLClass c2 : classList) {
 					if (!c2.equals(c1)) {
 						// check for asbstactComponent
@@ -40,6 +45,12 @@ public class DecoratorPatternDetector implements IPatternDetector {
 
 						// check for decorator subclasses
 						if (c2.getExtension().equals(c1.getName())) {
+							for (UMLArrow arrow : decoratesArrows) {
+								if(arrow.getStartClass().getName().equals(c2.getExtension())) {
+									hasConcreteSubclasses = true;
+									decoratorSubset.add(c2); 
+								}
+							}
 							for (UMLArrow arrow : c2.getUMLArrows()) {
 								if (arrow.isAssociationArrow() && arrow.getEndClass().getName().equals(superClass)) {
 									hasConcreteSubclasses = true;
