@@ -64,9 +64,9 @@ public class DesignParser {
 		choose.setMultiSelectionEnabled(true);
 		choose.setFileFilter(new FileNameExtensionFilter("Class files", "class"));
 		choose.setCurrentDirectory(new File("./files/"));
-//		choose.showOpenDialog(null);
-//		File[] files = choose.getSelectedFiles();
-//		return visitFiles(files).toGraphVizString();
+		choose.showOpenDialog(null);
+		File[] files = choose.getSelectedFiles();
+		return visitFiles(files).toGraphVizString();
 
 //		JFileChooser choose = new JFileChooser();
 //		choose.setMultiSelectionEnabled(false);
@@ -74,21 +74,21 @@ public class DesignParser {
 //		choose.setCurrentDirectory(new File("./files/"));
 //		choose.showSaveDialog(null);
 
-		FileListAccessory accessory = new FileListAccessory(choose);
-		choose.setAccessory(accessory);
-
-		int open = choose.showOpenDialog(choose);
-		File[] files = null;
-		if (open == JFileChooser.APPROVE_OPTION) {
-			files = (File[])accessory.getModel().toArray();
-//			DefaultListModel model = accessory.getModel();
-//			for (int i = 0; i < model.getSize(); i++) {
-//				System.out.println(((File)model.getElementAt(i)).getName());
-//			}
-		}
+//		FileListAccessory accessory = new FileListAccessory(choose);
+//		choose.setAccessory(accessory);
+//
+//		int open = choose.showOpenDialog(choose);
+//		File[] files = null;
+//		if (open == JFileChooser.APPROVE_OPTION) {
+//			files = (File[])(accessory.getModel().toArray());
+////			DefaultListModel model = accessory.getModel();
+////			for (int i = 0; i < model.getSize(); i++) {
+////				System.out.println(((File)model.getElementAt(i)).getName());
+////			}
+//		}
 
 //		File[] files = choose.getSelectedFiles();
-		return visitFiles(files).toGraphVizString();
+//		return visitFiles(files).toGraphVizString();
 	}
 
 	/**
