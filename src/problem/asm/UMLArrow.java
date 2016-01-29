@@ -78,4 +78,12 @@ public class UMLArrow extends UMLGraphItem {
 	public UMLClass getEndClass() {
 		return this.endClass;
 	}
+
+	public boolean isAssociationArrow() {
+		if (this.arrowType.equals("vee")) {
+			if (this.lineType.equals("solid"))
+				return true;
+		}
+		return false;
+	}
 }

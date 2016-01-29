@@ -98,15 +98,7 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		}
 	}
 	
-	@Override
-	public String toGraphVizString() {
-		StringBuilder builder = new StringBuilder();
-
-		builder.append("digraph \"");
-		builder.append(this.name);
-		builder.append("\"{\n\trankdir = ");
-		builder.append(this.rankdir);
-
+	public void generateArrows() {
 		for (UMLClass firstClass : this.classes) {
 			firstClass.generateArrows(this.classes);
 		}
@@ -118,6 +110,16 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		for (UMLClass firstClass : this.classes) {
 			firstClass.removeRedundantUsesArrows();
 		}
+	}
+	
+	@Override
+	public String toGraphVizString() {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("digraph \"");
+		builder.append(this.name);
+		builder.append("\"{\n\trankdir = ");
+		builder.append(this.rankdir);
 
 		for (UMLClass c : this.classes) {
 			builder.append("\n\t");
