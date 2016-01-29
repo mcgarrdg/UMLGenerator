@@ -34,7 +34,7 @@ public class UMLArrow extends UMLGraphItem {
 			returnLabel = label;
 		}
 		else {
-			returnLabel = "\", label=\" <<" + label + ">>";
+			returnLabel = "\", label=\"<<" + label + ">>";
 		}
 		return ("\"" + startClass.getName() + "\" -> \"" + endClass.getName() + "\"" + " [arrowhead=\"" + arrowType
 				+ returnLabel + "\", style=\"" + lineType + "\"];\n");

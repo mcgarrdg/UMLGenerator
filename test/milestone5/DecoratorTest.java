@@ -11,13 +11,15 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
+import problem.asm.AdapterPatternDetector;
 import problem.asm.ClassDeclarationVisitor;
 import problem.asm.ClassFieldVisitor;
 import problem.asm.ClassMethodVisitor;
 import problem.asm.DecoratorPatternDetector;
+import problem.asm.SingletonPatternDetector;
 import problem.asm.UMLGraph;
 
-public class decoratorTest {
+public class DecoratorTest {
 
 	ArrayList<File> labFiles = new ArrayList<File>(); 
 	ArrayList<String> files = new ArrayList<String>();
@@ -26,7 +28,7 @@ public class decoratorTest {
 	
 	
 	
-	public decoratorTest() throws IOException {
+	public DecoratorTest() throws IOException {
 		labFiles.add(new File("./files/Milestone 5/headfirst/Beverage.class"));
 		labFiles.add(new File("./files/Milestone 5/headfirst/CondimentDecorator.class"));
 		labFiles.add(new File("./files/Milestone 5/headfirst/DarkRoast.class"));
@@ -48,9 +50,10 @@ public class decoratorTest {
 		files.add("java.io.BufferedReader");
 		files.add("java.io.CharArrayReader");
 		files.add("java.io.FilterReader");
-		files.add("java.io.InputStreamReader");
 		files.add("java.io.PipedReader");
 		files.add("java.io.StringReader");
+		files.add("sun.nio.cs.StreamDecoder");
+		files.add("java.io.LineNumberReader");
 	
 		
 		files.add("java.io.OutputStreamWriter");
@@ -62,6 +65,7 @@ public class decoratorTest {
 		files.add("java.io.PipedWriter");
 		files.add("java.io.PrintWriter");
 		files.add("java.io.StringWriter");
+		files.add("sun.nio.cs.StreamEncoder");
 		
 		files.add("java.awt.event.MouseAdapter");
 		files.add("javax.swing.event.MouseInputAdapter");
@@ -72,6 +76,7 @@ public class decoratorTest {
 		
 		labgraph = new UMLGraph("Test_UML", "BT");
 		labgraph.addPatternDetector(new DecoratorPatternDetector());
+		labgraph.addPatternDetector(new AdapterPatternDetector());
 		for (File f : labFiles) {
 			InputStream in = new FileInputStream(f);
 			ClassReader reader = new ClassReader(in);
@@ -87,12 +92,13 @@ public class decoratorTest {
 		
 		labgraph.generateArrows();
 		labgraph.detectPatterns();
-		System.out.println(labgraph.toGraphVizString());
 		
 		graph = new UMLGraph("Test_UML", "BT");
 		graph.addPatternDetector(new DecoratorPatternDetector());
+		graph.addPatternDetector(new AdapterPatternDetector());
+		graph.addPatternDetector(new SingletonPatternDetector());
+
 		for (String f : files) {
-			System.out.println(f);
 			ClassReader reader = new ClassReader(f);
 
 			ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, graph);
@@ -103,7 +109,7 @@ public class decoratorTest {
 		}
 		graph.generateArrows();
 		graph.detectPatterns();
-		System.out.println(graph.toGraphVizString());
+		
 
 		
 		
@@ -111,12 +117,12 @@ public class decoratorTest {
 	
 	@Test 
 	public void testLab2_1() {
-		
+		System.out.println(graph.toGraphVizString());
 	}
 	
 	@Test 
 	public void testInputStreamReader() {
-		
+//		System.out.println(labgraph.toGraphVizString());
 	}
 	
 	@Test
