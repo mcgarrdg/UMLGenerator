@@ -15,6 +15,9 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * Found this class on stack overflow.
+ */
 public class FileListAccessory extends JComponent implements PropertyChangeListener {
 
 	private File file = null;

@@ -24,10 +24,10 @@ public class AdapterPatternDetector implements IPatternDetector {
         {
             //TODO This would change if adapters can extend classes, abstract or otherwise.
             //If the class extends anything other than Object, it isn't an adapter.
-            if(!classOne.getExtension().equals("java/lang/Object"))
-            {
-                continue;
-            }
+//            if(!classOne.getExtension().equals("java/lang/Object"))
+//            {
+//                continue;
+//            }
 
             if(classOne.getFields().size() == 0)
             {

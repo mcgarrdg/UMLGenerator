@@ -64,8 +64,30 @@ public class DesignParser {
 		choose.setMultiSelectionEnabled(true);
 		choose.setFileFilter(new FileNameExtensionFilter("Class files", "class"));
 		choose.setCurrentDirectory(new File("./files/"));
-		choose.showOpenDialog(null);
-		File[] files = choose.getSelectedFiles();
+//		choose.showOpenDialog(null);
+//		File[] files = choose.getSelectedFiles();
+//		return visitFiles(files).toGraphVizString();
+
+//		JFileChooser choose = new JFileChooser();
+//		choose.setMultiSelectionEnabled(false);
+//		choose.setFileFilter(new FileNameExtensionFilter("PNG images", "png"));
+//		choose.setCurrentDirectory(new File("./files/"));
+//		choose.showSaveDialog(null);
+
+		FileListAccessory accessory = new FileListAccessory(choose);
+		choose.setAccessory(accessory);
+
+		int open = choose.showOpenDialog(choose);
+		File[] files = null;
+		if (open == JFileChooser.APPROVE_OPTION) {
+			files = (File[])accessory.getModel().toArray();
+//			DefaultListModel model = accessory.getModel();
+//			for (int i = 0; i < model.getSize(); i++) {
+//				System.out.println(((File)model.getElementAt(i)).getName());
+//			}
+		}
+
+//		File[] files = choose.getSelectedFiles();
 		return visitFiles(files).toGraphVizString();
 	}
 
@@ -145,8 +167,6 @@ public class DesignParser {
 		}
 	}
 
-
-
 	/**
 	 * Given a valid String for a GraphViz document, this uses dot.exe to
 	 * generate a PNG of the UML diagram.
@@ -162,18 +182,6 @@ public class DesignParser {
 		choose.setFileFilter(new FileNameExtensionFilter("PNG images", "png"));
 		choose.setCurrentDirectory(new File("./files/"));
 		choose.showSaveDialog(null);
-
-		FileListAccessory accessory = new FileListAccessory(choose);
-		choose.setAccessory(accessory);
-
-		int open = choose.showOpenDialog(choose);
-		if (open == JFileChooser.APPROVE_OPTION) {
-			DefaultListModel model = accessory.getModel();
-			for (int i = 0; i < model.getSize(); i++) {
-				System.out.println(((File)model.getElementAt(i)).getName());
-			}
-
-		}
 
 		boolean confirmOverwrite = choose.getSelectedFile().exists();
 		while (confirmOverwrite) {
