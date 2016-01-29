@@ -18,23 +18,22 @@ public class DecoratorPatternDetector implements IPatternDetector {
 	@Override
 	public void detectPatterns(ArrayList<UMLClass> classList) {
 		for (UMLClass c1 : classList) {
-			// check to see if class is the "abstract"Decorator, if not, we will
-			// proceed to next class.
 			boolean hasAbstractComponent = false;
 			boolean areConcreteComponents = false;
 			boolean hasConcreteSubclasses = false;
+			boolean hasSuperField = false;
 			String superClass;
 			UMLClass abstractComponent = null;
 			ArrayList<UMLClass> decoratorSubset = new ArrayList<UMLClass>();
-			ArrayList<UMLArrow> decoratesArrows = new ArrayList<UMLArrow>();
 			superClass = c1.getExtension();
 			decoratorSubset.add(c1);
-			for (UMLArrow arrow : c1.getUMLArrows()) {
-				if (arrow.isAssociationArrow() && arrow.getEndClass().getName().equals(superClass)) {
-					decoratesArrows.add(arrow);
+
+			for (UMLField f : c1.getFields()) {
+				if (f.getType().getFullName().equals(superClass)) {
 					if (!requireAbstractDecorator) {
 						hasConcreteSubclasses = true;
 					}
+					hasSuperField = true;
 				}
 			}
 			for (UMLClass c2 : classList) {
@@ -47,17 +46,11 @@ public class DecoratorPatternDetector implements IPatternDetector {
 
 					// check for decorator subclasses
 					if (c2.getExtension().equals(c1.getName())) {
-						for (UMLArrow arrow : decoratesArrows) {
-							if (arrow.getStartClass().getName().equals(c2.getExtension())) {
-								hasConcreteSubclasses = true;
-								decoratorSubset.add(c2);
-							}
-						}
-						for (UMLArrow arrow : c2.getUMLArrows()) {
-							if (arrow.isAssociationArrow() && arrow.getEndClass().getName().equals(superClass)) {
-								hasConcreteSubclasses = true;
-								decoratorSubset.add(c2);
-								decoratesArrows.add(arrow);
+						hasConcreteSubclasses = true;
+						decoratorSubset.add(c2);
+						for (UMLField f : c2.getFields()) {
+							if (f.getType().getFullName().equals(superClass)) {
+								hasSuperField = true;
 							}
 						}
 					}
@@ -71,13 +64,15 @@ public class DecoratorPatternDetector implements IPatternDetector {
 				}
 			}
 
-			if (hasAbstractComponent && areConcreteComponents && hasConcreteSubclasses) {
+			if (hasSuperField && hasAbstractComponent && areConcreteComponents && hasConcreteSubclasses) {
 				for (UMLClass c2 : decoratorSubset) {
 					c2.setFillColor(patternColor);
 					c2.addPatternName("decorator");
-				}
-				for (UMLArrow arrow : decoratesArrows) {
-					arrow.setLabel("decorates");
+					for (UMLArrow arrow : c2.getUMLArrows()) {
+						if (arrow.getEndClass().getName().equals(superClass) && arrow.isAssociationArrow()) {
+							arrow.setLabel("decorates");
+						}
+					}
 				}
 				if (abstractComponent != null) {
 					abstractComponent.setFillColor(patternColor);

@@ -1,5 +1,7 @@
 package milestone5;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,13 +17,14 @@ import problem.asm.AdapterPatternDetector;
 import problem.asm.ClassDeclarationVisitor;
 import problem.asm.ClassFieldVisitor;
 import problem.asm.ClassMethodVisitor;
+import problem.asm.UMLArrow;
 import problem.asm.UMLClass;
 import problem.asm.UMLGraph;
 
 public class AdapterTest {
 
 	public AdapterTest() {
-		
+
 	}
 
 	@Test
@@ -33,9 +36,12 @@ public class AdapterTest {
 		labFiles.add(new File("./files/Milestone 5/headfirst/Decaf.class"));
 		labFiles.add(new File("./files/Milestone 5/headfirst/Espresso.class"));
 		labFiles.add(new File("./files/Milestone 5/headfirst/HouseBlend.class"));
-		labFiles.add(new File("./files/Milestone 5/headfirst/InputTest.class"));
-		labFiles.add(new File("./files/Milestone 5/headfirst/LowerCaseInputStream.class"));
-		labFiles.add(new File("./files/Milestone 5/headfirst/LowerCaseInputStreamTest.class"));
+		// labFiles.add(new File("./files/Milestone
+		// 5/headfirst/InputTest.class"));
+		// labFiles.add(new File("./files/Milestone
+		// 5/headfirst/LowerCaseInputStream.class"));
+		// labFiles.add(new File("./files/Milestone
+		// 5/headfirst/LowerCaseInputStreamTest.class"));
 		labFiles.add(new File("./files/Milestone 5/headfirst/Milk.class"));
 		labFiles.add(new File("./files/Milestone 5/headfirst/Mocha.class"));
 		labFiles.add(new File("./files/Milestone 5/headfirst/Soy.class"));
@@ -58,19 +64,35 @@ public class AdapterTest {
 
 		labgraph.generateArrows();
 		labgraph.detectPatterns();
-		//TODO: right assert statements
+		// System.out.println(labgraph.toGraphVizString());
 		for (UMLClass clazz : labgraph.getClasses()) {
-			
+			if (clazz.getName().contains("Mocha")) {
+				assertTrue(clazz.getPatternNames().contains("adapter"));
+				for (UMLArrow arrow : clazz.getUMLArrows()) {
+					if (arrow.getEndClass().getName().contains("Beverage")) {
+						assertTrue(arrow.getLabel().equals("adapts"));
+					}
+				}
+			}
+			if (clazz.getName().contains("Beverage")) {
+				assertTrue(clazz.getPatternNames().contains("adaptee"));
+			}
 		}
 
 	}
-	
+
 	@Test
 	public void testLab5_1() throws IOException {
-	
+
 		ArrayList<File> labFiles = new ArrayList<File>();
-		//TODO: Write appropriate files here
-		
+		String path = "./files/Milestone 5/lab5-1-solution/bin/problem/";
+		labFiles.add(new File(path + "client/App.class"));
+		labFiles.add(new File(path + "client/IteratorToEnumerationAdapter.class"));
+		// labFiles.add(new File(path +
+		// "client/IteratorToEnumerationAdapterTest.class"));
+		labFiles.add(new File(path + "lib/LinearTransformer.class"));
+		// labFiles.add(new File(path + "lib/LinearTransformerTest.class"));
+
 		UMLGraph labgraph = new UMLGraph("Test_UML", "BT");
 		labgraph.addPatternDetector(new AdapterPatternDetector());
 
@@ -86,11 +108,44 @@ public class AdapterTest {
 			in.close();
 		}
 
+		ArrayList<String> files = new ArrayList<String>();
+		files.add("java.util.Enumeration");
+		files.add("java.util.Iterator");
+		for (String f : files) {
+			ClassReader reader = new ClassReader(f);
+
+			ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, labgraph);
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, declVisitor, labgraph);
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, labgraph);
+
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+		}
+
 		labgraph.generateArrows();
 		labgraph.detectPatterns();
-		
-		//TODO: right assert statements
-		
+
+		// System.out.println(labgraph.toGraphVizString());
+		for (UMLClass clazz : labgraph.getClasses()) {
+			if (clazz.getName().equals("java/util/Iterator")) {
+				assertTrue(clazz.getPatternNames().contains("adaptee"));
+			}
+			if (clazz.getName().contains("IteratorToEnumerationAdapter")) {
+				assertTrue(clazz.getPatternNames().contains("adapter"));
+				for (UMLArrow arrow : clazz.getUMLArrows()) {
+					if (arrow.getEndClass().getName().contains("Iterator")) {
+						assertTrue(arrow.getLabel().equals("adapts"));
+					}
+				}
+			}
+			if (clazz.getName().equals("java/util/Eumeration")) {
+				assertTrue(clazz.getPatternNames().contains("target"));
+				assertTrue(clazz.getPatternNames().contains("adaptee"));
+			}
+			if (clazz.getName().contains("LinearTransformer")) {
+				assertTrue(clazz.getPatternNames().contains("adapter"));
+			}
+		}
+
 	}
 
 	@Test
@@ -104,12 +159,12 @@ public class AdapterTest {
 		files.add("java.io.FilterReader");
 		files.add("java.io.PipedReader");
 		files.add("java.io.StringReader");
-		files.add("sun.nio.cs.StreamDecoder");
+		// files.add("sun.nio.cs.StreamDecoder");
 		files.add("java.io.LineNumberReader");
-		
+
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
 		graph.addPatternDetector(new AdapterPatternDetector());
-		
+
 		for (String f : files) {
 			ClassReader reader = new ClassReader(f);
 
@@ -121,18 +176,35 @@ public class AdapterTest {
 		}
 		graph.generateArrows();
 		graph.detectPatterns();
-		
-		//TODO: right assert statements
+
+//		System.out.println(graph.toGraphVizString());
 		for (UMLClass clazz : graph.getClasses()) {
+			if (clazz.getName().equals("java/io/Reader")) {
+				assertTrue(clazz.getPatternNames().contains("adaptee"));
+			}
+			if (clazz.getName().contains("InputStreamReader")) {
+				assertTrue(clazz.getPatternNames().contains("adapter"));
+				for (UMLArrow arrow : clazz.getUMLArrows()) {
+					if (arrow.getEndClass().getName().equals("java/io/Reader")) {
+						assertTrue(!arrow.getLabel().equals("adapts"));
+					}
+				}
+			}
+			if (clazz.getName().contains("FilterReader")) {
+				assertTrue(clazz.getPatternNames().contains("adapter"));
+				for (UMLArrow arrow : clazz.getUMLArrows()) {
+					if (arrow.getEndClass().getName().equals("java/io/Reader") && arrow.isAssociationArrow()) {
+						assertTrue(!arrow.getLabel().equals("adapts"));
+					}
+				}
+			}
 		}
-		
-		
-		
+
 	}
 
 	@Test
 	public void testOutputStreamreader() throws IOException {
-		
+
 		ArrayList<String> files = new ArrayList<String>();
 		files.add("java.io.OutputStreamWriter");
 		files.add("java.io.Writer");
@@ -143,11 +215,11 @@ public class AdapterTest {
 		files.add("java.io.PipedWriter");
 		files.add("java.io.PrintWriter");
 		files.add("java.io.StringWriter");
-		files.add("sun.nio.cs.StreamEncoder");
-		
+		// files.add("sun.nio.cs.StreamEncoder");
+
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
 		graph.addPatternDetector(new AdapterPatternDetector());
-		
+
 		for (String f : files) {
 			ClassReader reader = new ClassReader(f);
 
@@ -159,13 +231,25 @@ public class AdapterTest {
 		}
 		graph.generateArrows();
 		graph.detectPatterns();
-		
-		//TODO: right assert statements
+
+		for (UMLClass clazz : graph.getClasses()) {
+			if (clazz.getName().equals("java/io/Writer")) {
+				assertTrue(clazz.getPatternNames().contains("adaptee"));
+			}
+			if (clazz.getName().contains("OutputStreamWriter")) {
+				assertTrue(clazz.getPatternNames().contains("adapter"));
+				for (UMLArrow arrow : clazz.getUMLArrows()) {
+					if (arrow.getEndClass().getName().equals("java/io/Writer")) {
+						assertTrue(!arrow.getLabel().equals("adapts"));
+					}
+				}
+			}
+		}
 	}
 
 	@Test
 	public void testMouseAdapter() throws IOException {
-		
+
 		ArrayList<String> files = new ArrayList<String>();
 		files.add("java.awt.event.MouseAdapter");
 		files.add("javax.swing.event.MouseInputAdapter");
@@ -174,7 +258,7 @@ public class AdapterTest {
 		files.add("java.util.EventListener");
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
 		graph.addPatternDetector(new AdapterPatternDetector());
-		
+
 		for (String f : files) {
 			ClassReader reader = new ClassReader(f);
 
@@ -186,7 +270,9 @@ public class AdapterTest {
 		}
 		graph.generateArrows();
 		graph.detectPatterns();
-		
-		//TODO: right assert statements
+
+		assertTrue(!graph.toGraphVizString().contains("adapter"));
+		assertTrue(!graph.toGraphVizString().contains("adaptee"));
+		assertTrue(!graph.toGraphVizString().contains("adapts"));
 	}
 }

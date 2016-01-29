@@ -84,10 +84,15 @@ public class DecoratorTest {
 	public void testLab5_1() throws IOException {
 	
 		ArrayList<File> labFiles = new ArrayList<File>();
-		//TODO: Write appropriate files here
-		
+		String path = "./files/Milestone 5/lab5-1-solution/bin/problem/";
+		labFiles.add(new File(path + "client/App.class"));
+		labFiles.add(new File(path + "client/IteratorToEnumerationAdapter.class"));
+		// labFiles.add(new File(path +
+		// "client/IteratorToEnumerationAdapterTest.class"));
+		labFiles.add(new File(path + "lib/LinearTransformer.class"));
+		// labFiles.add(new File(path + "lib/LinearTransformerTest.class"));
+
 		UMLGraph labgraph = new UMLGraph("Test_UML", "BT");
-		labgraph.addPatternDetector(new DecoratorPatternDetector());
 
 		for (File f : labFiles) {
 			InputStream in = new FileInputStream(f);
@@ -101,10 +106,26 @@ public class DecoratorTest {
 			in.close();
 		}
 
+		ArrayList<String> files = new ArrayList<String>();
+		files.add("java.util.Enumeration");
+		files.add("java.util.Iterator");
+		for (String f : files) {
+			ClassReader reader = new ClassReader(f);
+
+			ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, labgraph);
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, declVisitor, labgraph);
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, labgraph);
+
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+		}
+
 		labgraph.generateArrows();
 		labgraph.detectPatterns();
-		
-		//TODO: right assert statements
+
+		// System.out.println(labgraph.toGraphVizString());
+		assertTrue(!labgraph.toGraphVizString().contains("decorator"));
+		assertTrue(!labgraph.toGraphVizString().contains("decorates"));
+		assertTrue(!labgraph.toGraphVizString().contains("component"));
 		
 	}
 	
