@@ -30,10 +30,9 @@ public class UMLArrow extends UMLGraphItem {
 	@Override
 	public String toGraphVizString() {
 		String returnLabel;
-		if(label.isEmpty()) {
+		if (label.isEmpty()) {
 			returnLabel = label;
-		}
-		else {
+		} else {
 			returnLabel = "\", label=\"\\<\\<" + label + "\\>\\>";
 		}
 		return ("\"" + startClass.getName() + "\" -> \"" + endClass.getName() + "\"" + " [arrowhead=\"" + arrowType
@@ -95,9 +94,14 @@ public class UMLArrow extends UMLGraphItem {
 		}
 		return false;
 	}
-	
+
 	public void setLabel(String label) {
-		this.label = label;
+		if (this.label.isEmpty()) {
+			this.label = label;
+		}
+		else {
+			this.label += ","+label;
+		}
 	}
 
 	public String getLabel() {

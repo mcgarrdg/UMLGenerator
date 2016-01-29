@@ -1,0 +1,230 @@
+digraph "Test_UML"{
+	rankdir = BT
+	"problem/asm/AdapterPatternDetector" [
+	shape = "record",
+	label = "{problem/asm/AdapterPatternDetector|+ FIELD_UNUSED_NUM_THRESHHOLD : int\l+ ADAPTER_COLOR : String\l|~ clinit() : void\l+ init() : void\l+ detectPatterns(ArrayList\<UMLClass\>) : void\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/AdapterPatternDetector" -> "problem/asm/IPatternDetector" [arrowhead="onormal", style="dashed"];
+"problem/asm/AdapterPatternDetector" -> "problem/asm/UMLField" [arrowhead="vee", style="dashed"];
+"problem/asm/AdapterPatternDetector" -> "problem/asm/TypeData" [arrowhead="vee", style="dashed"];
+"problem/asm/AdapterPatternDetector" -> "problem/asm/UMLMethod" [arrowhead="vee", style="dashed"];
+"problem/asm/AdapterPatternDetector" -> "problem/asm/UMLArrow" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/ClassDeclarationVisitor" [
+	shape = "record",
+	label = "{problem/asm/ClassDeclarationVisitor\n\<\<adapter\>\>|- graph : UMLGraph\l|+ init(int) : void\l+ init(int, ClassVisitor) : void\l+ init(int, UMLGraph) : void\l+ init(int, ClassVisitor, UMLGraph) : void\l+ visit(int, int, String, String, String, String[]) : void\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+"problem/asm/ClassDeclarationVisitor" -> "problem/asm/UMLGraph" [arrowhead="vee", label="\<\<adapts\>\>", style="solid"];
+"problem/asm/ClassDeclarationVisitor" -> "problem/asm/UMLClass" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/ClassFieldVisitor" [
+	shape = "record",
+	label = "{problem/asm/ClassFieldVisitor\n\<\<adapter\>\>|- graph : UMLGraph\l|+ init(int) : void\l+ init(int, ClassVisitor) : void\l+ init(int, UMLGraph) : void\l+ init(int, ClassVisitor, UMLGraph) : void\l+ visitField(int, String, String, String, Object) : FieldVisitor\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+"problem/asm/ClassFieldVisitor" -> "problem/asm/UMLGraph" [arrowhead="vee", label="\<\<adapts\>\>", style="solid"];
+"problem/asm/ClassFieldVisitor" -> "problem/asm/UMLField" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/ClassMethodVisitor" [
+	shape = "record",
+	label = "{problem/asm/ClassMethodVisitor\n\<\<adapter\>\>|- graph : UMLGraph\l|+ init(int) : void\l+ init(int, ClassVisitor) : void\l+ init(int, UMLGraph) : void\l+ init(int, ClassVisitor, UMLGraph) : void\l+ visitMethod(int, String, String, String, String[]) : MethodVisitor\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+"problem/asm/ClassMethodVisitor" -> "problem/asm/UMLGraph" [arrowhead="vee", label="\<\<adapts\>\>", style="solid"];
+"problem/asm/ClassMethodVisitor" -> "problem/asm/UMLMethod" [arrowhead="vee", style="dashed"];
+"problem/asm/ClassMethodVisitor" -> "problem/asm/InnerMethodVisitor" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/DecoratorPatternDetector" [
+	shape = "record",
+	label = "{problem/asm/DecoratorPatternDetector|- requireAbstractDecorator : boolean\l- patternColor : String\l|~ clinit() : void\l+ init() : void\l+ requireAbstractDecoractor(boolean) : void\l+ detectPatterns(ArrayList\<UMLClass\>) : void\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/DecoratorPatternDetector" -> "problem/asm/IPatternDetector" [arrowhead="onormal", style="dashed"];
+"problem/asm/DecoratorPatternDetector" -> "problem/asm/UMLField" [arrowhead="vee", style="dashed"];
+"problem/asm/DecoratorPatternDetector" -> "problem/asm/TypeData" [arrowhead="vee", style="dashed"];
+"problem/asm/DecoratorPatternDetector" -> "problem/asm/UMLArrow" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/DesignParser" [
+	shape = "record",
+	label = "{problem/asm/DesignParser|- dotPath : String\l- sdEditPath : String\l|+ init() : void\l+ main(String[]) : void\l+ getDigraphString() : String\l+ visitFiles(File[]) : UMLGraph\l+ selectMode() : int\l+ locateGraphviz() : void\l+ locateSDEdit() : void\l+ generateUMLPNG(String) : void\l+ generateSDEditPNG(String) : void\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/DesignParser" -> "problem/asm/DesignParser" [arrowhead="vee", style="dashed"];
+"problem/asm/DesignParser" -> "problem/asm/UMLGraph" [arrowhead="vee", style="dashed"];
+"problem/asm/DesignParser" -> "problem/asm/ClassDeclarationVisitor" [arrowhead="vee", style="dashed"];
+"problem/asm/DesignParser" -> "problem/asm/ClassFieldVisitor" [arrowhead="vee", style="dashed"];
+"problem/asm/DesignParser" -> "problem/asm/ClassMethodVisitor" [arrowhead="vee", style="dashed"];
+"problem/asm/DesignParser" -> "problem/asm/SingletonPatternDetector" [arrowhead="vee", style="dashed"];
+"problem/asm/DesignParser" -> "problem/asm/DecoratorPatternDetector" [arrowhead="vee", style="dashed"];
+"problem/asm/DesignParser" -> "problem/asm/AdapterPatternDetector" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/FileListAccessory$1" [
+	shape = "record",
+	label = "{problem/asm/FileListAccessory$1\n\<\<adapter\>\>|~ this$0 : FileListAccessory\l|~ init(FileListAccessory) : void\l+ actionPerformed(ActionEvent) : void\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+"problem/asm/FileListAccessory$1" -> "problem/asm/FileListAccessory" [arrowhead="vee", label="\<\<adapts\>\>", style="solid"];
+
+	"problem/asm/FileListAccessory" [
+	shape = "record",
+	label = "{problem/asm/FileListAccessory\n\<\<adaptee\>\>|- file : File\l- model : DefaultListModel\l- list : JList\l- removeItem : JButton\l|+ init(JFileChooser) : void\l+ getModel() : DefaultListModel\l- addFileToList() : void\l- removeFileFromList() : void\l- createRemoveItemButton() : JButton\l+ propertyChange(PropertyChangeEvent) : void\l~ access0(FileListAccessory) : void\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+"problem/asm/FileListAccessory" -> "problem/asm/FileListAccessory" [arrowhead="vee", style="dashed"];
+"problem/asm/FileListAccessory" -> "problem/asm/FileListAccessory$1" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/IPatternDetector" [
+	shape = "record",
+	label = "{\<\<problem/asm/IPatternDetector\>\>||+ detectPatterns(ArrayList\<UMLClass\>) : void\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/IPatternDetector" -> "problem/asm/UMLClass" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/InnerMethodVisitor" [
+	shape = "record",
+	label = "{problem/asm/InnerMethodVisitor|- graph : UMLGraph\l|+ init(int, MethodVisitor) : void\l+ init(int) : void\l+ init(int, MethodVisitor, UMLGraph) : void\l+ visitFieldInsn(int, String, String, String) : void\l+ visitMethodInsn(int, String, String, String, boolean) : void\l+ visitTypeInsn(int, String) : void\l+ visitVarInsn(int, int) : void\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/InnerMethodVisitor" -> "problem/asm/UMLGraph" [arrowhead="vee", style="solid"];
+
+	"problem/asm/SDGraphItem" [
+	shape = "record",
+	label = "{\<\<problem/asm/SDGraphItem\>\>||+ toSDEditString() : String\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+
+	"problem/asm/SDGraphMethodData" [
+	shape = "record",
+	label = "{problem/asm/SDGraphMethodData|- classCalledFrom : String\l- methodName : String\l- argData : ArrayList\<TypeData\>\l- classCalledOn : String\l- returnName : String\l|+ init(String, String, String, String, ArrayList\<TypeData\>) : void\l+ init() : void\l+ toSDEditString() : String\l+ getClassCalledFrom() : String\l+ setClassCalledFrom(String) : void\l+ getMethodName() : String\l+ setMethodName(String) : void\l+ getClassCalledOn() : String\l+ setClassCalledOn(String) : void\l+ getReturnName() : String\l+ setReturnName(String) : void\l+ setArgumentData(ArrayList\<TypeData\>) : void\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/SDGraphMethodData" -> "problem/asm/SDGraphItem" [arrowhead="onormal", style="dashed"];
+"problem/asm/SDGraphMethodData" -> "problem/asm/TypeData" [arrowhead="vee", style="solid"];
+
+	"problem/asm/SingletonPatternDetector" [
+	shape = "record",
+	label = "{problem/asm/SingletonPatternDetector||+ init() : void\l+ detectPatterns(ArrayList\<UMLClass\>) : void\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/SingletonPatternDetector" -> "problem/asm/IPatternDetector" [arrowhead="onormal", style="dashed"];
+"problem/asm/SingletonPatternDetector" -> "problem/asm/UMLMethod" [arrowhead="vee", style="dashed"];
+"problem/asm/SingletonPatternDetector" -> "problem/asm/TypeData" [arrowhead="vee", style="dashed"];
+"problem/asm/SingletonPatternDetector" -> "problem/asm/UMLField" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/TypeData" [
+	shape = "record",
+	label = "{problem/asm/TypeData|- baseName : String\l- fullName : String\l- subData : TypeData\l|+ init(String, TypeData, String) : void\l+ setType(String) : void\l+ getBaseName() : String\l+ setSubData(TypeData) : void\l+ getBaseDataType() : String\l+ getFullBaseDataType() : String\l+ getExtendedName() : String\l+ getFullName() : String\l+ toGraphVizString() : String\l+ equals(Object) : boolean\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/TypeData" -> "problem/asm/TypeData" [arrowhead="vee", style="solid"];
+"problem/asm/TypeData" -> "problem/asm/UMLGraphItem" [arrowhead="onormal", style=""];
+
+	"problem/asm/UMLArrow" [
+	shape = "record",
+	label = "{problem/asm/UMLArrow|- startClass : UMLClass\l- endClass : UMLClass\l- lineType : String\l- arrowType : String\l- label : String\l|+ init(UMLClass, UMLClass, String, String) : void\l+ toGraphVizString() : String\l+ connects(UMLClass, UMLClass) : boolean\l+ isUsesArrow() : boolean\l+ extendsOrImplements() : boolean\l+ getStartClass() : UMLClass\l+ getEndClass() : UMLClass\l+ isAssociationArrow() : boolean\l+ setLabel(String) : void\l+ getLabel() : String\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/UMLArrow" -> "problem/asm/UMLClass" [arrowhead="vee", style="solid"];
+"problem/asm/UMLArrow" -> "problem/asm/UMLClass" [arrowhead="vee", style="solid"];
+"problem/asm/UMLArrow" -> "problem/asm/UMLGraphItem" [arrowhead="onormal", style=""];
+
+	"problem/asm/UMLClass" [
+	shape = "record",
+	label = "{problem/asm/UMLClass|- fullName : String\l- baseName : String\l- shape : String\l- extension : String\l- accessType : int\l- methods : ArrayList\<UMLMethod\>\l- fields : ArrayList\<UMLField\>\l- color : String\l- implementations : ArrayList\<String\>\l- arrows : ArrayList\<UMLArrow\>\l+ DEFAULT_LINE_COLOR : String\l- fillColor : String\l+ DEFAULT_FILL_COLOR : String\l+ COLOR_BLUE : String\l+ COLOR_BLACK : String\l+ patternNames : ArrayList\<String\>\l|~ clinit() : void\l+ getFillColor() : String\l+ setFillColor(String) : void\l+ init(String, String, int, String[]) : void\l+ addMethod(UMLMethod) : void\l+ addUsedClassToMethod(String) : void\l+ addField(UMLField) : void\l+ getExtension() : String\l+ setColor(String) : void\l+ getImplementations() : ArrayList\<String\>\l+ getName() : String\l+ getMethods() : ArrayList\<UMLMethod\>\l+ getFields() : ArrayList\<UMLField\>\l+ addPatternName(String) : void\l+ getPatternNames() : ArrayList\<String\>\l+ getAccessType() : int\l+ generateArrows(ArrayList\<UMLClass\>) : void\l+ removeExtraArrows() : void\l+ removeRedundantUsesArrows() : void\l+ getAllUsedClasses() : ArrayList\<UMLClass\>\l+ getAllExtendsOrImplements() : ArrayList\<UMLClass\>\l- getAllExtendsOrImplementsHelper() : ArrayList\<UMLClass\>\l+ checkExtendsOrImplements(UMLClass) : boolean\l+ getUMLArrows() : ArrayList\<UMLArrow\>\l- addArrow(UMLClass, String, String) : void\l+ toGraphVizString() : String\l+ addUsedMethodToMethod(String, String, String) : void\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/UMLClass" -> "problem/asm/UMLArrow" [arrowhead="vee", style="solid"];
+"problem/asm/UMLClass" -> "problem/asm/UMLField" [arrowhead="vee", style="solid"];
+"problem/asm/UMLClass" -> "problem/asm/UMLGraphItem" [arrowhead="onormal", style=""];
+"problem/asm/UMLClass" -> "problem/asm/UMLMethod" [arrowhead="vee", style="solid"];
+"problem/asm/UMLClass" -> "problem/asm/UMLClass" [arrowhead="vee", style="dashed"];
+"problem/asm/UMLClass" -> "problem/asm/TypeData" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/UMLField" [
+	shape = "record",
+	label = "{problem/asm/UMLField|- name : String\l- type : TypeData\l- accessType : int\l|+ init(String, int, String, String) : void\l+ init(String, TypeData, int) : void\l+ toGraphVizString() : String\l+ getName() : String\l+ getType() : TypeData\l+ getAccessType() : int\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/UMLField" -> "problem/asm/TypeData" [arrowhead="vee", style="solid"];
+"problem/asm/UMLField" -> "problem/asm/UMLGraphItem" [arrowhead="onormal", style=""];
+"problem/asm/UMLField" -> "problem/asm/UMLField" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/UMLGraph" [
+	shape = "record",
+	label = "{problem/asm/UMLGraph\n\<\<adaptee\>\>|- classes : ArrayList\<UMLClass\>\l- patternDetectors : ArrayList\<IPatternDetector\>\l- name : String\l- rankdir : String\l- sdEditMethodData : ArrayList\<SDGraphMethodData\>\l|+ init(String, String) : void\l+ addClass(UMLClass) : void\l+ addPatternDetector(IPatternDetector) : void\l+ addField(UMLField) : void\l+ addMethod(UMLMethod) : void\l+ addClassUsedToMethod(String) : void\l+ detectPatterns() : void\l+ generateArrows() : void\l+ toGraphVizString() : String\l+ getClasses() : ArrayList\<UMLClass\>\l+ getName() : String\l+ getRankdir() : String\l+ addMethodUsedToMethod(String, String, String) : void\l+ toSDEditString() : String\l+ generateCallSequence(String, int) : void\l- generateCallSequenceVisit(int, UMLMethod) : void\l- generateCallSequenceHelper(UMLMethod, UMLMethod, int) : void\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+"problem/asm/UMLGraph" -> "problem/asm/IPatternDetector" [arrowhead="vee", style="solid"];
+"problem/asm/UMLGraph" -> "problem/asm/SDGraphItem" [arrowhead="onormal", style="dashed"];
+"problem/asm/UMLGraph" -> "problem/asm/SDGraphMethodData" [arrowhead="vee", style="solid"];
+"problem/asm/UMLGraph" -> "problem/asm/UMLClass" [arrowhead="vee", style="solid"];
+"problem/asm/UMLGraph" -> "problem/asm/UMLGraphItem" [arrowhead="onormal", style=""];
+"problem/asm/UMLGraph" -> "problem/asm/UMLField" [arrowhead="vee", style="dashed"];
+"problem/asm/UMLGraph" -> "problem/asm/UMLMethod" [arrowhead="vee", style="dashed"];
+"problem/asm/UMLGraph" -> "problem/asm/TypeData" [arrowhead="vee", style="dashed"];
+"problem/asm/UMLGraph" -> "problem/asm/UMLGraph" [arrowhead="vee", style="dashed"];
+"problem/asm/UMLGraph" -> "problem/asm/ClassDeclarationVisitor" [arrowhead="vee", style="dashed"];
+"problem/asm/UMLGraph" -> "problem/asm/ClassFieldVisitor" [arrowhead="vee", style="dashed"];
+"problem/asm/UMLGraph" -> "problem/asm/ClassMethodVisitor" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/UMLGraphItem" [
+	shape = "record",
+	label = "{problem/asm/UMLGraphItem||+ init() : void\l+ toGraphVizString() : String\l+ getAccessTypeSymbol(int) : String\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+
+	"problem/asm/UMLMethod" [
+	shape = "record",
+	label = "{problem/asm/UMLMethod|- argData : ArrayList\<TypeData\>\l- name : String\l- returnType : TypeData\l- accessType : int\l- usedClasses : ArrayList\<TypeData\>\l- fullOwnerName : String\l- methodCalls : ArrayList\<UMLMethod\>\l|+ init(String, int, String, String) : void\l+ init(String, int\<TypeData\>, ArrayList, TypeData) : void\l+ addUsedClass(String) : void\l- parseGenerics(String) : TypeData\l+ toGraphVizString() : String\l+ getArgumentData() : ArrayList\<TypeData\>\l+ getName() : String\l+ getReturnType() : TypeData\l+ getAccessType() : int\l+ getClassesUsed() : ArrayList\<TypeData\>\l+ sameSignature(UMLMethod) : boolean\l+ sameFullQualifiedSignature(UMLMethod) : boolean\l+ toSDGraphMethodData() : SDGraphMethodData\l+ toSDGraphMethodData(UMLMethod) : SDGraphMethodData\l+ setFullOwnerName(String) : void\l+ getFullownerName() : String\l+ addUsedMethodToMethod(String, String, String) : void\l+ getMethodCalls() : ArrayList\<UMLMethod\>\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/UMLMethod" -> "problem/asm/TypeData" [arrowhead="vee", style="solid"];
+"problem/asm/UMLMethod" -> "problem/asm/TypeData" [arrowhead="vee", style="solid"];
+"problem/asm/UMLMethod" -> "problem/asm/TypeData" [arrowhead="vee", style="solid"];
+"problem/asm/UMLMethod" -> "problem/asm/UMLGraphItem" [arrowhead="onormal", style=""];
+"problem/asm/UMLMethod" -> "problem/asm/UMLMethod" [arrowhead="vee", style="solid"];
+"problem/asm/UMLMethod" -> "problem/asm/SDGraphMethodData" [arrowhead="vee", style="dashed"];
+
+}

@@ -87,12 +87,12 @@ public class DecoratorTest {
 		String path = "./files/Milestone 5/lab5-1-solution/bin/problem/";
 		labFiles.add(new File(path + "client/App.class"));
 		labFiles.add(new File(path + "client/IteratorToEnumerationAdapter.class"));
-		// labFiles.add(new File(path +
-		// "client/IteratorToEnumerationAdapterTest.class"));
+		// labFiles.add(new File(path + "client/IteratorToEnumerationAdapterTest.class"));
 		labFiles.add(new File(path + "lib/LinearTransformer.class"));
 		// labFiles.add(new File(path + "lib/LinearTransformerTest.class"));
 
 		UMLGraph labgraph = new UMLGraph("Test_UML", "BT");
+		labgraph.addPatternDetector(new DecoratorPatternDetector());
 
 		for (File f : labFiles) {
 			InputStream in = new FileInputStream(f);
