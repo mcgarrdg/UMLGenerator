@@ -229,6 +229,10 @@ public class UMLClass extends UMLGraphItem {
 	{
 		return this.patternNames;
 	}
+	
+	public int getAccessType() {
+		return this.accessType;
+	}
 
 	/**
 	 * Should be called after all classes have been parsed. This generates the
