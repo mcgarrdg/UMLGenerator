@@ -5,6 +5,7 @@ public class UMLArrow extends UMLGraphItem {
 	private final UMLClass endClass;
 	private final String lineType;
 	private final String arrowType;
+	private String label;
 
 	/**
 	 * Creates a new UMLArrow object
@@ -23,12 +24,20 @@ public class UMLArrow extends UMLGraphItem {
 		this.endClass = endClass;
 		this.arrowType = arrowHeadType;
 		this.lineType = lineType;
+		this.label = "";
 	}
 
 	@Override
 	public String toGraphVizString() {
+		String returnLabel;
+		if(label.isEmpty()) {
+			returnLabel = label;
+		}
+		else {
+			returnLabel = "\", label=\" <<" + label + ">>";
+		}
 		return ("\"" + startClass.getName() + "\" -> \"" + endClass.getName() + "\"" + " [arrowhead=\"" + arrowType
-				+ "\", style=\"" + lineType + "\"];\n");
+				+ returnLabel + "\", style=\"" + lineType + "\"];\n");
 	}
 
 	/**
@@ -85,5 +94,9 @@ public class UMLArrow extends UMLGraphItem {
 				return true;
 		}
 		return false;
+	}
+	
+	public void setLabel(String label) {
+		this.label = label;
 	}
 }
