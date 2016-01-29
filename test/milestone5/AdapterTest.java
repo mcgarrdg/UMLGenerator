@@ -1,7 +1,5 @@
 package milestone5;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,18 +11,17 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
+import problem.asm.AdapterPatternDetector;
 import problem.asm.ClassDeclarationVisitor;
 import problem.asm.ClassFieldVisitor;
 import problem.asm.ClassMethodVisitor;
-import problem.asm.DecoratorPatternDetector;
-import problem.asm.UMLArrow;
 import problem.asm.UMLClass;
 import problem.asm.UMLGraph;
 
-public class DecoratorTest {
+public class AdapterTest {
 
-	public DecoratorTest() {
-	
+	public AdapterTest() {
+		
 	}
 
 	@Test
@@ -45,7 +42,7 @@ public class DecoratorTest {
 		labFiles.add(new File("./files/Milestone 5/headfirst/StarbuzzCoffee.class"));
 		labFiles.add(new File("./files/Milestone 5/headfirst/Whip.class"));
 		UMLGraph labgraph = new UMLGraph("Test_UML", "BT");
-		labgraph.addPatternDetector(new DecoratorPatternDetector());
+		labgraph.addPatternDetector(new AdapterPatternDetector());
 
 		for (File f : labFiles) {
 			InputStream in = new FileInputStream(f);
@@ -61,21 +58,9 @@ public class DecoratorTest {
 
 		labgraph.generateArrows();
 		labgraph.detectPatterns();
+		//TODO: right assert statements
 		for (UMLClass clazz : labgraph.getClasses()) {
-			if (clazz.getName().contains("CondimentDecorator")) {
-				assertTrue(clazz.getPatternNames().contains("decorator"));
-			}
-			if (clazz.getName().contains("Beverage")) {
-				assertTrue(clazz.getPatternNames().contains("component"));
-			}
-			if (clazz.getName().contains("Milk")) {
-				assertTrue(clazz.getPatternNames().contains("decorator"));
-				for (UMLArrow arrow : clazz.getUMLArrows()) {
-					if (arrow.isAssociationArrow() && arrow.getEndClass().getName().contains("Beverage")) {
-						assertTrue(arrow.getLabel().equals("decorates"));
-					}
-				}
-			}
+			
 		}
 
 	}
@@ -87,7 +72,7 @@ public class DecoratorTest {
 		//TODO: Write appropriate files here
 		
 		UMLGraph labgraph = new UMLGraph("Test_UML", "BT");
-		labgraph.addPatternDetector(new DecoratorPatternDetector());
+		labgraph.addPatternDetector(new AdapterPatternDetector());
 
 		for (File f : labFiles) {
 			InputStream in = new FileInputStream(f);
@@ -107,7 +92,6 @@ public class DecoratorTest {
 		//TODO: right assert statements
 		
 	}
-	
 
 	@Test
 	public void testInputStreamReader() throws IOException {
@@ -124,7 +108,7 @@ public class DecoratorTest {
 		files.add("java.io.LineNumberReader");
 		
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
-		graph.addPatternDetector(new DecoratorPatternDetector());
+		graph.addPatternDetector(new AdapterPatternDetector());
 		
 		for (String f : files) {
 			ClassReader reader = new ClassReader(f);
@@ -138,24 +122,12 @@ public class DecoratorTest {
 		graph.generateArrows();
 		graph.detectPatterns();
 		
+		//TODO: right assert statements
 		for (UMLClass clazz : graph.getClasses()) {
-			if (clazz.getName().contains("BufferedReader")) {
-				assertTrue(clazz.getPatternNames().contains("decorator"));
-				for (UMLArrow arrow : clazz.getUMLArrows()) {
-					if (arrow.isAssociationArrow() && arrow.getEndClass().getName().equals("java/io/Reader")) {
-						assertTrue(arrow.getLabel().equals("decorates"));
-					}
-				}
-				
-			}
-			if (clazz.getName().equals("java/io/Reader")) {
-				assertTrue(clazz.getPatternNames().contains("component"));
-			}
-			if (clazz.getName().contains("LineNumberReader")) {
-				assertTrue(clazz.getPatternNames().contains("decorator"));
-				
-			}
 		}
+		
+		
+		
 	}
 
 	@Test
@@ -174,7 +146,7 @@ public class DecoratorTest {
 		files.add("sun.nio.cs.StreamEncoder");
 		
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
-		graph.addPatternDetector(new DecoratorPatternDetector());
+		graph.addPatternDetector(new AdapterPatternDetector());
 		
 		for (String f : files) {
 			ClassReader reader = new ClassReader(f);
@@ -188,7 +160,7 @@ public class DecoratorTest {
 		graph.generateArrows();
 		graph.detectPatterns();
 		
-		assertTrue(!graph.toGraphVizString().contains("decorator"));
+		//TODO: right assert statements
 	}
 
 	@Test
@@ -201,7 +173,7 @@ public class DecoratorTest {
 		files.add("java.awt.event.MouseWheelListener");
 		files.add("java.util.EventListener");
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
-		graph.addPatternDetector(new DecoratorPatternDetector());
+		graph.addPatternDetector(new AdapterPatternDetector());
 		
 		for (String f : files) {
 			ClassReader reader = new ClassReader(f);
@@ -215,8 +187,6 @@ public class DecoratorTest {
 		graph.generateArrows();
 		graph.detectPatterns();
 		
-		
-		
-		assertTrue(!graph.toGraphVizString().contains("decorator"));
+		//TODO: right assert statements
 	}
 }

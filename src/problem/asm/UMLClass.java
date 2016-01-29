@@ -218,7 +218,9 @@ public class UMLClass extends UMLGraphItem {
 	 */
 	public void addPatternName(String name)
 	{
-		this.patternNames.add(name);
+		if(!this.patternNames.contains(name)) {
+			this.patternNames.add(name);
+		}
 	}
 	
 	/**
@@ -262,6 +264,7 @@ public class UMLClass extends UMLGraphItem {
 				String type = field.getType().getFullBaseDataType();
 				if (secondClass.getName().equals(type)) {
 					this.addArrow(secondClass, "vee", "solid");
+//					System.out.println("association from " + this.getName() + " " + type );
 				}
 			}
 		}
@@ -510,8 +513,11 @@ public class UMLClass extends UMLGraphItem {
 		boolean isConnected = false;
 		for (UMLArrow arrow : arrows) {
 			if (arrow.connects(this, end)) {
-				isConnected = true;
-				break;
+				if((arrowType.equals("onormal") && arrow.extendsOrImplements()) ||
+						(arrowType.equals("vee") && lineType.equals("dashed"))) {
+					isConnected = true;
+					break;
+				}
 			}
 		}
 		if (!isConnected) {

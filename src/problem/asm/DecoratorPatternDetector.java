@@ -2,39 +2,41 @@ package problem.asm;
 
 import java.util.ArrayList;
 
-import org.objectweb.asm.Opcodes;
-
 public class DecoratorPatternDetector implements IPatternDetector {
 
-	public DecoratorPatternDetector() {
+	private boolean requireAbstractDecorator;
+	private static String patternColor = "#09FF00";
 
+	public DecoratorPatternDetector() {
+		requireAbstractDecorator = true;
+	}
+
+	public void requireAbstractDecoractor(boolean val) {
+		this.requireAbstractDecorator = val;
 	}
 
 	@Override
 	public void detectPatterns(ArrayList<UMLClass> classList) {
 		for (UMLClass c1 : classList) {
-			// check to see if class is the abstractDecorator, if not, we will
-			// procedd to next class.
+			// check to see if class is the "abstract"Decorator, if not, we will
+			// proceed to next class.
 			boolean hasAbstractComponent = false;
-			boolean isAbstract = false;
 			boolean areConcreteComponents = false;
 			boolean hasConcreteSubclasses = false;
 			String superClass;
 			UMLClass abstractComponent = null;
 			ArrayList<UMLClass> decoratorSubset = new ArrayList<UMLClass>();
 			ArrayList<UMLArrow> decoratesArrows = new ArrayList<UMLArrow>();
-			// if ((Opcodes.ACC_ABSTRACT & c1.getAccessType()) ==
-			// Opcodes.ACC_ABSTRACT
-			// && !c1.getExtension().equals("java/lang/Object")) {
-			//
 			superClass = c1.getExtension();
 			decoratorSubset.add(c1);
-			isAbstract = true;
-//			for (UMLArrow arrow : c1.getUMLArrows()) {
-//				if (arrow.isAssociationArrow() && arrow.getEndClass().getName().equals(superClass)) {
-//					decoratesArrows.add(arrow);
-//				}
-//			}
+			for (UMLArrow arrow : c1.getUMLArrows()) {
+				if (arrow.isAssociationArrow() && arrow.getEndClass().getName().equals(superClass)) {
+					decoratesArrows.add(arrow);
+					if (!requireAbstractDecorator) {
+						hasConcreteSubclasses = true;
+					}
+				}
+			}
 			for (UMLClass c2 : classList) {
 				if (!c2.equals(c1)) {
 					// check for asbstactComponent
@@ -45,15 +47,14 @@ public class DecoratorPatternDetector implements IPatternDetector {
 
 					// check for decorator subclasses
 					if (c2.getExtension().equals(c1.getName())) {
-//						for (UMLArrow arrow : decoratesArrows) {
-//							if (arrow.getStartClass().getName().equals(c2.getExtension())) {
-//								hasConcreteSubclasses = true;
-//								decoratorSubset.add(c2);
-//							}
-//						}
+						for (UMLArrow arrow : decoratesArrows) {
+							if (arrow.getStartClass().getName().equals(c2.getExtension())) {
+								hasConcreteSubclasses = true;
+								decoratorSubset.add(c2);
+							}
+						}
 						for (UMLArrow arrow : c2.getUMLArrows()) {
-							// if (arrow.isAssociationArrow() &&
-							if (arrow.getEndClass().getName().equals(superClass)) {
+							if (arrow.isAssociationArrow() && arrow.getEndClass().getName().equals(superClass)) {
 								hasConcreteSubclasses = true;
 								decoratorSubset.add(c2);
 								decoratesArrows.add(arrow);
@@ -69,18 +70,17 @@ public class DecoratorPatternDetector implements IPatternDetector {
 					}
 				}
 			}
-			// }
 
-			if (hasAbstractComponent && isAbstract && areConcreteComponents && hasConcreteSubclasses) {
+			if (hasAbstractComponent && areConcreteComponents && hasConcreteSubclasses) {
 				for (UMLClass c2 : decoratorSubset) {
-					c2.setFillColor("#09FF00");
+					c2.setFillColor(patternColor);
 					c2.addPatternName("decorator");
 				}
 				for (UMLArrow arrow : decoratesArrows) {
 					arrow.setLabel("decorates");
 				}
 				if (abstractComponent != null) {
-					abstractComponent.setFillColor("#09FF00");
+					abstractComponent.setFillColor(patternColor);
 					abstractComponent.addPatternName("component");
 				}
 			}
