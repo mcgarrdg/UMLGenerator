@@ -1,0 +1,97 @@
+package problem.asm;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by tiefenaw on 1/28/2016.
+ */
+public class AdapterPatternDetector implements IPatternDetector {
+
+    //TODO Allow this to change?
+	/**
+     * This represents the number of times a field can not be used in a method in the class
+     * and still have the class be considered an adapter. Does not include constructors.
+     */
+    public static int FIELD_UNUSED_NUM_THRESHHOLD = 1;
+
+    @Override
+    public void detectPatterns(ArrayList<UMLClass> classList) {
+        for(UMLClass classOne : classList)
+        {
+            //TODO This would change if adapters can extend classes, abstract or otherwise.
+            //If the class extends anything other than Object, it isn't an adapter.
+            if(!classOne.getExtension().equals("java/lang/Object"))
+            {
+                continue;
+            }
+
+            //If a class does not have a field of a matching type for everything it
+            //implements, then it isn't an adapter.
+            boolean allImplementsFound = true;
+            HashMap<String, Integer> numFoundMap = new HashMap<>();
+            for(String imp : classOne.getImplementations())
+            {
+                boolean wasFound = false;
+                for(UMLField field : classOne.getFields())
+                {
+                    //TODO We may not want FullBaseDataType here, as an ArrayList of X would still work, which it shouldn't(???) with the adapter pattern.
+                    if(field.getType().getFullBaseDataType().equals(imp))
+                    {
+                        wasFound = true;
+                        break;
+                    }
+                }
+                if(!wasFound)
+                {
+                    allImplementsFound = false;
+                    break;
+                }
+                numFoundMap.put(imp, 0);
+            }
+            if(!allImplementsFound)
+            {
+                continue;
+            }
+
+            int totalMethods = 0; //Number of non constructor methods.
+            for(UMLMethod meth : classOne.getMethods())
+            {
+                //Ignore constructors.
+                if(meth.getName().equals("init"))
+                {
+                    continue;
+                }
+                totalMethods++;
+                for(TypeData used : meth.getClassesUsed())
+                {
+                    //TODO Again, not sure that we ewant the getFullBaseDataType.
+                    if(numFoundMap.containsKey(used.getFullBaseDataType()))
+                    {
+                        numFoundMap.replace(used.getFullBaseDataType(), numFoundMap.get(used.getFullBaseDataType()) + 1);
+                    }
+                    //TODO This doesn't account for the exception case or anything fancy.
+                    //Exception case: Field not used in a method as that method cannot be supported by the class being adapted,
+                    //so it throws an exception instead.
+                }
+            }
+
+            boolean numUsedOk = true;
+            for(Map.Entry<String, Integer> entry : numFoundMap.entrySet())
+            {
+                if(entry.getValue().intValue() < (totalMethods - FIELD_UNUSED_NUM_THRESHHOLD))
+                {
+                    numUsedOk = false;
+                    break;
+                }
+            }
+            //There were too many instances of an implementation field not being used in a method.
+            if(!numUsedOk)
+            {
+                continue;
+            }
+            
+        }
+    }
+}

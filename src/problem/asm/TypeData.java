@@ -40,6 +40,10 @@ public class TypeData extends UMLGraphItem {
 		this.baseName = type;
 	}
 
+	/**
+	 * Returns the {@link #baseName} of this TypeData.
+	 * @return
+	 */
 	public String getBaseName() {
 		return this.baseName;
 	}
@@ -70,8 +74,7 @@ public class TypeData extends UMLGraphItem {
 	}
 
 	/**
-	 * Finds the full name of the base data type of this typedata. Eg List<List
-	 * <String>> would return java/lang/String.
+	 * Finds the full name of the base data type of this typedata. Eg List<List<String>> would return java/lang/String.
 	 * 
 	 * @return The full name of the base data type.
 	 */
@@ -95,6 +98,10 @@ public class TypeData extends UMLGraphItem {
 		return this.baseName + "<" + this.subData.getExtendedName() + ">";
 	}
 
+	/**
+	 * Gets the {@link #fullName} of this TypeData.
+	 * @return
+	 */
 	public String getFullName() {
 		return this.fullName;
 	}
