@@ -28,7 +28,7 @@ public class ClassDeclarationVisitor extends ClassVisitor {
 	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
 //		System.out.println("Super(extends): " + superName); //TODO Remove these prints
 //		System.out.println("Interfaces:");
-		for (String nme : interfaces ) System.out.println(nme);
+//		for (String nme : interfaces ) System.out.println(nme);
 		this.graph.addClass(new UMLClass(name, superName, access, interfaces));
 		super.visit(version, access, name, signature, superName, interfaces);
 	}

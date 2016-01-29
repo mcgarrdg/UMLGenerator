@@ -93,9 +93,9 @@ public class AdapterPatternDetector implements IPatternDetector {
             {
                 if(entry.getValue().intValue() < (totalMethods - FIELD_UNUSED_NUM_THRESHHOLD))
                 {
-                    System.out.println("Here: " + classOne.getName());
-                    System.out.println(entry.getValue().intValue());
-                    System.out.println((totalMethods - FIELD_UNUSED_NUM_THRESHHOLD));
+//                    System.out.println("Here: " + classOne.getName());
+//                    System.out.println(entry.getValue().intValue());
+//                    System.out.println((totalMethods - FIELD_UNUSED_NUM_THRESHHOLD));
                     numUsedOk = false;
                     break;
                 }

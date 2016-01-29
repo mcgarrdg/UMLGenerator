@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.objectweb.asm.ClassReader;
@@ -86,6 +85,7 @@ public class DesignParser {
 		graph.addPatternDetector(new DecoratorPatternDetector());
 		graph.addPatternDetector(new AdapterPatternDetector());
 		for (File f : files) {
+			System.out.println(f.getCanonicalPath());
 			InputStream in = new FileInputStream(f);
 			ClassReader reader = new ClassReader(in);
 
@@ -145,6 +145,8 @@ public class DesignParser {
 		}
 	}
 
+
+
 	/**
 	 * Given a valid String for a GraphViz document, this uses dot.exe to
 	 * generate a PNG of the UML diagram.
@@ -160,6 +162,18 @@ public class DesignParser {
 		choose.setFileFilter(new FileNameExtensionFilter("PNG images", "png"));
 		choose.setCurrentDirectory(new File("./files/"));
 		choose.showSaveDialog(null);
+
+		FileListAccessory accessory = new FileListAccessory(choose);
+		choose.setAccessory(accessory);
+
+		int open = choose.showOpenDialog(choose);
+		if (open == JFileChooser.APPROVE_OPTION) {
+			DefaultListModel model = accessory.getModel();
+			for (int i = 0; i < model.getSize(); i++) {
+				System.out.println(((File)model.getElementAt(i)).getName());
+			}
+
+		}
 
 		boolean confirmOverwrite = choose.getSelectedFile().exists();
 		while (confirmOverwrite) {
