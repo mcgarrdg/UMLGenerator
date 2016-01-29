@@ -34,7 +34,7 @@ public class DesignParser {
 		if (mode == 0) {
 			locateGraphviz();
 			String g = getDigraphString();
-			System.out.println(g);
+//			System.out.println(g);
 			generateUMLPNG(g);
 		} else if (mode == 1) {
 			// TODO make this more interactive
@@ -84,6 +84,7 @@ public class DesignParser {
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
 		graph.addPatternDetector(new SingletonPatternDetector()); //Add detectors here
 		graph.addPatternDetector(new DecoratorPatternDetector());
+		graph.addPatternDetector(new AdapterPatternDetector());
 		for (File f : files) {
 			InputStream in = new FileInputStream(f);
 			ClassReader reader = new ClassReader(in);

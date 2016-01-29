@@ -16,6 +16,8 @@ public class AdapterPatternDetector implements IPatternDetector {
      */
     public static int FIELD_UNUSED_NUM_THRESHHOLD = 1;
 
+    public static String ADAPTER_COLOR = "#990000";
+
     @Override
     public void detectPatterns(ArrayList<UMLClass> classList) {
         for(UMLClass classOne : classList)
@@ -27,34 +29,43 @@ public class AdapterPatternDetector implements IPatternDetector {
                 continue;
             }
 
-            //If a class does not have a field of a matching type for everything it
-            //implements, then it isn't an adapter.
-            boolean allImplementsFound = true;
-            HashMap<String, Integer> numFoundMap = new HashMap<>();
-            for(String imp : classOne.getImplementations())
-            {
-                boolean wasFound = false;
-                for(UMLField field : classOne.getFields())
-                {
-                    //TODO We may not want FullBaseDataType here, as an ArrayList of X would still work, which it shouldn't(???) with the adapter pattern.
-                    if(field.getType().getFullBaseDataType().equals(imp))
-                    {
-                        wasFound = true;
-                        break;
-                    }
-                }
-                if(!wasFound)
-                {
-                    allImplementsFound = false;
-                    break;
-                }
-                numFoundMap.put(imp, 0);
-            }
-            if(!allImplementsFound)
+            if(classOne.getFields().size() == 0)
             {
                 continue;
             }
 
+            //If a class does not have a field of a matching type for everything it
+            //implements, then it isn't an adapter.
+//            boolean allImplementsFound = true;
+            HashMap<String, Integer> numFoundMap = new HashMap<>();
+//            for(String imp : classOne.getImplementations())
+//            {
+//                boolean wasFound = false;
+//                for(UMLField field : classOne.getFields())
+//                {
+//                    //TODO We may not want FullBaseDataType here, as an ArrayList of X would still work, which it shouldn't(???) with the adapter pattern.
+//                    if(field.getType().getFullBaseDataType().equals(imp))
+//                    {
+//                        wasFound = true;
+//                        break;
+//                    }
+//                }
+//                if(!wasFound)
+//                {
+//                    allImplementsFound = false;
+//                    break;
+//                }
+//                numFoundMap.put(imp, 0);
+//            }
+//            if(!allImplementsFound)
+//            {
+//                continue;
+//            }
+            for(UMLField field : classOne.getFields())
+            {
+                //TODO We may not want FullBaseDataType here, as an ArrayList of X would still work, which it shouldn't(???) with the adapter pattern.
+                numFoundMap.put(field.getType().getFullName(), 0);
+            }
             int totalMethods = 0; //Number of non constructor methods.
             for(UMLMethod meth : classOne.getMethods())
             {
@@ -67,9 +78,9 @@ public class AdapterPatternDetector implements IPatternDetector {
                 for(TypeData used : meth.getClassesUsed())
                 {
                     //TODO Again, not sure that we ewant the getFullBaseDataType.
-                    if(numFoundMap.containsKey(used.getFullBaseDataType()))
+                    if(numFoundMap.containsKey(used.getFullName()))
                     {
-                        numFoundMap.replace(used.getFullBaseDataType(), numFoundMap.get(used.getFullBaseDataType()) + 1);
+                        numFoundMap.replace(used.getFullName(), numFoundMap.get(used.getFullName()) + 1);
                     }
                     //TODO This doesn't account for the exception case or anything fancy.
                     //Exception case: Field not used in a method as that method cannot be supported by the class being adapted,
@@ -82,6 +93,9 @@ public class AdapterPatternDetector implements IPatternDetector {
             {
                 if(entry.getValue().intValue() < (totalMethods - FIELD_UNUSED_NUM_THRESHHOLD))
                 {
+                    System.out.println("Here: " + classOne.getName());
+                    System.out.println(entry.getValue().intValue());
+                    System.out.println((totalMethods - FIELD_UNUSED_NUM_THRESHHOLD));
                     numUsedOk = false;
                     break;
                 }
@@ -91,7 +105,45 @@ public class AdapterPatternDetector implements IPatternDetector {
             {
                 continue;
             }
-            
+
+            for(UMLField field : classOne.getFields())
+            {
+                for(UMLArrow arrow : classOne.getUMLArrows())
+                {
+                    //TODO Is fullname what I really want?
+                    if(arrow.getEndClass().getName().equals(field.getType().getFullName()))
+                    {
+                        arrow.setLabel("adapts");
+                        arrow.getEndClass().addPatternName("adaptee");
+                        arrow.getEndClass().setFillColor(ADAPTER_COLOR);
+                        break;
+                    }
+                }
+
+//                for(UMLClass classOne : classList)
+//                {
+//
+//                }
+//                //TODO We may not want FullBaseDataType here, as an ArrayList of X would still work, which it shouldn't(???) with the adapter pattern.
+//                numFoundMap.put(field.getType().getFullName(), 0);
+            }
+
+            for(String s : classOne.getImplementations())
+            {
+                for(UMLArrow arrow : classOne.getUMLArrows())
+                {
+                    //TODO Is fullname what I really want?
+                    if(arrow.getEndClass().getName().equals(s))
+                    {
+//                        arrow.setLabel("adapts");
+                        arrow.getEndClass().addPatternName("target");
+                        arrow.getEndClass().setFillColor(ADAPTER_COLOR);
+                        break;
+                    }
+                }
+            }
+            classOne.addPatternName("adapter");
+            classOne.setFillColor(ADAPTER_COLOR);
         }
     }
 }
