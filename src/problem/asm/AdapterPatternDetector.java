@@ -34,33 +34,38 @@ public class AdapterPatternDetector implements IPatternDetector {
                 continue;
             }
 
-            //If a class does not have a field of a matching type for everything it
-            //implements, then it isn't an adapter.
-//            boolean allImplementsFound = true;
+            boolean matchingFound = false;
             HashMap<String, Integer> numFoundMap = new HashMap<>();
-//            for(String imp : classOne.getImplementations())
-//            {
+
+            //If the class has a field of the same type that it extends or implements, it is not an adapter.
+            for(String imp : classOne.getImplementations())
+            {
 //                boolean wasFound = false;
-//                for(UMLField field : classOne.getFields())
-//                {
+                for(UMLField field : classOne.getFields())
+                {
 //                    //TODO We may not want FullBaseDataType here, as an ArrayList of X would still work, which it shouldn't(???) with the adapter pattern.
-//                    if(field.getType().getFullBaseDataType().equals(imp))
-//                    {
-//                        wasFound = true;
-//                        break;
-//                    }
-//                }
-//                if(!wasFound)
-//                {
-//                    allImplementsFound = false;
-//                    break;
-//                }
+                    if(field.getType().getFullName().equals(imp) || field.getType().getFullName().equals(classOne.getExtension()))
+                    {
+                        System.out.println("FIELD: " + field.getType().getFullName());
+                        System.out.println("IMPLEMENTS: "+ imp);
+                        matchingFound = true;
+                        break;
+                    }
+                }
+                if(matchingFound)
+                {
+//                    matchingFound = true;
+                    break;
+                }
 //                numFoundMap.put(imp, 0);
-//            }
-//            if(!allImplementsFound)
-//            {
-//                continue;
-//            }
+            }
+            if(matchingFound)
+            {
+//                System.out.println("Match found: " + classOne.getName());
+                continue;
+            }
+
+
             for(UMLField field : classOne.getFields())
             {
                 //TODO We may not want FullBaseDataType here, as an ArrayList of X would still work, which it shouldn't(???) with the adapter pattern.
