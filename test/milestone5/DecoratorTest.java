@@ -1,6 +1,6 @@
 package milestone5;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,9 +61,11 @@ public class DecoratorTest {
 
 		labgraph.generateArrows();
 		labgraph.detectPatterns();
+//		System.out.println(labgraph.toGraphVizString());
+
 		for (UMLClass clazz : labgraph.getClasses()) {
 			if (clazz.getName().contains("CondimentDecorator")) {
-				assertTrue(clazz.getPatternNames().contains("decorator"));
+				assertFalse(clazz.getPatternNames().contains("decorator"));
 			}
 			if (clazz.getName().contains("Beverage")) {
 				assertTrue(clazz.getPatternNames().contains("component"));
@@ -192,7 +194,7 @@ public class DecoratorTest {
 		files.add("java.io.PipedWriter");
 		files.add("java.io.PrintWriter");
 		files.add("java.io.StringWriter");
-		files.add("sun.nio.cs.StreamEncoder");
+//		files.add("sun.nio.cs.StreamEncoder");
 		
 		UMLGraph graph = new UMLGraph("Test_UML", "BT");
 		graph.addPatternDetector(new DecoratorPatternDetector());
@@ -209,7 +211,12 @@ public class DecoratorTest {
 		graph.generateArrows();
 		graph.detectPatterns();
 		
-		assertTrue(!graph.toGraphVizString().contains("decorator"));
+		for(UMLClass c1 : graph.getClasses()) {
+			if(c1.getName().contains("OutputStreamWriter") ) {
+				assertFalse(c1.getPatternNames().contains("decorator"));
+			}
+		}
+//		assertTrue(!graph.toGraphVizString().contains("decorator"));
 	}
 
 	@Test
