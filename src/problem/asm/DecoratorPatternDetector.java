@@ -29,11 +29,29 @@ public class DecoratorPatternDetector implements IPatternDetector {
 					if (c2.equals(c1)) {
 						for (UMLField f : c1.getFields()) {
 							if (f.getType().getFullName().equals(component) && !component.equals("java/lang/Object")) {
-								selfDecorator = false;
-								decoratorSubset.add(c2);
+								for (UMLMethod m : c1.getMethods()) {
+									if(m.getName().equals("init")) {
+										for(TypeData d : m.getArgumentData()) {
+											if (d.getFullName().equals(component)) {
+												selfDecorator = false;
+												decoratorSubset.add(c2);
+												break;
+											}
+										}
+									}
+								}
 							} else if (f.getType().getFullName().equals(c1.getName())) {
-								selfDecorator = true;
-								decoratorSubset.add(c2);
+								for (UMLMethod m : c1.getMethods()) {
+									if(m.getName().equals("init")) {
+										for(TypeData d : m.getArgumentData()) {
+											if (d.getFullName().equals(c1.getName())) {
+												selfDecorator = true;
+												decoratorSubset.add(c2);
+												break;
+											}
+										}
+									}
+								}
 							}
 						}
 					} else if (c2.getName().equals(component)) {
