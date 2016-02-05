@@ -55,7 +55,11 @@ Modifications to the existing structure include:
 New additions to the project in this milestone are the two new PatternDetectors, which implement IPatternDetector from Milestone 4. 
 These pattern detectors are DecoratorPatternDetector and AdapterPatternDetector which identify the Decorator and Adapter patterns respectively. 
 
-
+Milestone 6: 
+Few changes were made during this milestone to pre-existing code as our previous structure supported the easy addition of a CompositePatternDetector. 
+The largest change of previous project components has been made to the type data class, as issues arose when handling fields that are arrays. 
+Thus the class now supports a method isArray that tells if the field is an array or not. 
+The only new class within the project is the CompositePatternDetector which implements the IPatternDetector interface and detects Composite Patterns with UMLS.
 
 Who did what: 
 Alec Tiefenthal
@@ -78,6 +82,9 @@ Milestone 4:
 Milestone 5:
 -wrote the AdapterPatternDetector
 -refactored Design parser
+Milestone 6: 
+-Modified TypeData to handle arrays easier.
+-helped write CompositePatternDetector class
 
 
 Dan McGarry
@@ -103,6 +110,10 @@ Milestone 4:
 Milestone 5: 
 -Wrote the DecoratorPatternDetector
 -Wrote the test cases for the milestone
+-updated README
+Milestone 6: 
+-Wrote the CompositePatternDetector class
+-Wrote test cases for the milestone. 
 -updated README
 
 
