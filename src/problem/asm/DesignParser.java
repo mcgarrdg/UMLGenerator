@@ -106,6 +106,7 @@ public class DesignParser {
 		graph.addPatternDetector(new SingletonPatternDetector()); //Add detectors here
 		graph.addPatternDetector(new DecoratorPatternDetector());
 		graph.addPatternDetector(new AdapterPatternDetector());
+		graph.addPatternDetector(new CompositePatternDetector());
 		for (File f : files) {
 			System.out.println(f.getCanonicalPath());
 			InputStream in = new FileInputStream(f);
