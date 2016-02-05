@@ -1,5 +1,7 @@
 package milestone6;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,6 +14,7 @@ import problem.asm.ClassDeclarationVisitor;
 import problem.asm.ClassFieldVisitor;
 import problem.asm.ClassMethodVisitor;
 import problem.asm.CompositePatternDetector;
+import problem.asm.UMLClass;
 import problem.asm.UMLGraph;
 
 public class CompositePatternDetectorTest {
@@ -21,7 +24,7 @@ public class CompositePatternDetectorTest {
 	}
 	
 	@Test
-	public void testInputStreamReader() throws IOException {
+	public void testJavaAwt() throws IOException {
 		ArrayList<String> files = new ArrayList<String>();
 		files.add("java.awt.Panel");
 		files.add("java.awt.Container");
@@ -42,6 +45,22 @@ public class CompositePatternDetectorTest {
 		}
 		graph.generateArrows();
 		graph.detectPatterns();
+		
+		
+		for (UMLClass c1 : graph.getClasses()) {
+			if (c1.getName().contains("Panel")) {
+				assertTrue(c1.getPatternNames().contains("composite"));
+			}
+			if (c1.getName().contains("Container")) {
+				assertTrue(c1.getPatternNames().contains("composite"));
+			}
+			if (c1.getName().contains("Component")) {
+				assertTrue(c1.getPatternNames().contains("component"));
+			}
+			if (c1.getName().contains("Button")) {
+				assertTrue(c1.getPatternNames().contains("leaf"));
+			}
+		}
 		System.out.println(graph.toGraphVizString());
 	}
 }

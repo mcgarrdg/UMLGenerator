@@ -513,11 +513,13 @@ public class UMLClass extends UMLGraphItem {
 		boolean isConnected = false;
 		for (UMLArrow arrow : arrows) {
 			if (arrow.connects(this, end)) {
-				if((arrowType.equals("onormal") && arrow.extendsOrImplements()) ||
-						(arrowType.equals("vee") && lineType.equals("dashed"))) {
+//				if(		(arrowType.equals("onormal") && arrow.extendsOrImplements()) {
+//						||
+//						(arrowType.equals("vee") && lineType.equals("dashed")) ||
+//						(arrow.isAssociationArrow() && arrowType.equals("vee") && lineType.equals("dashed"))) {
 					isConnected = true;
 					break;
-				}
+//				}
 			}
 		}
 		if (!isConnected) {
@@ -525,10 +527,12 @@ public class UMLClass extends UMLGraphItem {
 		}
 	}
 
+	private static int MAX_ROWS = 10;
 	// TODO Have an input for number of tabs?
 	@Override
 	public String toGraphVizString() {
 		StringBuilder builder = new StringBuilder();
+		int i = 0;
 
 		builder.append("\"");
 		builder.append(this.fullName);
@@ -554,12 +558,24 @@ public class UMLClass extends UMLGraphItem {
 		if (this.fields.size() != 0 || this.methods.size() != 0) { //TODO Shouldn't this always do this?
 			builder.append("|");
 		}
+		i = 0;
 		for (UMLField f : this.fields) {
+			if(i > MAX_ROWS) {
+				builder.append("...");
+				break;
+			}
 			builder.append(f.toGraphVizString());
+			i++;
 		}
 		builder.append("|");
+		i = 0;
 		for (UMLMethod m : this.methods) {
+			if(i > MAX_ROWS) {
+				builder.append("...");
+				break;
+			}
 			builder.append(m.toGraphVizString());
+			i++;
 		}
 		builder.append("}\"\nstyle=filled\nfillcolor=\"");
 		builder.append(this.fillColor);
