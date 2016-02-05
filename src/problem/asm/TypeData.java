@@ -2,12 +2,13 @@ package problem.asm;
 
 public class TypeData extends UMLGraphItem {
 	/**
-	 * Just the short name of the class. (Example: TypeData)
+	 * Just the short name of the class. (Example: TypeData or TypeData[] if it is an array)
 	 */
 	private String baseName;
 
 	/**
 	 * The full path name of the type. (example: problem/asm/TypeData)
+	 * The [] are not present if it is an array, this name is simply a path to the class type.
 	 */
 	private final String fullName;
 
@@ -15,6 +16,19 @@ public class TypeData extends UMLGraphItem {
 	 * A {@link TypeData} object that represents generic types of this object.
 	 */
 	private TypeData subData;
+
+	/**
+	 * Gets whether or not this {@link TypeData} object represents an array. See {@link #isArray}.
+	 * @return
+	 */
+	public boolean isArray() {
+		return isArray;
+	}
+
+	/**
+	 * A boolean indicating if this typedata is an array (the {@link #baseName} has [].)
+	 */
+	private boolean isArray;
 
 	/**
 	 * 
@@ -25,9 +39,18 @@ public class TypeData extends UMLGraphItem {
 	 *            generics.
 	 */
 	public TypeData(String type, TypeData subData, String fullName) {
+		//TODO Check for [] and declare it as an array or something. Remove the brackets for the type?
 		this.baseName = type;
 		this.subData = subData;
-		this.fullName = fullName;
+
+		if(fullName.contains("[]"))
+		{
+			this.fullName = fullName.substring(0, fullName.length()-2);
+			isArray = true;
+		} else {
+			this.fullName = fullName;
+			isArray = false;
+		}
 	}
 
 	/**
