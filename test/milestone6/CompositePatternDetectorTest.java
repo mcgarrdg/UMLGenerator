@@ -1,6 +1,6 @@
 package milestone6;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class CompositePatternDetectorTest {
 		}
 		graph.generateArrows();
 		graph.detectPatterns();
-		
+//		System.out.println(graph.toGraphVizString());
 		
 		for (UMLClass c1 : graph.getClasses()) {
 			if (c1.getName().contains("Panel")) {
@@ -61,7 +61,6 @@ public class CompositePatternDetectorTest {
 				assertTrue(c1.getPatternNames().contains("leaf"));
 			}
 		}
-//		System.out.println(graph.toGraphVizString());
 	}
 	
 	@Test
@@ -95,21 +94,26 @@ public class CompositePatternDetectorTest {
 		System.out.println(graph.toGraphVizString());
 		
 		for (UMLClass c1 : graph.getClasses()) {
+			if (c1.getName().equals("java.awt.Component")) {
+				assertTrue(c1.getPatternNames().contains("component"));
+			}
 			if (c1.getName().contains("JLabel")) {
-				assertTrue(c1.getPatternNames().contains("leaf"));
+				assertTrue(c1.getPatternNames().contains("composite"));
 			}
 			if (c1.getName().contains("Container")) {
-				assertTrue(c1.getPatternNames().contains("component"));
+				assertTrue(c1.getPatternNames().contains("composite"));
 			}
 			if (c1.getName().contains("JPanel")) {
 				assertTrue(c1.getPatternNames().contains("composite"));
 			}
 			if (c1.getName().contains("JButton")) {
-				assertTrue(c1.getPatternNames().contains("leaf"));
+				assertTrue(c1.getPatternNames().contains("composite"));
 			}
 			if (c1.getName().contains("JFrame")) {
 				assertTrue(c1.getPatternNames().contains("composite"));
 			}
 		}
+		//no classes we are testing appear to be leaves. 
+		assertFalse(graph.toGraphVizString().contains("leaf"));
 	}
 }
