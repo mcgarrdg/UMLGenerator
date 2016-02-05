@@ -53,7 +53,7 @@ public class UMLField extends UMLGraphItem {
 				TypeData tempData = new TypeData(temp.substring(temp.lastIndexOf("/") + 1), null, temp.substring(1));
 				// Ljava/lang/String
 				for (int x = splitString.length - 2; x > 0; x--) {
-					tempData = new TypeData(splitString[x].substring(temp.lastIndexOf("/") + 1), tempData,
+					tempData = new TypeData(splitString[x].substring(splitString[x].lastIndexOf("/") + 1), tempData, //Replace second splitString[x] with temp if issues arise.
 							splitString[x].substring(1));
 				}
 				this.type.setSubData(tempData);
