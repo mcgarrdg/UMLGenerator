@@ -1,6 +1,6 @@
 package milestone6;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,6 +61,55 @@ public class CompositePatternDetectorTest {
 				assertTrue(c1.getPatternNames().contains("leaf"));
 			}
 		}
+//		System.out.println(graph.toGraphVizString());
+	}
+	
+	@Test
+	public void testJavaSwing() throws IOException {
+		ArrayList<String> files = new ArrayList<String>();
+		files.add("java.awt.Container");
+		files.add("java.awt.Component");
+		files.add("javax.swing.JFrame");
+		files.add("java.awt.Frame");
+		files.add("java.awt.Window");
+		files.add("javax.swing.JPanel");
+		files.add("javax.swing.JButton");
+		files.add("javax.swing.AbstractButton");
+		files.add("javax.swing.JLabel");
+		files.add("javax.swing.JComponent");
+		
+		UMLGraph graph = new UMLGraph("Test_UML", "BT");
+		graph.addPatternDetector(new CompositePatternDetector());
+		
+		for (String f : files) {
+			ClassReader reader = new ClassReader(f);
+
+			ClassVisitor declVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, graph);
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, declVisitor, graph);
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, graph);
+
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+		}
+		graph.generateArrows();
+		graph.detectPatterns();
 		System.out.println(graph.toGraphVizString());
+		
+		for (UMLClass c1 : graph.getClasses()) {
+			if (c1.getName().contains("JLabel")) {
+				assertTrue(c1.getPatternNames().contains("leaf"));
+			}
+			if (c1.getName().contains("Container")) {
+				assertTrue(c1.getPatternNames().contains("component"));
+			}
+			if (c1.getName().contains("JPanel")) {
+				assertTrue(c1.getPatternNames().contains("composite"));
+			}
+			if (c1.getName().contains("JButton")) {
+				assertTrue(c1.getPatternNames().contains("leaf"));
+			}
+			if (c1.getName().contains("JFrame")) {
+				assertTrue(c1.getPatternNames().contains("composite"));
+			}
+		}
 	}
 }
