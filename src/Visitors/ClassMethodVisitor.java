@@ -1,8 +1,10 @@
-package problem.asm;
+package Visitors;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import problem.asm.UMLGraph;
+import problem.asm.UMLMethod;
 
 public class ClassMethodVisitor extends ClassVisitor {
 

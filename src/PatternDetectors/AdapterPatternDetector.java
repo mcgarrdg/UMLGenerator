@@ -1,4 +1,6 @@
-package problem.asm;
+package PatternDetectors;
+
+import problem.asm.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

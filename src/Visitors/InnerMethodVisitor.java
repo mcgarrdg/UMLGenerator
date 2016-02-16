@@ -1,8 +1,9 @@
-package problem.asm;
+package Visitors;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import problem.asm.UMLGraph;
 
 public class InnerMethodVisitor extends MethodVisitor {
 

@@ -3,6 +3,10 @@ package problem.asm;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import PatternDetectors.IPatternDetector;
+import Visitors.ClassDeclarationVisitor;
+import Visitors.ClassFieldVisitor;
+import Visitors.ClassMethodVisitor;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
@@ -122,6 +126,9 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		builder.append(this.rankdir);
 
 		for (UMLClass c : this.classes) {
+			if(!c.isActive()) {
+				continue;
+			}
 			builder.append("\n\t");
 			builder.append(c.toGraphVizString());
 		}

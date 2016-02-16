@@ -13,10 +13,10 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
-import problem.asm.ClassDeclarationVisitor;
-import problem.asm.ClassFieldVisitor;
-import problem.asm.ClassMethodVisitor;
-import problem.asm.DecoratorPatternDetector;
+import Visitors.ClassDeclarationVisitor;
+import Visitors.ClassFieldVisitor;
+import Visitors.ClassMethodVisitor;
+import PatternDetectors.DecoratorPatternDetector;
 import problem.asm.UMLArrow;
 import problem.asm.UMLClass;
 import problem.asm.UMLGraph;

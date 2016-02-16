@@ -9,9 +9,9 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
-import problem.asm.ClassDeclarationVisitor;
-import problem.asm.ClassFieldVisitor;
-import problem.asm.ClassMethodVisitor;
+import Visitors.ClassDeclarationVisitor;
+import Visitors.ClassFieldVisitor;
+import Visitors.ClassMethodVisitor;
 import problem.asm.UMLGraph;
 
 public class SDEditTest {

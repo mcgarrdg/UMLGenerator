@@ -1,4 +1,7 @@
-package problem.asm;
+package PatternDetectors;
+
+import problem.asm.UMLClass;
+import problem.asm.UMLField;
 
 import java.util.ArrayList;
 import java.util.Collection;

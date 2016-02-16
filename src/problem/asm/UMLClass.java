@@ -97,6 +97,16 @@ public class UMLClass extends UMLGraphItem {
 	 */
 	public ArrayList<String> patternNames;
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean active) {
+		isActive = active;
+	}
+
+	private boolean isActive;
+
 	/**
 	 * Constructor.
 	 *
@@ -123,6 +133,7 @@ public class UMLClass extends UMLGraphItem {
 		this.color = UMLClass.COLOR_BLACK;
 		this.fillColor = UMLClass.DEFAULT_FILL_COLOR;
 		shape = "\"record\"";
+		this.setActive(true);
 	}
 
 	/**

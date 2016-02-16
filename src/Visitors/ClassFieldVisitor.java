@@ -1,7 +1,9 @@
-package problem.asm;
+package Visitors;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
+import problem.asm.UMLField;
+import problem.asm.UMLGraph;
 
 public class ClassFieldVisitor extends ClassVisitor {
 

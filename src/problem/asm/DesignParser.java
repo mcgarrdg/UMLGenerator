@@ -9,6 +9,13 @@ import java.io.PrintWriter;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import PatternDetectors.AdapterPatternDetector;
+import PatternDetectors.CompositePatternDetector;
+import PatternDetectors.DecoratorPatternDetector;
+import PatternDetectors.SingletonPatternDetector;
+import Visitors.ClassDeclarationVisitor;
+import Visitors.ClassFieldVisitor;
+import Visitors.ClassMethodVisitor;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;

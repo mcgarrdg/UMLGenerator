@@ -1,11 +1,15 @@
-package problem.asm;
+package PatternDetectors;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Visitors.ClassDeclarationVisitor;
+import Visitors.ClassFieldVisitor;
+import Visitors.ClassMethodVisitor;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
+import problem.asm.*;
 
 public class DecoratorPatternDetector implements IPatternDetector {
 

@@ -1,8 +1,11 @@
-package problem.asm;
+package PatternDetectors;
 
 import java.util.ArrayList;
 
 import org.objectweb.asm.Opcodes;
+import problem.asm.UMLClass;
+import problem.asm.UMLField;
+import problem.asm.UMLMethod;
 
 public class SingletonPatternDetector implements IPatternDetector {
 

@@ -1,6 +1,8 @@
-package problem.asm;
+package Visitors;
 
 import org.objectweb.asm.ClassVisitor;
+import problem.asm.UMLClass;
+import problem.asm.UMLGraph;
 
 public class ClassDeclarationVisitor extends ClassVisitor {
 

@@ -29,6 +29,7 @@ public class UMLArrow extends UMLGraphItem {
 
 	@Override
 	public String toGraphVizString() {
+		//TODO If we don't want to draw arrows to non-active classes, check to see if they arent then dont draw. Maybe this check is better in the UMLClass?
 		String returnLabel;
 		if (label.isEmpty()) {
 			returnLabel = label;
