@@ -44,7 +44,6 @@ public class CheckboxPanel extends JPanel {
 			c.gridy = i++;
 			JCheckBox box = new JCheckBox(cls.getName(), cls.isActive());
 			box.addActionListener(a -> {
-				System.out.println(box.isSelected());
 				cls.setActive(box.isSelected());
 				this.frame.refreshUMLImage();
 			});
