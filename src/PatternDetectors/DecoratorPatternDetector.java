@@ -15,6 +15,8 @@ public class DecoratorPatternDetector implements IPatternDetector {
 
 	private static String patternColor = "#09FF00";
 
+	private static String catagoryName = "Decorator";
+
 	public DecoratorPatternDetector() {
 	}
 
@@ -106,9 +108,11 @@ public class DecoratorPatternDetector implements IPatternDetector {
 				if (!decoratorSubset.isEmpty()) {
 					for (UMLClass c2 : decoratorSubset) {
 						c2.addPatternName("decorator");
+						c2.addPatternCatagory(catagoryName);
 						c2.setFillColor(patternColor);
 						if(c2.equals(c1) && selfDecorator) {
 							c2.addPatternName("component");
+							c2.addPatternCatagory(catagoryName);
 						}
 						for (UMLArrow arrow : c2.getUMLArrows()) {
 							UMLClass start = c2;
@@ -125,6 +129,7 @@ public class DecoratorPatternDetector implements IPatternDetector {
 					}
 					if (realComponentSpecified && !selfDecorator) {
 						realComponent.addPatternName("component");
+						realComponent.addPatternCatagory(catagoryName);
 						realComponent.setFillColor(patternColor);
 					}
 				}
@@ -134,12 +139,18 @@ public class DecoratorPatternDetector implements IPatternDetector {
 			for (UMLClass c2 : c1.getAllExtendsOrImplements()) {
 				if (c2.getPatternNames().contains("decorator")) {
 					c1.addPatternName("decorator");
+					c1.addPatternCatagory(catagoryName);
 					c1.setFillColor(patternColor);
 				}
 			}
 
 		}
 
+	}
+
+	@Override
+	public String getPatternCatagoryName() {
+		return catagoryName;
 	}
 
 }

@@ -9,6 +9,8 @@ import problem.asm.UMLMethod;
 
 public class SingletonPatternDetector implements IPatternDetector {
 
+	private static String catagoryName = "Singleton";
+
 	public SingletonPatternDetector() {
 
 	}
@@ -56,9 +58,15 @@ public class SingletonPatternDetector implements IPatternDetector {
 				// is a singleton
 				c.setColor(UMLClass.COLOR_BLUE);
 				c.addPatternName("Singleton");
+				c.addPatternCatagory(catagoryName);
 			}
 
 		}
 
+	}
+
+	@Override
+	public String getPatternCatagoryName() {
+		return catagoryName;
 	}
 }

@@ -20,6 +20,8 @@ public class AdapterPatternDetector implements IPatternDetector {
 
     public static String ADAPTER_COLOR = "#990000";
 
+    private static String catagoryName = "Adapter";
+
     @Override
     public void detectPatterns(ArrayList<UMLClass> classList) {
         for(UMLClass classOne : classList)
@@ -48,8 +50,8 @@ public class AdapterPatternDetector implements IPatternDetector {
 //                    //TODO We may not want FullBaseDataType here, as an ArrayList of X would still work, which it shouldn't(???) with the adapter pattern.
                     if(field.getType().getFullName().equals(imp) || field.getType().getFullName().equals(classOne.getExtension()))
                     {
-                        System.out.println("FIELD: " + field.getType().getFullName());
-                        System.out.println("IMPLEMENTS: "+ imp);
+//                        System.out.println("FIELD: " + field.getType().getFullName());
+//                        System.out.println("IMPLEMENTS: "+ imp);
                         matchingFound = true;
                         break;
                     }
@@ -122,6 +124,7 @@ public class AdapterPatternDetector implements IPatternDetector {
                     {
                         arrow.setLabel("adapts");
                         arrow.getEndClass().addPatternName("adaptee");
+                        arrow.getEndClass().addPatternCatagory(catagoryName);
                         arrow.getEndClass().setFillColor(ADAPTER_COLOR);
                         break;
                     }
@@ -144,13 +147,20 @@ public class AdapterPatternDetector implements IPatternDetector {
                     {
 //                        arrow.setLabel("adapts");
                         arrow.getEndClass().addPatternName("target");
+                        arrow.getEndClass().addPatternCatagory(catagoryName);
                         arrow.getEndClass().setFillColor(ADAPTER_COLOR);
                         break;
                     }
                 }
             }
             classOne.addPatternName("adapter");
+            classOne.addPatternCatagory(catagoryName);
             classOne.setFillColor(ADAPTER_COLOR);
         }
+    }
+
+    @Override
+    public String getPatternCatagoryName() {
+        return catagoryName;
     }
 }

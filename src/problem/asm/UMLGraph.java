@@ -17,7 +17,11 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 	 * The list of classes that this UMLGraph will contain.
 	 */
 	private ArrayList<UMLClass> classes;
-	
+
+	public ArrayList<IPatternDetector> getPatternDetectors() {
+		return patternDetectors;
+	}
+
 	/**
 	 * The list of patterns that will be detected in this graph.
 	 */
@@ -336,7 +340,7 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 		for (UMLMethod meth : clazz.getMethods()) {
 			if (meth.sameFullQualifiedSignature(method)) {
 				this.sdEditMethodData.add(meth.toSDGraphMethodData(prevLevelMethod));
-				System.out.println(callDepth + ": " + method.getName() + " " + prevLevelMethod.getName());
+//				System.out.println(callDepth + ": " + method.getName() + " " + prevLevelMethod.getName());
 
 				generateCallSequenceVisit(callDepth, meth);
 			}

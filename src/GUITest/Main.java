@@ -1,9 +1,6 @@
 package GUITest;
 
-import PatternDetectors.AdapterPatternDetector;
-import PatternDetectors.CompositePatternDetector;
-import PatternDetectors.DecoratorPatternDetector;
-import PatternDetectors.SingletonPatternDetector;
+import PatternDetectors.*;
 import Visitors.ClassDeclarationVisitor;
 import Visitors.ClassFieldVisitor;
 import Visitors.ClassMethodVisitor;
@@ -66,9 +63,15 @@ public class Main {
 		outputDirectoryPath = props.getProperty(OUTPUT_PATH_KEY);
 		outputFile =  props.getProperty(OUTPUT_PATH_KEY) + "test.png";
 
-		UMLGraph graph = visitFiles(files, props.getProperty(INPUT_CLASSES_KEY, "").trim().split(","));
+		ArrayList<IPatternDetector> patDetect = new ArrayList<>();
+		patDetect.add(new SingletonPatternDetector());
+		patDetect.add(new DecoratorPatternDetector());
+		patDetect.add(new AdapterPatternDetector());
+		patDetect.add(new CompositePatternDetector());
+
+		UMLGraph graph = visitFiles(files, props.getProperty(INPUT_CLASSES_KEY, "").trim().split(","), patDetect);
 		dotPath = props.getProperty(DOT_PATH_KEY);
-		generateUMLPNG(graph.toGraphVizString(), props.getProperty(OUTPUT_PATH_KEY));
+		generateUMLPNG(graph.toGraphVizString());
 
 		DesignParserFrame f = new DesignParserFrame("Design Parser", props.getProperty(OUTPUT_PATH_KEY) + "test.png", graph);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,14 +88,19 @@ public class Main {
 	 * @return A completed UMLGraph.
 	 * @throws IOException
 	 */
-	public static UMLGraph visitFiles(ArrayList<File> files, String[] javaClasses) throws IOException {
+	public static UMLGraph visitFiles(ArrayList<File> files, String[] javaClasses, ArrayList<IPatternDetector> patternDetectors) throws IOException {
 		//TODO: Add some checking to be sure that the files are .class and (more importantly) the javaClasses strings are valid.
 		//TODO: CHeck for class not found
-		UMLGraph graph = new UMLGraph("Test_UML", "BT");
-		graph.addPatternDetector(new SingletonPatternDetector()); //Add detectors here
-		graph.addPatternDetector(new DecoratorPatternDetector());
-		graph.addPatternDetector(new AdapterPatternDetector());
-		graph.addPatternDetector(new CompositePatternDetector());
+		UMLGraph graph = new UMLGraph("Test_UML", "BT"); //TODO Pass these thigns in as arguments?
+//		graph.addPatternDetector(new SingletonPatternDetector()); //Add detectors here
+//		graph.addPatternDetector(new DecoratorPatternDetector());
+//		graph.addPatternDetector(new AdapterPatternDetector());
+//		graph.addPatternDetector(new CompositePatternDetector());
+		for (IPatternDetector p : patternDetectors)
+		{
+			graph.addPatternDetector(p);
+		}
+
 		for (File f : files) {
 			InputStream in = new FileInputStream(f);
 			ClassReader reader = new ClassReader(in);
@@ -117,7 +125,7 @@ public class Main {
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 		}
 
-		graph.generateArrows();
+		graph.generateArrows(); //TODO Maybe we shouldn't have these lines here?
 		graph.detectPatterns();
 		return graph;
 	}
@@ -126,15 +134,15 @@ public class Main {
 	 * Given a valid String for a GraphViz document, this uses dot.exe to
 	 * generate a PNG of the UML diagram.
 	 *
-	 * @param s
+	 * @param graphVizString
 	 *            The string to pass into GraphViz.
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public static void generateUMLPNG(String s, String outputPath) throws IOException, InterruptedException {
+	public static void generateUMLPNG(String graphVizString) throws IOException, InterruptedException {
 //		String filePath = outputPath + "test";
 		PrintWriter writer = new PrintWriter(outputDirectoryPath + ".dot", "UTF-8");
-		writer.println(s);
+		writer.println(graphVizString);
 		writer.flush();
 		writer.close();
 		File f = new File(outputDirectoryPath + ".dot");

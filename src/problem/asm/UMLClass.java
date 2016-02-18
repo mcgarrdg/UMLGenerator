@@ -93,9 +93,27 @@ public class UMLClass extends UMLGraphItem {
 	
 	/**
 	 * A list of all of the pattern names that should be appended after the class name in the UML Diagram.
-	 * AKA Names of all the patterns that this class is a part of.
+	 * AKA Names of all of the specific patterns that this class is
 	 */
-	public ArrayList<String> patternNames;
+	public ArrayList<String> patternNames; //TODO Should really be private, but tests use it currently.
+
+	public ArrayList<String> getPatternCatagories() {
+		return patternCatagories;
+	}
+
+	/**
+	 * A list of all the pattern names that this class is a part of.
+	 */
+	private ArrayList<String> patternCatagories;
+
+	public void addPatternCatagory(String name)
+	{
+
+		if(!this.patternCatagories.contains(name)) {
+			this.patternCatagories.add(name);
+		}
+	}
+
 
 	public boolean isActive() {
 		return isActive;
@@ -134,6 +152,7 @@ public class UMLClass extends UMLGraphItem {
 		this.fillColor = UMLClass.DEFAULT_FILL_COLOR;
 		shape = "\"record\"";
 		this.setActive(true);
+		patternCatagories = new ArrayList<>();
 	}
 
 	/**

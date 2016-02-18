@@ -70,7 +70,7 @@ public class DesignParserFrame extends JFrame {
 
 		this.getContentPane().add(scroll, c);
 
-		System.out.println(this.outputPath);
+//		System.out.println(this.outputPath);
 		ImageIcon image;
 		try {
 			image=new ImageIcon(ImageIO.read(new File(this.outputPath)));
@@ -107,7 +107,7 @@ public class DesignParserFrame extends JFrame {
 //		this.scroll.removeAll();
 
 		try {
-			Main.generateUMLPNG(umlGraph.toGraphVizString(), this.getOutputPath());
+			Main.generateUMLPNG(umlGraph.toGraphVizString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
