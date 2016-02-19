@@ -6,11 +6,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -28,10 +31,12 @@ public class ToolbarPanel extends JMenuBar {
 	private JMenu fileMenu;
 	private JMenu helpMenu;
 	private UMLGraph g;
+	private DesignParserFrame frame;
 
-	public ToolbarPanel(UMLGraph g) {
+	public ToolbarPanel(UMLGraph g, DesignParserFrame frame) {
 		// Build the file menu.
 		this.g = g;
+		this.frame = frame;
 		fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_A);
 		
@@ -48,6 +53,73 @@ public class ToolbarPanel extends JMenuBar {
 				choose.setCurrentDirectory(new File("./files/"));
 				choose.showOpenDialog(null);
 				File file = choose.getSelectedFile();
+				
+				
+				Properties props = new Properties();
+				try {
+					FileInputStream in = new FileInputStream(file);
+					props.load(in);
+					in.close();
+				} catch (IOException exception) {
+					exception.printStackTrace();
+				}
+				
+				ArrayList<IPhase> analyzePhases = ToolbarPanel.this.frame.getAnalyzePhases();
+//				if(props == null)
+//				{
+//					JOptionPane.showMessageDialog(new JFrame(),
+//							"No configuration has been loaded.",
+//							"No configuration found",
+//							JOptionPane.ERROR_MESSAGE);
+//				}
+//				else
+					if(analyzePhases == null || analyzePhases.isEmpty())
+				{
+					JOptionPane.showMessageDialog(new JFrame(),
+							"Either no phases were found in the configuration, or no configuration has been loaded.",
+							"No phases found",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					UMLGraph oldGraph = ToolbarPanel.this.frame.getUMLGraph();
+					UMLGraph graph = new UMLGraph(oldGraph.getName(), oldGraph.getRankdir());
+					ArrayList<IPhase> tempPhases = new ArrayList<IPhase>();
+					for(IPhase phase : analyzePhases)
+					{
+						tempPhases.add(phase.restart(graph, props));
+					}
+					analyzePhases = tempPhases;
+					for(IPhase phase : analyzePhases)
+					{
+//						System.out.println(phase.getPhaseName());
+						if(phase.isActive())
+						{
+//							System.out.println(phase.getPhaseName());
+//							phase.getPhaseName();
+//							progressBar.setString(phase.getPhaseDescription());
+							phase.execute();
+//							phase.getPhaseName();
+//							try {
+//								Thread.sleep(1000);
+//							} catch (InterruptedException e) {
+//								e.printStackTrace();
+//							}
+						}
+					}
+
+
+					DesignParserFrame p = new DesignParserFrame("Design Parser", Utilities.outputFile, graph, analyzePhases);
+					p.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					p.setVisible(true);
+					ToolbarPanel.this.frame.dispose();
+				}
+				
+				
+				
+				
+				
+				
 			}
 			
 		});

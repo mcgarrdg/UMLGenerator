@@ -99,7 +99,7 @@ public class LandingScreenFrame extends JFrame
 					}
 				}
 
-				DesignParserFrame p = new DesignParserFrame("Design Parser", Utilities.outputFile, graph);
+				DesignParserFrame p = new DesignParserFrame("Design Parser", Utilities.outputFile, graph, this.analyzePhases);
 				p.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				p.setVisible(true);
 				this.dispose();

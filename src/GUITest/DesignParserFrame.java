@@ -1,15 +1,23 @@
 package GUITest;
 
-import problem.asm.DesignParser;
-import problem.asm.UMLGraph;
-
-import javax.imageio.ImageIO;
-import javax.rmi.CORBA.Util;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ComponentListener;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import problem.asm.UMLGraph;
 
 /**
  * Created by tiefenaw on 2/15/2016.
@@ -24,7 +32,11 @@ public class DesignParserFrame extends JFrame {
 	private JLabel imageLabel;
 	private UMLGraph umlGraph;
 	private JPanel uiPanel;
+	private ArrayList<IPhase> analyzePhases;
 
+	public UMLGraph getUMLGraph() {
+		return this.umlGraph;
+	}
 	public JScrollPane getScroll() {
 		return scroll;
 	}
@@ -46,13 +58,14 @@ public class DesignParserFrame extends JFrame {
 		super(title, gc);
 	}
 
-	public DesignParserFrame(String title, String outputPath, UMLGraph g) throws HeadlessException {
+	public DesignParserFrame(String title, String outputPath, UMLGraph g, ArrayList<IPhase> analyzePhases) throws HeadlessException {
 		super(title);
 		this.umlGraph = g;
 //		this.getContentPane().setLayout(new GridBagLayout());
 //		this.setLayout(new BorderLayout());
 //		this.setLayout(new GridLayout(1,2,1,1));
 		this.outputPath = outputPath;
+		this.analyzePhases = analyzePhases;
 
 		scroll = new JScrollPane();
 		CheckboxPanel chk = new CheckboxPanel(g, this);
@@ -61,7 +74,7 @@ public class DesignParserFrame extends JFrame {
 //		c.fill = GridBagConstraints.HORIZONTAL;
 //		c.anchor = GridBagConstraints.NORTH;
 
-		ToolbarPanel tp = new ToolbarPanel(g);
+		ToolbarPanel tp = new ToolbarPanel(g, this);
 		this.getContentPane().add(tp, BorderLayout.NORTH);
 
 		this.uiPanel = new JPanel();
@@ -162,5 +175,8 @@ public class DesignParserFrame extends JFrame {
 		}
 
 		this.validate();
+	}
+	public ArrayList<IPhase> getAnalyzePhases() {
+		return this.analyzePhases;
 	}
 }
