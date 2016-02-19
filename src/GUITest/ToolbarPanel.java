@@ -193,29 +193,38 @@ public class ToolbarPanel extends JMenuBar {
 							choose.getSelectedFile().getAbsolutePath().lastIndexOf('.'));
 				}
 
-				PrintWriter writer;
+				Utilities.outputDirectoryPath = filePath;
 				try {
-					writer = new PrintWriter(filePath + ".dot", "UTF-8");
-					writer.println(g.toGraphVizString());
-					writer.flush();
-					writer.close();
-					File f = new File(filePath + ".dot");
-					while (!f.exists());
-					//TODO: Undo hardcoding of graphviz path
-					String command = "\"" + "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot" + "\" -Tpng " + filePath + ".dot -o " + filePath + ".png";
-					Runtime rt = Runtime.getRuntime();
-					Process pr = rt.exec(command);
-					pr.waitFor();
-					pr.destroy();
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (UnsupportedEncodingException e1) {
-					e1.printStackTrace();
+					Utilities.generateUMLPNG(g.toGraphVizString());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
+
+//				PrintWriter writer;
+//				try {
+//					writer = new PrintWriter(filePath + ".dot", "UTF-8");
+//					writer.println(g.toGraphVizString());
+//					writer.flush();
+//					writer.close();
+//					File f = new File(filePath + ".dot");
+//					while (!f.exists());
+//					//TODO: Undo hardcoding of graphviz path
+//					String command = "\"" + "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot" + "\" -Tpng " + filePath + ".dot -o " + filePath + ".png";
+//					Runtime rt = Runtime.getRuntime();
+//					Process pr = rt.exec(command);
+//					pr.waitFor();
+//					pr.destroy();
+//				} catch (FileNotFoundException e1) {
+//					e1.printStackTrace();
+//				} catch (UnsupportedEncodingException e1) {
+//					e1.printStackTrace();
+//				} catch (IOException e1) {
+//					e1.printStackTrace();
+//				} catch (InterruptedException e1) {
+//					e1.printStackTrace();
+//				}
 				
 			}
 			

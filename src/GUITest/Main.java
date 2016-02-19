@@ -55,14 +55,14 @@ public class Main {
 		phases.add(new GenerateOutputPhase(g, null));
 
 
-		Properties props = new Properties();
-		FileInputStream in = new FileInputStream("./files/prop.properties");
-		props.load(in);
-		in.close();
+//		Properties props = new Properties();
+//		FileInputStream in = new FileInputStream("./files/prop.properties");
+//		props.load(in);
+//		in.close();
 		//TODO Make this stuff get set when the properties are read
-		Utilities.dotPath = props.getProperty(Utilities.DOT_PATH_KEY);
-		Utilities.outputDirectoryPath = props.getProperty(Utilities.OUTPUT_PATH_KEY);
-		Utilities.outputFile = props.getProperty(Utilities.OUTPUT_PATH_KEY) + "test.png";
+//		Utilities.dotPath = props.getProperty(Utilities.DOT_PATH_KEY);
+//		Utilities.outputDirectoryPath = props.getProperty(Utilities.OUTPUT_PATH_KEY);
+//		Utilities.outputFile = props.getProperty(Utilities.OUTPUT_PATH_KEY) + "test.png";
 
 
 

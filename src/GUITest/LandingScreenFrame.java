@@ -59,6 +59,10 @@ public class LandingScreenFrame extends JFrame
 				FileInputStream in = new FileInputStream(file);
 				this.props.load(in);
 				in.close();
+
+				Utilities.dotPath = props.getProperty(Utilities.DOT_PATH_KEY);
+				Utilities.outputDirectoryPath = props.getProperty(Utilities.OUTPUT_PATH_KEY);
+//				Utilities.outputFile = props.getProperty(Utilities.OUTPUT_PATH_KEY) + "test.png";
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -121,7 +125,7 @@ public class LandingScreenFrame extends JFrame
 //								e.printStackTrace();
 //							}
 						}
-						DesignParserFrame p = new DesignParserFrame("Design Parser", Utilities.outputFile, graph, analyzePhases);
+						DesignParserFrame p = new DesignParserFrame("Design Parser", graph, analyzePhases);
 						p.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 						p.setVisible(true);
 						dispose();

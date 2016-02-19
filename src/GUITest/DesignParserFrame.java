@@ -24,11 +24,11 @@ import problem.asm.UMLGraph;
  */
 public class DesignParserFrame extends JFrame {
 
-	public String getOutputPath() {
-		return outputPath;
-	}
+//	public String getOutputPath() {
+//		return outputPath;
+//	}
 
-	private String outputPath;
+//	private String outputPath;
 	private JLabel imageLabel;
 	private UMLGraph umlGraph;
 	private JPanel uiPanel;
@@ -58,13 +58,13 @@ public class DesignParserFrame extends JFrame {
 		super(title, gc);
 	}
 
-	public DesignParserFrame(String title, String outputPath, UMLGraph g, ArrayList<IPhase> analyzePhases) throws HeadlessException {
+	public DesignParserFrame(String title, UMLGraph g, ArrayList<IPhase> analyzePhases) throws HeadlessException {
 		super(title);
 		this.umlGraph = g;
 //		this.getContentPane().setLayout(new GridBagLayout());
 //		this.setLayout(new BorderLayout());
 //		this.setLayout(new GridLayout(1,2,1,1));
-		this.outputPath = outputPath;
+//		this.outputPath = outputPath;
 		this.analyzePhases = analyzePhases;
 
 		scroll = new JScrollPane();
@@ -97,7 +97,7 @@ public class DesignParserFrame extends JFrame {
 		this.uiPanel.add(scroll, c);
 
 //		System.out.println(this.outputPath);
-		ImageIcon image = new ImageProxy(this.outputPath);
+		ImageIcon image = new ImageProxy(Utilities.outputDirectoryPath + ".png");
 //			image=new ImageIcon(ImageIO.read(new File(this.outputPath)));
 		imageLabel=new JLabel(image);
 	
@@ -149,7 +149,7 @@ public class DesignParserFrame extends JFrame {
 		c.fill = GridBagConstraints.VERTICAL;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.WEST;
-		ImageIcon image = new ImageProxy(this.outputPath);
+		ImageIcon image = new ImageProxy(Utilities.outputDirectoryPath + ".png");
 //		image=new ImageIcon(ImageIO.read(new File(this.outputPath)));
 				
 		this.scroll.remove(imageLabel);

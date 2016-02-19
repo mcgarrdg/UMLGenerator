@@ -25,13 +25,13 @@ public class Utilities {
 	public static String ADAPTER_UNUSED_THRESHOLD_KEY = "Adapter-Unused-Threshold";
 	public static String ADAPTER_UNIMPLEMENTED_THRESHOLD_KEY = "Adapter-Unimplemented-Threshold";
 
-	public static String outputFile;
+//	public static String outputFile;
 
 	public static String outputDirectoryPath;
 
 	public static String dotPath;
 
-	public static String filename;
+//	public static String filename;
 
 //	public static String getOutputPathKey() {
 //		return OUTPUT_PATH_KEY;
@@ -47,7 +47,7 @@ public class Utilities {
 		writer.close();
 		File f = new File(outputDirectoryPath + ".dot");
 		while (!f.exists());
-		String command = "\"" + dotPath + "\" -Tpng " + outputDirectoryPath + ".dot -o " + outputDirectoryPath + "test.png";
+		String command = "\"" + dotPath + "\" -Tpng " + outputDirectoryPath + ".dot -o " + outputDirectoryPath + ".png";
 		Runtime rt = Runtime.getRuntime();
 		Process pr = rt.exec(command);
 		pr.waitFor();
