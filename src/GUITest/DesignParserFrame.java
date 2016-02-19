@@ -22,6 +22,7 @@ public class DesignParserFrame extends JFrame {
 	private String outputPath;
 	private JLabel imageLabel;
 	private UMLGraph umlGraph;
+	private JPanel uiPanel;
 
 	public JScrollPane getScroll() {
 		return scroll;
@@ -47,7 +48,7 @@ public class DesignParserFrame extends JFrame {
 	public DesignParserFrame(String title, String outputPath, UMLGraph g) throws HeadlessException {
 		super(title);
 		this.umlGraph = g;
-		this.getContentPane().setLayout(new GridBagLayout());
+//		this.getContentPane().setLayout(new GridBagLayout());
 //		this.setLayout(new BorderLayout());
 //		this.setLayout(new GridLayout(1,2,1,1));
 		this.outputPath = outputPath;
@@ -55,17 +56,18 @@ public class DesignParserFrame extends JFrame {
 		scroll = new JScrollPane();
 		CheckboxPanel chk = new CheckboxPanel(g, this);
 
-		GridBagConstraints c = new GridBagConstraints();
-
-		c.gridheight = GridBagConstraints.RELATIVE;
-		c.fill = GridBagConstraints.HORIZONTAL;
-//		c.
-//		c.weighty = 1;
-		c.anchor = GridBagConstraints.NORTH;
+//		c.gridheight = GridBagConstraints.RELATIVE;
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.anchor = GridBagConstraints.NORTH;
 
 		ToolbarPanel tp = new ToolbarPanel(g);
-		this.getContentPane().add(tp, c);
+		this.getContentPane().add(tp, BorderLayout.NORTH);
 
+		this.uiPanel = new JPanel();
+
+
+		GridBagConstraints c = new GridBagConstraints();
+		this.uiPanel.setLayout(new GridBagLayout());
 		c.gridy = 1;
 		c.gridheight = GridBagConstraints.RELATIVE;
 		c.fill = GridBagConstraints.VERTICAL;
@@ -78,7 +80,7 @@ public class DesignParserFrame extends JFrame {
 		scroll.setViewportView(chk);
 
 
-		this.getContentPane().add(scroll, c);
+		this.uiPanel.add(scroll, c);
 
 //		System.out.println(this.outputPath);
 		ImageIcon image;
@@ -94,13 +96,15 @@ public class DesignParserFrame extends JFrame {
 			scroll.add(imageLabel, c);
 			scroll.setPreferredSize(new Dimension(200, 200));
 			scroll.setViewportView(imageLabel);
-			this.getContentPane().add(scroll, c);
+			this.uiPanel.add(scroll, c);
 
 
 //			this.add(label);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		this.getContentPane().add(this.uiPanel, BorderLayout.CENTER);
 
 //		Image image = null;
 //		image = ImageIO.read(new URL(url));
@@ -148,7 +152,7 @@ public class DesignParserFrame extends JFrame {
 			scroll.add(imageLabel, c);
 //			scroll.setPreferredSize(new Dimension(200, 200));
 			scroll.setViewportView(imageLabel);
-			this.getContentPane().add(scroll, c);
+//			this.getContentPane().add(scroll, c);
 
 
 //			this.add(label);
