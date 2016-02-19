@@ -45,7 +45,7 @@ public class ToolbarPanel extends JMenuBar {
 		});
 		fileMenu.add(menuItem);
 		
-		menuItem = new JMenuItem("Export PNG", KeyEvent.VK_E);
+		JMenu submenu = new JMenu("Export PNG");
 		
 		JMenuItem subItem = new JMenuItem("...to Defualt", KeyEvent.VK_D);
 		subItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
@@ -64,7 +64,7 @@ public class ToolbarPanel extends JMenuBar {
 			}
 			
 		});
-		menuItem.add(subItem);
+		submenu.add(subItem);
 		
 		subItem = new JMenuItem("...to Specified", KeyEvent.VK_S);
 		subItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.ALT_MASK));
@@ -83,9 +83,9 @@ public class ToolbarPanel extends JMenuBar {
 			}
 			
 		});
-		menuItem.add(subItem);
-		fileMenu.add(menuItem);
-		this.add(fileMenu);
+		submenu.add(subItem);
+		fileMenu.add(submenu);
+		
 
 	}
 }
