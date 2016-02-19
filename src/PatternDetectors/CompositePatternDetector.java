@@ -86,6 +86,11 @@ public class CompositePatternDetector implements IPatternDetector {
 		return catagoryName;
 	}
 
+	@Override
+	public String getPatternColor() {
+		return patternColor;
+	}
+
 //	public ArrayList<Class<?>> getSupers(UMLClass c1) throws ClassNotFoundException {
 //		Class<?> clazz = Class.forName(c1.getName().replace('/', '.'));
 //		ArrayList<Class<?>> supers = new ArrayList<Class<?>>(Arrays.asList(clazz.getInterfaces()));

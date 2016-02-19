@@ -44,7 +44,7 @@ public class Main {
 	private static String sdEditPath;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-				Properties props = new Properties();
+		Properties props = new Properties();
 		FileInputStream in = new FileInputStream("./files/prop.properties");
 		props.load(in);
 		in.close();

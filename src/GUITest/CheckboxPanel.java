@@ -1,5 +1,6 @@
 package GUITest;
 
+import PatternDetectors.AdapterPatternDetector;
 import PatternDetectors.IPatternDetector;
 import problem.asm.UMLClass;
 import problem.asm.UMLGraph;
@@ -67,6 +68,9 @@ public class CheckboxPanel extends JPanel {
 			c.gridy = i++;
 			c.insets = new Insets(0, 0, 0, 0);
 			JCheckBox box = new JCheckBox(p.getPatternCatagoryName(), true);
+//			box.set
+			Color col = Color.decode(p.getPatternColor());
+			box.setForeground(col);
 			box.addActionListener(a -> {
 				boolean setValue = box.isSelected();
 				this.setChangingChecks(true);

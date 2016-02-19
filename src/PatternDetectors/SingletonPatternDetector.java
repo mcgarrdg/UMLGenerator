@@ -11,6 +11,8 @@ public class SingletonPatternDetector implements IPatternDetector {
 
 	private static String catagoryName = "Singleton";
 
+	private static String patternColor = UMLClass.COLOR_BLUE;
+
 	public SingletonPatternDetector() {
 
 	}
@@ -56,7 +58,7 @@ public class SingletonPatternDetector implements IPatternDetector {
 			}
 			if (privateConstructor && getInstanceMethod && instanceField) {
 				// is a singleton
-				c.setColor(UMLClass.COLOR_BLUE);
+				c.setColor(patternColor);
 				c.addPatternName("Singleton");
 				c.addPatternCatagory(catagoryName);
 			}
@@ -68,5 +70,10 @@ public class SingletonPatternDetector implements IPatternDetector {
 	@Override
 	public String getPatternCatagoryName() {
 		return catagoryName;
+	}
+
+	@Override
+	public String getPatternColor() {
+		return patternColor;
 	}
 }

@@ -153,4 +153,9 @@ public class DecoratorPatternDetector implements IPatternDetector {
 		return catagoryName;
 	}
 
+	@Override
+	public String getPatternColor() {
+		return patternColor;
+	}
+
 }

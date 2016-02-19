@@ -278,4 +278,9 @@ public class AdapterPatternDetector implements IPatternDetector {
     public String getPatternCatagoryName() {
         return catagoryName;
     }
+
+    @Override
+    public String getPatternColor() {
+        return this.ADAPTER_COLOR;
+    }
 }

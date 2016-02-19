@@ -8,4 +8,6 @@ public interface IPatternDetector {
 	void detectPatterns(ArrayList<UMLClass> classList);
 
 	String getPatternCatagoryName();
+
+	String getPatternColor();
 }
