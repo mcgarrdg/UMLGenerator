@@ -85,6 +85,7 @@ public class ToolbarPanel extends JMenuBar {
 		});
 		submenu.add(subItem);
 		fileMenu.add(submenu);
+		this.add(fileMenu);
 		
 
 	}
