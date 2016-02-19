@@ -74,7 +74,7 @@ public class DesignParserFrame extends JFrame {
 
 
 		scroll.add(chk);
-		scroll.setPreferredSize(new Dimension(200, 200));
+//		scroll.setPreferredSize(new Dimension(200, 200));
 		scroll.setViewportView(chk);
 
 
