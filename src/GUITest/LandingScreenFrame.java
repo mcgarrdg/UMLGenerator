@@ -5,6 +5,8 @@ import problem.asm.UMLGraph;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,7 +22,15 @@ public class LandingScreenFrame extends JFrame
 	private Properties props;
 	private UMLGraph graph;
 	private JProgressBar progressBar;
-
+	private JButton analyze;
+	private JButton loadCfg;
+	
+	public JButton getAnalyzeButton() {
+		return this.analyze;
+	}
+	public JButton getloadCfgButton() {
+		return this.loadCfg;
+	}
 	public LandingScreenFrame(String title, ArrayList<IPhase> possiblePhases, UMLGraph g) throws HeadlessException {
 		super(title);
 		props = null;
@@ -35,7 +45,7 @@ public class LandingScreenFrame extends JFrame
 //		c.ipadx = 15;
 		c.insets = new Insets(20, 20, 20, 20);
 
-		JButton loadCfg = new JButton("Load Config");
+		loadCfg = new JButton("Load Config");
 		loadCfg.addActionListener(a -> {
 			JFileChooser choose = new JFileChooser();
 			choose.setMultiSelectionEnabled(false);
@@ -55,7 +65,7 @@ public class LandingScreenFrame extends JFrame
 		});
 		buttonPanel.add(loadCfg, c);
 
-		JButton analyze = new JButton("Analyze");
+		analyze = new JButton("Analyze");
 		analyze.addActionListener(a -> {
 			if(this.props == null)
 			{
@@ -80,29 +90,45 @@ public class LandingScreenFrame extends JFrame
 					tempPhases.add(phase.restart(this.graph, this.props));
 				}
 				this.analyzePhases = tempPhases;
+				Thread t = new Thread (new Runnable() {
+					@Override
+					public void run() {
+						progressBar.setMinimum(0);
+						progressBar.setMaximum(analyzePhases.size());
+						for(IPhase phase : analyzePhases)
+						{
+							
+							SwingUtilities.invokeLater(new Runnable() {
 
-				for(IPhase phase : this.analyzePhases)
-				{
-//					System.out.println(phase.getPhaseName());
-					if(phase.isActive())
-					{
-//						System.out.println(phase.getPhaseName());
-//						phase.getPhaseName();
-						progressBar.setString(phase.getPhaseDescription());
-						phase.execute();
-//						phase.getPhaseName();
-//						try {
-//							Thread.sleep(1000);
-//						} catch (InterruptedException e) {
-//							e.printStackTrace();
-//						}
+								@Override
+								public void run() {
+			
+									if(phase.isActive())
+									{
+										progressBar.setString(phase.getPhaseDescription());
+										phase.execute();
+									}			
+									progressBar.setValue(progressBar.getValue()+1);
+								}
+								
+							});
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							
+						}
+						DesignParserFrame p = new DesignParserFrame("Design Parser", Utilities.outputFile, graph, analyzePhases);
+						p.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						p.setVisible(true);
+						dispose();
+					
 					}
-				}
+				});
+				t.start();			
 
-				DesignParserFrame p = new DesignParserFrame("Design Parser", Utilities.outputFile, graph, this.analyzePhases);
-				p.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				p.setVisible(true);
-				this.dispose();
+			
 			}
 
 		});
@@ -128,4 +154,5 @@ public class LandingScreenFrame extends JFrame
 	{
 		this.analyzePhases = phases;
 	}
+	
 }

@@ -5,6 +5,8 @@ public class UMLArrow extends UMLGraphItem {
 	private final UMLClass endClass;
 	private final String lineType;
 	private final String arrowType;
+	private static String DEFAULT_ARROW_COLOR = "#000000";
+	private String arrowColor;
 	private String label;
 
 	/**
@@ -25,6 +27,11 @@ public class UMLArrow extends UMLGraphItem {
 		this.arrowType = arrowHeadType;
 		this.lineType = lineType;
 		this.label = "";
+		this.arrowColor = DEFAULT_ARROW_COLOR;
+	}
+	
+	public void setArrowColor(String color) {
+		this.arrowColor = color;
 	}
 
 	@Override
@@ -41,7 +48,7 @@ public class UMLArrow extends UMLGraphItem {
 			returnLabel = "\", label=\"\\<\\<" + label + "\\>\\>";
 		}
 		return ("\"" + startClass.getName() + "\" -> \"" + endClass.getName() + "\"" + " [arrowhead=\"" + arrowType
-				+ returnLabel + "\", style=\"" + lineType + "\"];\n");
+				+ returnLabel + "\", style=\"" + lineType + "\", color=\"" + arrowColor+  "\"];\n");
 	}
 
 	/**

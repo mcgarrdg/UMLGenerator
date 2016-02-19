@@ -47,24 +47,30 @@ public class ToolbarPanel extends JMenuBar {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser choose = new JFileChooser();
-				choose.setMultiSelectionEnabled(false);
-				choose.setFileFilter(new FileNameExtensionFilter("Properties File", "properties"));
-				choose.setCurrentDirectory(new File("./files/"));
-				choose.showOpenDialog(null);
-				File file = choose.getSelectedFile();
+//				JFileChooser choose = new JFileChooser();
+//				choose.setMultiSelectionEnabled(false);
+//				choose.setFileFilter(new FileNameExtensionFilter("Properties File", "properties"));
+//				choose.setCurrentDirectory(new File("./files/"));
+//				choose.showOpenDialog(null);
+//				File file = choose.getSelectedFile();
 				
-				
-				Properties props = new Properties();
-				try {
-					FileInputStream in = new FileInputStream(file);
-					props.load(in);
-					in.close();
-				} catch (IOException exception) {
-					exception.printStackTrace();
-				}
+//				Properties props = new Properties();
+//				try {
+//					FileInputStream in = new FileInputStream(file);
+//					props.load(in);
+//					in.close();
+//				} catch (IOException exception) {
+//					exception.printStackTrace();
+//				}
 				
 				ArrayList<IPhase> analyzePhases = ToolbarPanel.this.frame.getAnalyzePhases();
+				UMLGraph oldGraph = ToolbarPanel.this.frame.getUMLGraph();
+				LandingScreenFrame s = new LandingScreenFrame("Landing", analyzePhases, new UMLGraph(oldGraph.getName(), oldGraph.getRankdir()));
+				s.getloadCfgButton().doClick();
+				s.getAnalyzeButton().doClick();
+				s.setVisible(true);
+
+				
 //				if(props == null)
 //				{
 //					JOptionPane.showMessageDialog(new JFrame(),
@@ -73,47 +79,47 @@ public class ToolbarPanel extends JMenuBar {
 //							JOptionPane.ERROR_MESSAGE);
 //				}
 //				else
-					if(analyzePhases == null || analyzePhases.isEmpty())
-				{
-					JOptionPane.showMessageDialog(new JFrame(),
-							"Either no phases were found in the configuration, or no configuration has been loaded.",
-							"No phases found",
-							JOptionPane.ERROR_MESSAGE);
-				}
-				else
-				{
-					UMLGraph oldGraph = ToolbarPanel.this.frame.getUMLGraph();
-					UMLGraph graph = new UMLGraph(oldGraph.getName(), oldGraph.getRankdir());
-					ArrayList<IPhase> tempPhases = new ArrayList<IPhase>();
-					for(IPhase phase : analyzePhases)
-					{
-						tempPhases.add(phase.restart(graph, props));
-					}
-					analyzePhases = tempPhases;
-					for(IPhase phase : analyzePhases)
-					{
-//						System.out.println(phase.getPhaseName());
-						if(phase.isActive())
-						{
-//							System.out.println(phase.getPhaseName());
-//							phase.getPhaseName();
-//							progressBar.setString(phase.getPhaseDescription());
-							phase.execute();
-//							phase.getPhaseName();
-//							try {
-//								Thread.sleep(1000);
-//							} catch (InterruptedException e) {
-//								e.printStackTrace();
-//							}
-						}
-					}
-
-
-					DesignParserFrame p = new DesignParserFrame("Design Parser", Utilities.outputFile, graph, analyzePhases);
-					p.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					p.setVisible(true);
+//					if(analyzePhases == null || analyzePhases.isEmpty())
+//				{
+//					JOptionPane.showMessageDialog(new JFrame(),
+//							"Either no phases were found in the configuration, or no configuration has been loaded.",
+//							"No phases found",
+//							JOptionPane.ERROR_MESSAGE);
+//				}
+//				else
+//				{
+//					UMLGraph oldGraph = ToolbarPanel.this.frame.getUMLGraph();
+//					UMLGraph graph = new UMLGraph(oldGraph.getName(), oldGraph.getRankdir());
+//					ArrayList<IPhase> tempPhases = new ArrayList<IPhase>();
+//					for(IPhase phase : analyzePhases)
+//					{
+//						tempPhases.add(phase.restart(graph, props));
+//					}
+//					analyzePhases = tempPhases;
+//					for(IPhase phase : analyzePhases)
+//					{
+////						System.out.println(phase.getPhaseName());
+//						if(phase.isActive())
+//						{
+////							System.out.println(phase.getPhaseName());
+////							phase.getPhaseName();
+////							progressBar.setString(phase.getPhaseDescription());
+//							phase.execute();
+////							phase.getPhaseName();
+////							try {
+////								Thread.sleep(1000);
+////							} catch (InterruptedException e) {
+////								e.printStackTrace();
+////							}
+//						}
+//					}
+//
+//
+//					DesignParserFrame p = new DesignParserFrame("Design Parser", Utilities.outputFile, graph, analyzePhases);
+//					p.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//					p.setVisible(true);
 					ToolbarPanel.this.frame.dispose();
-				}
+//				}
 				
 				
 				
