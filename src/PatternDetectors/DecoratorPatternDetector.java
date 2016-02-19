@@ -14,6 +14,10 @@ import org.objectweb.asm.Opcodes;
 
 public class DecoratorPatternDetector implements IPatternDetector {
 
+	public void setPatternColor(String patternColor) {
+		DecoratorPatternDetector.patternColor = patternColor;
+	}
+
 	private static String patternColor = "#09FF00";
 
 	private static String catagoryName = "Decorator";

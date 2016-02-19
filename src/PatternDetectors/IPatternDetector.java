@@ -10,4 +10,6 @@ public interface IPatternDetector {
 	String getPatternCatagoryName();
 
 	String getPatternColor();
+
+	void setPatternColor(String color);
 }

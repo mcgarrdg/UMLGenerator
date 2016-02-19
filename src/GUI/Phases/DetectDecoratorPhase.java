@@ -16,6 +16,7 @@ public class DetectDecoratorPhase extends APhase {
 		super(g, p);
 		this.detector = new DecoratorPatternDetector();
 		if(this.isActive())
+			this.detector.setPatternColor(p.getProperty(this.detector.getPatternCatagoryName() + "-Color", this.detector.getPatternColor()));
 			g.addPatternDetector(this.detector);
 	}
 

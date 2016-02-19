@@ -35,10 +35,10 @@ Decorator-Detector -- searches a UMLGraph for the Decorator pattern.
 Generate-Output -- creates a PNG of the built UMLGraph to be displayed.
 ---------------------------------------------------------------------------------------------
 Available Settings:
-
 Input-folder -- specifies a directory from which to load classes. 
 Input-classes -- specify classes to add to UML by full name.
 Output-Directory -- specify the location for which files are stored. 
 Dot-path -- specify the location where GraphViz has been installed. 
 Adapter-Unused-Threshold -- Adapter criteria that helps restrict the detection of adapters.  
 Adapter-Unimplemented-Threshold --  Adapter criteria that helps restrict the detection of adapters.
+"Name of pattern"-Color -- Specify the color of a pattern in hex. (Ex: Decorator-Color: #3AC2F0)

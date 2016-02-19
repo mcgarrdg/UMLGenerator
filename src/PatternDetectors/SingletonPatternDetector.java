@@ -76,4 +76,9 @@ public class SingletonPatternDetector implements IPatternDetector {
 	public String getPatternColor() {
 		return patternColor;
 	}
+
+	@Override
+	public void setPatternColor(String color) {
+		this.patternColor = color;
+	}
 }

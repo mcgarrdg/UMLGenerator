@@ -11,16 +11,17 @@ import java.util.Properties;
  */
 public class DetectAdapterPhase extends APhase {
 
-	private AdapterPatternDetector apd;
+	private AdapterPatternDetector detector;
 
 	public DetectAdapterPhase(UMLGraph g, Properties p) {
 		super(g, p);
-		this.apd = new AdapterPatternDetector();
+		this.detector = new AdapterPatternDetector();
 		if(this.isActive())
-			g.addPatternDetector(this.apd);
+			g.addPatternDetector(this.detector);
 		if(p!=null) {
-			apd.setFieldUnusedNumThreshold(Integer.parseInt(p.getProperty(Utilities.ADAPTER_UNUSED_THRESHOLD_KEY, "" + AdapterPatternDetector.getFieldUnusedNumThreshold())));
-			apd.setNamMethodsNotImplementedThreshold(Integer.parseInt(p.getProperty(Utilities.ADAPTER_UNIMPLEMENTED_THRESHOLD_KEY, "" + AdapterPatternDetector.getNamMethodsNotImplementedThreshold())));
+			detector.setFieldUnusedNumThreshold(Integer.parseInt(p.getProperty(Utilities.ADAPTER_UNUSED_THRESHOLD_KEY, "" + AdapterPatternDetector.getFieldUnusedNumThreshold())));
+			detector.setNamMethodsNotImplementedThreshold(Integer.parseInt(p.getProperty(Utilities.ADAPTER_UNIMPLEMENTED_THRESHOLD_KEY, "" + AdapterPatternDetector.getNamMethodsNotImplementedThreshold())));
+			this.detector.setAdapterColor(p.getProperty(this.detector.getPatternCatagoryName() + "-Color", this.detector.getPatternColor()));
 		}
 	}
 
@@ -36,7 +37,7 @@ public class DetectAdapterPhase extends APhase {
 
 	@Override
 	public void execute() {
-		apd.detectPatterns(graph.getClasses());
+		detector.detectPatterns(graph.getClasses());
 	}
 
 	@Override

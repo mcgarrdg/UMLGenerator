@@ -15,8 +15,10 @@ public class DetectSingletonPhase extends APhase {
 	public DetectSingletonPhase(UMLGraph g, Properties p) {
 		super(g, p);
 		this.detector = new SingletonPatternDetector();
-		if(this.isActive())
+		if(this.isActive()) {
+			this.detector.setPatternColor(p.getProperty(this.detector.getPatternCatagoryName() + "-Color", this.detector.getPatternColor()));
 			g.addPatternDetector(this.detector);
+		}
 	}
 
 	@Override

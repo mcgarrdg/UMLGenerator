@@ -16,6 +16,7 @@ public class DetectCompositePhase extends APhase {
 		super(g, p);
 		this.detector = new CompositePatternDetector();
 		if(this.isActive())
+			this.detector.setPatternColor(p.getProperty(this.detector.getPatternCatagoryName() + "-Color", this.detector.getPatternColor()));
 			g.addPatternDetector(this.detector);
 	}
 

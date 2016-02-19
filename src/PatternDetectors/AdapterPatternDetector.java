@@ -43,6 +43,10 @@ public class AdapterPatternDetector implements IPatternDetector {
 
     public static int NAM_METHODS_NOT_IMPLEMENTED_THRESHOLD = 1;
 
+    public static void setAdapterColor(String adapterColor) {
+        ADAPTER_COLOR = adapterColor;
+    }
+
     public static String ADAPTER_COLOR = "#990000";
 
     private static String catagoryName = "Adapter";
@@ -303,5 +307,10 @@ public class AdapterPatternDetector implements IPatternDetector {
     @Override
     public String getPatternColor() {
         return this.ADAPTER_COLOR;
+    }
+
+    @Override
+    public void setPatternColor(String color) {
+        this.ADAPTER_COLOR = color;
     }
 }

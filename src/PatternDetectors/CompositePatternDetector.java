@@ -82,4 +82,9 @@ public class CompositePatternDetector implements IPatternDetector {
 		return patternColor;
 	}
 
+	@Override
+	public void setPatternColor(String color) {
+		this.patternColor = color;
+	}
+
 }
