@@ -1,6 +1,5 @@
 package PatternDetectors;
 
-import com.sun.org.apache.xpath.internal.compiler.OpCodes;
 import org.objectweb.asm.Opcodes;
 import problem.asm.*;
 
@@ -165,9 +164,9 @@ public class AdapterPatternDetector implements IPatternDetector {
                 for (UMLClass c : classList) {
 //                    System.out.println(c.getName());
 //                    System.out.println(type);
-                    if (c.getName().equals(type))
+                    if (c.getName().equals(type) && c.isActive())
                     {
-                        System.out.println("Hello");
+//                        System.out.println("Hello");
 //                        if(c.getMethods())
                         found = true;
                     }
