@@ -61,6 +61,21 @@ The largest change of previous project components has been made to the type data
 Thus the class now supports a method isArray that tells if the field is an array or not. 
 The only new class within the project is the CompositePatternDetector which implements the IPatternDetector interface and detects Composite Patterns with UMLS.
 
+Milestone 7: 
+Out of pre-existing code, few changes were made to support the addition of the GUI elements. 
+UMLArrows can now be coloured, and the classes have been organized into packages based on functionality.
+To support different operations within the GUI, an new package of classes has been added.
+Main works as the client code, and serves as an example of how to build our project with new functionality.
+LandingScreenFrame is the first frame built by the client, and allows the user to select properties and analyze classes..
+This frame then builds a new frame: DesignParserFrame which contains CheckboxPanel and ToolbarPanel.
+DesignParserFrame displays the UML in the right field, the CheckboxPanel in the left field and a ToolbarPanel at the top.
+CheckboxPanel and ToolbarPanel implement the functionality of the GUI as described in the milestone Requirements. 
+The Utilities class just encapsulates many constants read in by the property file. 
+To support the addition of phases, IPhase and APhase serve as the interface for which the concrete phases code to. 
+Multiple phases have been built, and their functionality can be read in the instructions.txt file. 
+ImageProxy serves as a proxy for the ImageIcon class, providing an image if the UML has not been fully built. 
+The building of phases implements the strategy pattern, while ImageProxy follows the Proxy pattern. 
+
 Who did what: 
 Alec Tiefenthal
 Milestone 1: 
@@ -85,6 +100,10 @@ Milestone 5:
 Milestone 6: 
 -Modified TypeData to handle arrays easier.
 -helped write CompositePatternDetector class
+Milestone 7: 
+-Coded the structure for the GUI including DesignParserFrame, LandingScreenFrame, and CheckboxPanel.
+-Coded the API and implemented concrete versions of Phases. 
+-Coded the Utilities class
 
 
 Dan McGarry
@@ -115,7 +134,11 @@ Milestone 6:
 -Wrote the CompositePatternDetector class
 -Wrote test cases for the milestone. 
 -updated README
-
+Milestone 7: 
+-Coded the ToolbarPanel class 
+-Helped implement DesignParserFrame and LandingScreenFrame
+-Coded the ImageProxy class
+-Updated README
 
 
 Instructions: 
@@ -171,4 +194,20 @@ A new popup window will appear asking for a save location and name. Clicking sav
 
 Step 7:
 Open the .png file to view the SD of the method you chose. 
+
+Running GUI
+Step 1: 
+In order to run main, import the UMLGenerator into an eclipse workspace. 
+
+Step 2: 
+Run the main function within the Main Class, supplying no arguments. 
+
+Step 3: 
+A frame will appear asking for Load Config and Analyze.
+Select Load Config and choose an appropriate .properties file. 
+Select Analyze and wait for the project to build. 
+
+Step 4:
+Play with settings in the new window. Select Help->Instructions on how to operate the Design Parser Frame. 
+
 

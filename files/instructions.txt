@@ -9,7 +9,9 @@ then select file->Import properties and select your modified properties file.
 ---------------------------------------------------------------------------------------------
 If you wish to include more pattern detectors: 
 
-*TODO: fill in*
+Make sure you add the appropriate Pattern Detector class and Phase files to your client code.
+Then, update the Phases field of the prop.properties file to include your detector. 
+Import the new properties file to have the UML show your new patterns. 
 ---------------------------------------------------------------------------------------------
 To interact with the GUI: 
 
@@ -22,4 +24,21 @@ If you wish to save the current UML
 Navigate to File->Export PNG 
 Then choose ...to Default to save the PNG to the Output-Directory as Test.png
 or choose ...to Specified to choose a location and name to save the UML to. 
+---------------------------------------------------------------------------------------------
+Available phases: 
 
+Load -- loads class files and directories into a UMLGraph. 
+Generate-Arrows -- generates the arrows between classes loaded in loadPhase
+Composite-Detector -- searches a UMLGraph for the composite pattern. 
+Singleton-Detector -- searches a UMLGraph for the Singleton pattern. 
+Decorator-Detector -- searches a UMLGraph for the Decorator pattern. 
+Generate-Output -- creates a PNG of the built UMLGraph to be displayed.
+---------------------------------------------------------------------------------------------
+Available Settings:
+
+Input-folder -- specifies a directory from which to load classes. 
+Input-classes -- specify classes to add to UML by full name.
+Output-Directory -- specify the location for which files are stored. 
+Dot-path -- specify the location where GraphViz has been installed. 
+Adapter-Unused-Threshold -- Adapter criteria that helps restrict the detection of adapters.  
+Adapter-Unimplemented-Threshold --  Adapter criteria that helps restrict the detection of adapters.
