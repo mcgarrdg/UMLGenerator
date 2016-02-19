@@ -15,7 +15,8 @@ public class DetectCompositePhase extends APhase {
 	public DetectCompositePhase(UMLGraph g, Properties p) {
 		super(g, p);
 		this.detector = new CompositePatternDetector();
-		g.addPatternDetector(this.detector);
+		if(this.isActive())
+			g.addPatternDetector(this.detector);
 	}
 
 	@Override

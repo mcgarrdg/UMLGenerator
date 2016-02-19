@@ -15,7 +15,8 @@ public class DetectDecoratorPhase extends APhase {
 	public DetectDecoratorPhase(UMLGraph g, Properties p) {
 		super(g, p);
 		this.detector = new DecoratorPatternDetector();
-		g.addPatternDetector(this.detector);
+		if(this.isActive())
+			g.addPatternDetector(this.detector);
 	}
 
 	@Override
