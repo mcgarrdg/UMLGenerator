@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -97,38 +98,38 @@ public class LandingScreenFrame extends JFrame
 						progressBar.setMaximum(analyzePhases.size());
 						for(IPhase phase : analyzePhases)
 						{
-							
-							SwingUtilities.invokeLater(new Runnable() {
-
-								@Override
-								public void run() {
-			
-									if(phase.isActive())
-									{
-										progressBar.setString(phase.getPhaseDescription());
-										phase.execute();
-									}			
-									progressBar.setValue(progressBar.getValue()+1);
-								}
-								
-							});
 							try {
-								Thread.sleep(1000);
+								SwingUtilities.invokeAndWait(new Runnable() {
+									@Override
+									public void run() {
+										if(phase.isActive())
+										{
+											progressBar.setString(phase.getPhaseDescription());
+											phase.execute();
+										}			
+										progressBar.setValue(progressBar.getValue()+1);
+									}
+								});
+							} catch (InvocationTargetException e) {
+								e.printStackTrace();
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
-							
+//							try {
+//								Thread.sleep(1000);
+//							} catch (InterruptedException e) {
+//								e.printStackTrace();
+//							}
 						}
 						DesignParserFrame p = new DesignParserFrame("Design Parser", Utilities.outputFile, graph, analyzePhases);
 						p.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 						p.setVisible(true);
 						dispose();
+						
 					
 					}
 				});
-				t.start();			
-
-			
+				t.start();	
 			}
 
 		});

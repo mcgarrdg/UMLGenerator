@@ -97,26 +97,20 @@ public class DesignParserFrame extends JFrame {
 		this.uiPanel.add(scroll, c);
 
 //		System.out.println(this.outputPath);
-		ImageIcon image;
-		try {
-			image=new ImageIcon(ImageIO.read(new File(this.outputPath)));
-			imageLabel=new JLabel(image);
+		ImageIcon image = new ImageProxy(this.outputPath);
+//			image=new ImageIcon(ImageIO.read(new File(this.outputPath)));
+		imageLabel=new JLabel(image);
+	
 
-//			c.gridwidth = GridBagConstraints.RELATIVE;
-			c.fill = GridBagConstraints.BOTH;
-			c.weightx = 1;
+//		c.gridwidth = GridBagConstraints.RELATIVE;
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
 
-			scroll = new JScrollPane();
-			scroll.add(imageLabel, c);
-			scroll.setPreferredSize(new Dimension(200, 200));
-			scroll.setViewportView(imageLabel);
-			this.uiPanel.add(scroll, c);
-
-
-//			this.add(label);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		scroll = new JScrollPane();
+		scroll.add(imageLabel, c);
+		scroll.setPreferredSize(new Dimension(200, 200));
+		scroll.setViewportView(imageLabel);
+		this.uiPanel.add(scroll, c);
 
 		this.getContentPane().add(this.uiPanel, BorderLayout.CENTER);
 
@@ -129,11 +123,14 @@ public class DesignParserFrame extends JFrame {
 
 		this.validate();
 		this.pack();
+
 	}
 
 	public void refreshUMLImage()
 	{
 //		this.scroll.removeAll();
+//		imageLabel=new JLabel();
+//		imageLabel.setText("Loading Image");
 
 		try {
 			Utilities.generateUMLPNG(umlGraph.toGraphVizString());
@@ -152,29 +149,26 @@ public class DesignParserFrame extends JFrame {
 		c.fill = GridBagConstraints.VERTICAL;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.WEST;
+		ImageIcon image = new ImageProxy(this.outputPath);
+//		image=new ImageIcon(ImageIO.read(new File(this.outputPath)));
+				
+		this.scroll.remove(imageLabel);
+		imageLabel=new JLabel(image);
+			
+//		c.gridwidth = GridBagConstraints.RELATIVE;
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
 
-		ImageIcon image;
-		try {
-			image=new ImageIcon(ImageIO.read(new File(this.outputPath)));
-			imageLabel=new JLabel(image);
+//		scroll = new JScrollPane();
+		scroll.add(imageLabel, c);
+//		scroll.setPreferredSize(new Dimension(200, 200));
+		scroll.setViewportView(imageLabel);
+//		this.getContentPane().add(scroll, c);
 
-//			c.gridwidth = GridBagConstraints.RELATIVE;
-			c.fill = GridBagConstraints.BOTH;
-			c.weightx = 1;
-
-//			scroll = new JScrollPane();
-			scroll.add(imageLabel, c);
-//			scroll.setPreferredSize(new Dimension(200, 200));
-			scroll.setViewportView(imageLabel);
-//			this.getContentPane().add(scroll, c);
-
-
-//			this.add(label);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		this.add(label);
 
 		this.validate();
+		
 	}
 	public ArrayList<IPhase> getAnalyzePhases() {
 		return this.analyzePhases;
