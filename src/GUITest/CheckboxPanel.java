@@ -74,6 +74,7 @@ public class CheckboxPanel extends JPanel {
 				{
 //					check.setSelected(setValue);
 //					check.getActionListeners()[0].
+					//TODO don't do naything if it doesn't actually change anything. Likewise in the general catagory.
 					if(check.isSelected() != setValue)
 					{
 						check.doClick(1);

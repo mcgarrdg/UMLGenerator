@@ -58,6 +58,16 @@ public class DesignParserFrame extends JFrame {
 		GridBagConstraints c = new GridBagConstraints();
 
 		c.gridheight = GridBagConstraints.RELATIVE;
+		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.
+//		c.weighty = 1;
+		c.anchor = GridBagConstraints.NORTH;
+
+		ToolbarPanel tp = new ToolbarPanel(g);
+		this.getContentPane().add(tp, c);
+
+		c.gridy = 1;
+		c.gridheight = GridBagConstraints.RELATIVE;
 		c.fill = GridBagConstraints.VERTICAL;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.WEST;
@@ -95,7 +105,8 @@ public class DesignParserFrame extends JFrame {
 //		Image image = null;
 //		image = ImageIO.read(new URL(url));
 //		JLabel label=new JLabel(image);
-
+//		ToolbarPanel tp = new ToolbarPanel(g);
+//		this.getContentPane().add(tp);
 
 
 		this.validate();
