@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 
-import problem.asm.TypeData;
-import problem.asm.UMLField;
+import Core.TypeData;
+import Core.UMLItems.UMLField;
 
 public class UMLFieldTest {
 	

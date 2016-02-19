@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import problem.asm.SDGraphMethodData;
-import problem.asm.TypeData;
+import Core.SD.SDGraphMethodData;
+import Core.TypeData;
 
 public class SDGraphMethodDataTest {
 
@@ -28,7 +28,7 @@ public class SDGraphMethodDataTest {
 		this.argData = new ArrayList<TypeData>();
 		this.classCalledOn = "java.lang.String";
 		this.returnName = "boolean";		
-		SDGraphMethodData data = new problem.asm.SDGraphMethodData(classCalledFrom, methodName, classCalledOn, returnName, argData);
+		SDGraphMethodData data = new SDGraphMethodData(classCalledFrom, methodName, classCalledOn, returnName, argData);
 		
 		assertEquals(data.getClassCalledFrom(), this.classCalledFrom);
 		assertEquals(data.getClassCalledOn(), this.classCalledOn);

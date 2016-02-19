@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 
-import problem.asm.TypeData;
-import problem.asm.UMLMethod;
+import Core.TypeData;
+import Core.UMLItems.UMLMethod;
 
 public class UMLMethodTest {
 	

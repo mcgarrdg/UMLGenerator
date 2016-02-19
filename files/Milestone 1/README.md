@@ -2,7 +2,7 @@
 
 Design 
 For the UMLGenerator, operates using the visitor pattern. 
-DesignParser operates as the client code which helps choose the .class files have been chosen to construct a UML, and then creates a series of Visitors that decorate one another. 
+DesignParser operates as the client code which helps choose the .class files have been chosen to construct a UML, and then creates a series of Core.Visitors that decorate one another.
 A ClassReader object (from ASM's package) works as the traverser in the design, which uses one decorated Visitor to store the relevant information from each class. 
 
 Specifically three Visitor classes have been made, ClassDeclarationVisitor, ClassFieldVisitor, and ClassMethodVisitor that each implement ASM's ClassVisitor. 

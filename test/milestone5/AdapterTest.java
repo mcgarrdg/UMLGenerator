@@ -14,12 +14,12 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
 import PatternDetectors.AdapterPatternDetector;
-import Visitors.ClassDeclarationVisitor;
-import Visitors.ClassFieldVisitor;
-import Visitors.ClassMethodVisitor;
-import problem.asm.UMLArrow;
-import problem.asm.UMLClass;
-import problem.asm.UMLGraph;
+import Core.Visitors.ClassDeclarationVisitor;
+import Core.Visitors.ClassFieldVisitor;
+import Core.Visitors.ClassMethodVisitor;
+import Core.UMLItems.UMLArrow;
+import Core.UMLItems.UMLClass;
+import Core.UMLItems.UMLGraph;
 
 public class AdapterTest {
 

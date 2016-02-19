@@ -1,7 +1,11 @@
 package PatternDetectors;
 
+import Core.*;
+import Core.UMLItems.UMLArrow;
+import Core.UMLItems.UMLClass;
+import Core.UMLItems.UMLField;
+import Core.UMLItems.UMLMethod;
 import org.objectweb.asm.Opcodes;
-import problem.asm.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

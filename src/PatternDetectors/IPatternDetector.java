@@ -1,6 +1,6 @@
 package PatternDetectors;
 
-import problem.asm.UMLClass;
+import Core.UMLItems.UMLClass;
 
 import java.util.ArrayList;
 

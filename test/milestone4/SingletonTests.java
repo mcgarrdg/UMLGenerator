@@ -9,11 +9,11 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
-import Visitors.ClassDeclarationVisitor;
-import Visitors.ClassFieldVisitor;
-import Visitors.ClassMethodVisitor;
+import Core.Visitors.ClassDeclarationVisitor;
+import Core.Visitors.ClassFieldVisitor;
+import Core.Visitors.ClassMethodVisitor;
 import PatternDetectors.SingletonPatternDetector;
-import problem.asm.UMLGraph;
+import Core.UMLItems.UMLGraph;
 
 public class SingletonTests {
 

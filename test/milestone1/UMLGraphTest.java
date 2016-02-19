@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 
-import problem.asm.TypeData;
-import problem.asm.UMLClass;
-import problem.asm.UMLField;
-import problem.asm.UMLGraph;
-import problem.asm.UMLMethod;
+import Core.TypeData;
+import Core.UMLItems.UMLClass;
+import Core.UMLItems.UMLField;
+import Core.UMLItems.UMLGraph;
+import Core.UMLItems.UMLMethod;
 
 public class UMLGraphTest {
 
