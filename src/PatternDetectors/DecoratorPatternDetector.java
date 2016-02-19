@@ -92,7 +92,7 @@ public class DecoratorPatternDetector implements IPatternDetector {
 							reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 
 						} catch (IOException e) {
-							e.printStackTrace();
+//							e.printStackTrace();
 						}
 
 						newGraph.generateArrows();

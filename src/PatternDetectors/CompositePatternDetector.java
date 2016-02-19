@@ -36,15 +36,6 @@ public class CompositePatternDetector implements IPatternDetector {
 									break;
 								}
 							}
-							// for (Class<?> c2 : getSupers(c1)) {
-							// if
-							// (f.getType().getFullBaseDataType().equals(c2.getCanonicalName()))
-							// {
-							// listOfComponent = true;
-							// component = c2.getCanonicalName();
-							// break;
-							// }
-							// }
 							if (listOfComponent) {
 								// find component
 								for (UMLClass c2 : classList) {
@@ -56,7 +47,7 @@ public class CompositePatternDetector implements IPatternDetector {
 							}
 						}
 					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
+//						e.printStackTrace();
 					}
 				}
 				if (realComponent != null) {
@@ -90,18 +81,5 @@ public class CompositePatternDetector implements IPatternDetector {
 	public String getPatternColor() {
 		return patternColor;
 	}
-
-//	public ArrayList<Class<?>> getSupers(UMLClass c1) throws ClassNotFoundException {
-//		Class<?> clazz = Class.forName(c1.getName().replace('/', '.'));
-//		ArrayList<Class<?>> supers = new ArrayList<Class<?>>(Arrays.asList(clazz.getInterfaces()));
-//		Class<?> superClazz = clazz;
-//		while ((superClazz = superClazz.getSuperclass()) != null) {
-//			if (!supers.contains(superClazz)) {
-//				supers.add(superClazz);
-//			}
-//		}
-//		supers.remove(Object.class);
-//		return supers;
-//	}
 
 }
