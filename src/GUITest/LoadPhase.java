@@ -128,27 +128,9 @@ public class LoadPhase extends APhase {
 	}
 
 	@Override
-	public void restart(UMLGraph g, Properties p) {
-//		this = new LoadPhase(g,p);
-		this.graph = g;
-		this.props = p;
-//
-//		ArrayList<File> files = new ArrayList<>();
-//		try {
-//			Files.walk(Paths.get(props.getProperty(Utilities.INPUT_FOLDER_KEY))).forEach(filePath -> {
-//				if (Files.isRegularFile(filePath)) {
-//
-//					if(filePath.toString().endsWith(".class"))
-//					{
-//						files.add(new File(filePath.toString()));
-//					}
-//				}
-//			});
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		this.files = files;
-//		this.javaClasses = props.getProperty(Utilities.INPUT_CLASSES_KEY, "").trim().split(",");
+	public IPhase restart(UMLGraph g, Properties p) {
+		return new LoadPhase(g,p);
 	}
+
+
 }

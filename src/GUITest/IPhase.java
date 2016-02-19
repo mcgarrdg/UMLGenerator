@@ -11,6 +11,6 @@ public interface IPhase {
 	String getPhaseName();
 	String getPhaseDescription();
 	void execute();
-	void restart(UMLGraph g, Properties p);
+	IPhase restart(UMLGraph g, Properties p);
 	public boolean isActive();
 }

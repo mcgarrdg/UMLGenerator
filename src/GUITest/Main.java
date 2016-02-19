@@ -9,6 +9,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 import problem.asm.UMLGraph;
 
+import javax.rmi.CORBA.Util;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
@@ -44,7 +45,29 @@ public class Main {
 	private static String sdEditPath;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		LandingScreenFrame  s = new LandingScreenFrame("Landing", null);
+		UMLGraph g = new UMLGraph("UML", "BT");
+		ArrayList<IPhase> phases = new ArrayList<>();
+		phases.add(new LoadPhase(g, null));
+		phases.add(new GenerateArrowsPhase(g,null));
+		phases.add(new DetectCompositePhase(g,null));
+		phases.add(new DetectSingletonPhase(g, null));
+		phases.add(new DetectDecoratorPhase(g, null));
+		phases.add(new GenerateOutputPhase(g, null));
+
+
+		Properties props = new Properties();
+		FileInputStream in = new FileInputStream("./files/prop.properties");
+		props.load(in);
+		in.close();
+		//TODO Make this stuff get set when the properties are read
+		Utilities.dotPath = props.getProperty(Utilities.DOT_PATH_KEY);
+		Utilities.outputDirectoryPath = props.getProperty(Utilities.OUTPUT_PATH_KEY);
+		Utilities.outputFile = props.getProperty(Utilities.OUTPUT_PATH_KEY) + "test.png";
+
+
+
+
+		LandingScreenFrame  s = new LandingScreenFrame("Landing", phases, g);
 		s.setVisible(true);
 
 

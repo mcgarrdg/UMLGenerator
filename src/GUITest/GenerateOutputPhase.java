@@ -37,8 +37,7 @@ public class GenerateOutputPhase extends APhase {
 	}
 
 	@Override
-	public void restart(UMLGraph g, Properties p) {
-		this.graph = g;
-		this.props = p;
+	public IPhase restart(UMLGraph g, Properties p) {
+		return new GenerateOutputPhase(g,p);
 	}
 }

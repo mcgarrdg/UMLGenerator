@@ -15,8 +15,11 @@ public class DetectAdapterPhase extends APhase {
 	public DetectAdapterPhase(UMLGraph g, Properties p) {
 		super(g, p);
 		this.apd = new AdapterPatternDetector();
-		apd.setFieldUnusedNumThreshold(Integer.parseInt(p.getProperty(Utilities.ADAPTER_UNUSED_THRESHOLD_KEY, "" + AdapterPatternDetector.getFieldUnusedNumThreshold())));
-		apd.setNamMethodsNotImplementedThreshold(Integer.parseInt(p.getProperty(Utilities.ADAPTER_UNIMPLEMENTED_THRESHOLD_KEY, "" + AdapterPatternDetector.getNamMethodsNotImplementedThreshold())));
+		g.addPatternDetector(this.apd);
+		if(p!=null) {
+			apd.setFieldUnusedNumThreshold(Integer.parseInt(p.getProperty(Utilities.ADAPTER_UNUSED_THRESHOLD_KEY, "" + AdapterPatternDetector.getFieldUnusedNumThreshold())));
+			apd.setNamMethodsNotImplementedThreshold(Integer.parseInt(p.getProperty(Utilities.ADAPTER_UNIMPLEMENTED_THRESHOLD_KEY, "" + AdapterPatternDetector.getNamMethodsNotImplementedThreshold())));
+		}
 	}
 
 	@Override
@@ -35,7 +38,7 @@ public class DetectAdapterPhase extends APhase {
 	}
 
 	@Override
-	public void restart(UMLGraph g, Properties p) {
-
+	public IPhase restart(UMLGraph g, Properties p) {
+		return new DetectAdapterPhase(g, p);
 	}
 }

@@ -17,12 +17,12 @@ public abstract class APhase implements IPhase{
 		this.graph = g;
 		this.props = p;
 		this.isActive = false;
-		for(String s : p.getProperty(Utilities.PHASE_KEY).split(Utilities.SEPARATOR))
-		{
-			if(s.equals(this.getPhaseName()))
-			{
-				this.isActive = true;
-				break;
+		if(p != null) {
+			for (String s : p.getProperty(Utilities.PHASE_KEY).split(Utilities.SEPARATOR)) {
+				if (s.equals(this.getPhaseName())) {
+					this.isActive = true;
+					break;
+				}
 			}
 		}
 	}

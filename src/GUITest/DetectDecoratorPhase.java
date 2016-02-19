@@ -10,11 +10,12 @@ import java.util.Properties;
  */
 public class DetectDecoratorPhase extends APhase {
 
-	DecoratorPatternDetector detector;
+	private DecoratorPatternDetector detector;
 
 	public DetectDecoratorPhase(UMLGraph g, Properties p) {
 		super(g, p);
 		this.detector = new DecoratorPatternDetector();
+		g.addPatternDetector(this.detector);
 	}
 
 	@Override
@@ -33,7 +34,9 @@ public class DetectDecoratorPhase extends APhase {
 	}
 
 	@Override
-	public void restart(UMLGraph g, Properties p) {
-
+	public IPhase restart(UMLGraph g, Properties p) {
+		return new DetectDecoratorPhase(g, p);
 	}
+
+
 }

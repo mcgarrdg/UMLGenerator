@@ -10,11 +10,12 @@ import java.util.Properties;
  */
 public class DetectSingletonPhase extends APhase {
 
-	SingletonPatternDetector detector;
+	private SingletonPatternDetector detector;
 
 	public DetectSingletonPhase(UMLGraph g, Properties p) {
 		super(g, p);
 		this.detector = new SingletonPatternDetector();
+		g.addPatternDetector(this.detector);
 	}
 
 	@Override
@@ -33,7 +34,7 @@ public class DetectSingletonPhase extends APhase {
 	}
 
 	@Override
-	public void restart(UMLGraph g, Properties p) {
-
+	public IPhase restart(UMLGraph g, Properties p) {
+		return new DetectSingletonPhase(g,p);
 	}
 }

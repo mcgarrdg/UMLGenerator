@@ -10,11 +10,12 @@ import java.util.Properties;
  */
 public class DetectCompositePhase extends APhase {
 
-	CompositePatternDetector detector;
+	private CompositePatternDetector detector;
 
 	public DetectCompositePhase(UMLGraph g, Properties p) {
 		super(g, p);
 		this.detector = new CompositePatternDetector();
+		g.addPatternDetector(this.detector);
 	}
 
 	@Override
@@ -33,7 +34,7 @@ public class DetectCompositePhase extends APhase {
 	}
 
 	@Override
-	public void restart(UMLGraph g, Properties p) {
-
+	public IPhase restart(UMLGraph g, Properties p) {
+		return new DetectCompositePhase(g, p);
 	}
 }

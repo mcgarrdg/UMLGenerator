@@ -8,7 +8,6 @@ import java.util.Properties;
  * Created by tiefenaw on 2/18/2016.
  */
 public class GenerateArrowsPhase extends APhase {
-	UMLGraph graph;
 
 	public GenerateArrowsPhase(UMLGraph g, Properties p)
 	{
@@ -27,12 +26,12 @@ public class GenerateArrowsPhase extends APhase {
 
 	@Override
 	public void execute() {
+		System.out.println(graph.getName());
 		this.graph.generateArrows();
 	}
 
 	@Override
-	public void restart(UMLGraph g, Properties p) {
-		this.graph = g;
-		this.props = p;
+	public IPhase restart(UMLGraph g, Properties p) {
+		return new GenerateArrowsPhase(g,p);
 	}
 }
