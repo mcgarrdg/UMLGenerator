@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import problem.asm.DesignParser;
 import problem.asm.UMLGraph;
 
 public class ToolbarPanel extends JMenuBar {
@@ -25,7 +26,7 @@ public class ToolbarPanel extends JMenuBar {
 		this.g = g;
 		fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_A);
-		this.add(fileMenu);
+		
 
 		JMenuItem menuItem = new JMenuItem("Load Properties", KeyEvent.VK_L);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
@@ -45,12 +46,14 @@ public class ToolbarPanel extends JMenuBar {
 		fileMenu.add(menuItem);
 		
 		menuItem = new JMenuItem("Export PNG", KeyEvent.VK_E);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
-		menuItem.addActionListener(new ActionListener() {
+		
+		JMenuItem subItem = new JMenuItem("...to Defualt", KeyEvent.VK_D);
+		subItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
+		subItem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO: Place holder, we want the User to be able to specify their png name, etc. 
+				//TODO: Place holder, will just overwrite the PNG with a copy of itself. 
 				// Also, not sure if passing in the UMLGraph is the best option. There may be a better way
 				// to do this. 
 				try {
@@ -61,8 +64,28 @@ public class ToolbarPanel extends JMenuBar {
 			}
 			
 		});
-		fileMenu.add(menuItem);
+		menuItem.add(subItem);
 		
+		subItem = new JMenuItem("...to Specified", KeyEvent.VK_S);
+		subItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.ALT_MASK));
+		subItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Should we remove Dependency on DesignParser? The code there does exacly what we need it to do.
+				// Also, not sure if passing in the UMLGraph is the best option. There may be a better way
+				// to do this. 
+				try {
+					DesignParser.generateUMLPNG(g.toGraphVizString());
+				} catch (IOException | InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+		});
+		menuItem.add(subItem);
+		fileMenu.add(menuItem);
+		this.add(fileMenu);
 
 	}
 }
