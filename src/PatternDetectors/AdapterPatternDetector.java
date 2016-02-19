@@ -1,9 +1,12 @@
 package PatternDetectors;
 
+import com.sun.org.apache.xpath.internal.compiler.OpCodes;
+import org.objectweb.asm.Opcodes;
 import problem.asm.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -17,6 +20,8 @@ public class AdapterPatternDetector implements IPatternDetector {
      * and still have the class be considered an adapter. Does not include constructors.
      */
     public static int FIELD_UNUSED_NUM_THRESHHOLD = 1;
+
+    public static int NUM_METHODS_NOT_IMPLEMENTED_THRESHHOLD = 1;
 
     public static String ADAPTER_COLOR = "#990000";
 
@@ -32,6 +37,11 @@ public class AdapterPatternDetector implements IPatternDetector {
 //            {
 //                continue;
 //            }
+            //Must extend or implement exactly one thing to be an adapter, and that thing must exist on our graph
+            if(classOne.getAllExtendsOrImplements().size() != 1)
+            {
+                continue;
+            }
 
             if(classOne.getFields().size() == 0)
             {
@@ -44,6 +54,7 @@ public class AdapterPatternDetector implements IPatternDetector {
             //If the class has a field of the same type that it extends or implements, it is not an adapter.
             for(String imp : classOne.getImplementations())
             {
+
 //                boolean wasFound = false;
                 for(UMLField field : classOne.getFields())
                 {
@@ -97,24 +108,144 @@ public class AdapterPatternDetector implements IPatternDetector {
                 }
             }
 
-            boolean numUsedOk = true;
-            for(Map.Entry<String, Integer> entry : numFoundMap.entrySet())
+//            boolean numUsedOk = false;
+//            for(Map.Entry<String, Integer> entry : numFoundMap.entrySet())
+//            {
+//                if(entry.getValue().intValue() < (totalMethods - FIELD_UNUSED_NUM_THRESHHOLD))
+//                {
+//                    numFoundMap.remove(entry.getKey());
+////                    System.out.println("Here: " + classOne.getName());
+////                    System.out.println(entry.getValue().intValue());
+////                    System.out.println((totalMethods - FIELD_UNUSED_NUM_THRESHHOLD));
+////                    numUsedOk = true;
+//
+////                    break;
+//                }
+//            }
+
+            //There were too many instances of an implementation field not being used in a method.
+//            if(!numUsedOk)
+//            {
+//                continue;
+//            }
+
+//            if()
+
+            UMLClass superclass = classOne.getAllExtendsOrImplements().get(0);
+            int implementedCount = 0;
+            int superMethods = 0;
+            for(UMLMethod m : superclass.getMethods())
             {
-                if(entry.getValue().intValue() < (totalMethods - FIELD_UNUSED_NUM_THRESHHOLD))
+                if(!m.getName().equals("init"))
                 {
-//                    System.out.println("Here: " + classOne.getName());
-//                    System.out.println(entry.getValue().intValue());
-//                    System.out.println((totalMethods - FIELD_UNUSED_NUM_THRESHHOLD));
-                    numUsedOk = false;
-                    break;
+                    if((m.getAccessType() & Opcodes.ACC_PRIVATE) == Opcodes.ACC_PRIVATE)
+                    {
+                        continue;
+                    }
+                    superMethods++;
+                    for(UMLMethod m2 : classOne.getMethods())
+                    {
+                        if(m.sameSignature(m2))
+                        {
+                            implementedCount++;
+                            break;
+                        }
+                    }
                 }
             }
-            //There were too many instances of an implementation field not being used in a method.
-            if(!numUsedOk)
+
+            if(superMethods - implementedCount > NUM_METHODS_NOT_IMPLEMENTED_THRESHHOLD)
             {
                 continue;
             }
 
+            //TODO Uncomment this
+            for(String type : numFoundMap.keySet()) {
+                boolean found = false;
+                for (UMLClass c : classList) {
+//                    System.out.println(c.getName());
+//                    System.out.println(type);
+                    if (c.getName().equals(type))
+                    {
+                        System.out.println("Hello");
+//                        if(c.getMethods())
+                        found = true;
+                    }
+                }
+                if(!found)
+                {
+                    numFoundMap.replace(type, -1);
+                }
+            }
+
+            Iterator<Map.Entry<String, Integer>> it = numFoundMap.entrySet().iterator();
+//            for(Map.Entry<String, Integer> entry : numFoundMap.entrySet())
+            while(it.hasNext())
+            {
+                Map.Entry<String, Integer> entry = it.next();
+                boolean wasFound = false;
+                for(UMLClass c : classList)
+                {
+                    if(c.getName().equals(entry.getKey()))
+                    {
+                        wasFound = true;
+                    }
+                }
+
+                if(entry.getValue().intValue() < (totalMethods - FIELD_UNUSED_NUM_THRESHHOLD) || !wasFound)
+                {
+                    it.remove();
+//                    numFoundMap.remove(entry.getKey());
+//                    System.out.println("Here: " + classOne.getName());
+//                    System.out.println(entry.getValue().intValue());
+//                    System.out.println((totalMethods - FIELD_UNUSED_NUM_THRESHHOLD));
+//                    numUsedOk = true;
+
+//                    break;
+                }
+            }
+
+            if(numFoundMap.isEmpty())
+            {
+                continue;
+            }
+
+//            boolean superclassExists = false;
+//            for(String s : classOne.getImplementations())
+//            {
+                for(UMLArrow arrow : classOne.getUMLArrows())
+                {
+                    //TODO Is fullname what I really want?
+                    if(arrow.getEndClass().getName().equals(superclass.getName()))
+                    {
+//                        arrow.setLabel("adapts");
+                        arrow.setLabel("targets");
+                        arrow.getEndClass().addPatternName("target");
+                        arrow.getEndClass().addPatternCatagory(catagoryName);
+                        arrow.getEndClass().setFillColor(ADAPTER_COLOR);
+//                        superclassExists = true;
+                        break;
+                    }
+                }
+//            }
+
+//            for(UMLArrow arrow : classOne.getUMLArrows())
+//            {
+//                //TODO Is fullname what I really want?
+//                if(arrow.getEndClass().getName().equals(classOne.getExtension()))
+//                {
+////                        arrow.setLabel("adapts");
+//                    arrow.setLabel("targets");
+//                    arrow.getEndClass().addPatternName("target");
+//                    arrow.getEndClass().addPatternCatagory(catagoryName);
+//                    arrow.getEndClass().setFillColor(ADAPTER_COLOR);
+//                    superclassExists = true;
+//                    break;
+//                }
+//            }
+//
+//            if(!superclassExists)
+//                return;
             for(UMLField field : classOne.getFields())
             {
                 for(UMLArrow arrow : classOne.getUMLArrows())
@@ -138,21 +269,6 @@ public class AdapterPatternDetector implements IPatternDetector {
 //                numFoundMap.put(field.getType().getFullName(), 0);
             }
 
-            for(String s : classOne.getImplementations())
-            {
-                for(UMLArrow arrow : classOne.getUMLArrows())
-                {
-                    //TODO Is fullname what I really want?
-                    if(arrow.getEndClass().getName().equals(s))
-                    {
-//                        arrow.setLabel("adapts");
-                        arrow.getEndClass().addPatternName("target");
-                        arrow.getEndClass().addPatternCatagory(catagoryName);
-                        arrow.getEndClass().setFillColor(ADAPTER_COLOR);
-                        break;
-                    }
-                }
-            }
             classOne.addPatternName("adapter");
             classOne.addPatternCatagory(catagoryName);
             classOne.setFillColor(ADAPTER_COLOR);

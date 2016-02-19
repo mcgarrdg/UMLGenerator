@@ -111,13 +111,13 @@ public class UMLGraph extends UMLGraphItem implements SDGraphItem {
 			firstClass.generateArrows(this.classes);
 		}
 
-		for (UMLClass firstClass : this.classes) {
-			firstClass.removeExtraArrows();
-		}
-
-		for (UMLClass firstClass : this.classes) {
-			firstClass.removeRedundantUsesArrows();
-		}
+//		for (UMLClass firstClass : this.classes) {
+//			firstClass.removeExtraArrows();
+//		}
+//
+//		for (UMLClass firstClass : this.classes) {
+//			firstClass.removeRedundantUsesArrows();
+//		}
 	}
 	
 	@Override

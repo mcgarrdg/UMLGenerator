@@ -55,6 +55,20 @@ public class CheckboxPanel extends JPanel {
 			c.gridy = i++;
 			c.insets = new Insets(0, 0, 0, 0);
 			JCheckBox box = new JCheckBox(p.getPatternCatagoryName(), true);
+			box.addActionListener(a -> {
+				boolean setValue = box.isSelected();
+
+				for(JCheckBox check : this.patternCheckboxMap.get(p.getPatternCatagoryName()))
+				{
+//					check.setSelected(setValue);
+//					check.getAction()
+				}
+//				for(JCheckBox check : this.classCheckboxMap.get(cls.getName()))
+//				{
+//					check.setSelected(setValue);
+//				}
+//				cls.setActive(setValue);
+			});
 			this.add(box, c);
 
 			this.patternCheckboxMap.putIfAbsent(p.getPatternCatagoryName(), new ArrayList<>());
