@@ -1,0 +1,25 @@
+Instructions
+---------------------------------------------------------------------------------------------
+If you wish to include a different set of included classes: 
+
+Configure your prop.properties file to have the appropriate Dot-path for GraphViz. 
+Include the single classes you wish to use in the Input-classes field,
+and the directory you wish to examine in the Input-folder field. 
+then select file->Import properties and select your modified properties file. 
+---------------------------------------------------------------------------------------------
+If you wish to include more pattern detectors: 
+
+*TODO: fill in*
+---------------------------------------------------------------------------------------------
+To interact with the GUI: 
+
+By selecting and deselecting options in the leftmost panel, you can modify the displayed UML. 
+By choosing an option, the UML then includes the classes that build that specified pattern. 
+Deselecting the option removes those respective classes from the UML. 
+---------------------------------------------------------------------------------------------
+If you wish to save the current UML 
+
+Navigate to File->Export PNG 
+Then choose ...to Default to save the PNG to the Output-Directory as Test.png
+or choose ...to Specified to choose a location and name to save the UML to. 
+
