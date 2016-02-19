@@ -14,13 +14,30 @@ import java.util.Map;
 public class AdapterPatternDetector implements IPatternDetector {
 
     //TODO Allow this to change?
-	/**
+
+    public static int getFieldUnusedNumThreshold() {
+        return FIELD_UNUSED_NUM_THRESHOLD;
+    }
+
+    public static void setFieldUnusedNumThreshold(int fieldUnusedNumThreshold) {
+        FIELD_UNUSED_NUM_THRESHOLD = fieldUnusedNumThreshold;
+    }
+
+    /**
      * This represents the number of times a field can not be used in a method in the class
      * and still have the class be considered an adapter. Does not include constructors.
      */
-    public static int FIELD_UNUSED_NUM_THRESHHOLD = 1;
+    public static int FIELD_UNUSED_NUM_THRESHOLD = 1;
 
-    public static int NUM_METHODS_NOT_IMPLEMENTED_THRESHHOLD = 1;
+    public static int getNamMethodsNotImplementedThreshold() {
+        return NAM_METHODS_NOT_IMPLEMENTED_THRESHOLD;
+    }
+
+    public static void setNamMethodsNotImplementedThreshold(int namMethodsNotImplementedThreshold) {
+        NAM_METHODS_NOT_IMPLEMENTED_THRESHOLD = namMethodsNotImplementedThreshold;
+    }
+
+    public static int NAM_METHODS_NOT_IMPLEMENTED_THRESHOLD = 1;
 
     public static String ADAPTER_COLOR = "#990000";
 
@@ -153,7 +170,7 @@ public class AdapterPatternDetector implements IPatternDetector {
                 }
             }
 
-            if(superMethods - implementedCount > NUM_METHODS_NOT_IMPLEMENTED_THRESHHOLD)
+            if(superMethods - implementedCount > NAM_METHODS_NOT_IMPLEMENTED_THRESHOLD)
             {
                 continue;
             }
@@ -191,7 +208,7 @@ public class AdapterPatternDetector implements IPatternDetector {
                     }
                 }
 
-                if(entry.getValue().intValue() < (totalMethods - FIELD_UNUSED_NUM_THRESHHOLD) || !wasFound)
+                if(entry.getValue().intValue() < (totalMethods - FIELD_UNUSED_NUM_THRESHOLD) || !wasFound)
                 {
                     it.remove();
 //                    numFoundMap.remove(entry.getKey());

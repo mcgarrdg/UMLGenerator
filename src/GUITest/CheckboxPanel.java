@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 
-import static GUITest.Main.generateUMLPNG;
+//import static GUITest.Main.generateUMLPNG;
 
 /**
  * Created by tiefenaw on 2/15/2016.

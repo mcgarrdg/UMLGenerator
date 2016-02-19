@@ -65,7 +65,7 @@ public class ToolbarPanel extends JMenuBar {
 				// Also, not sure if passing in the UMLGraph is the best option. There may be a better way
 				// to do this. 
 				try {
-					Main.generateUMLPNG(g.toGraphVizString());
+					Utilities.generateUMLPNG(g.toGraphVizString());
 				} catch (IOException | InterruptedException e1) {
 					e1.printStackTrace();
 				}

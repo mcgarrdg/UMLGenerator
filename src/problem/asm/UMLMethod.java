@@ -327,7 +327,7 @@ public class UMLMethod extends UMLGraphItem {
 	}
 
 	public void addUsedMethodToMethod(String owner, String name, String desc) {
-
+		//TODO Fix this so it is better.
 		// Note, we don't care what the access type of the method is for the
 		// sequence diagram, so I just always pass in public. We also do not care 
 		// about the signature, so it is just null.

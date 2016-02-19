@@ -4,6 +4,7 @@ import problem.asm.DesignParser;
 import problem.asm.UMLGraph;
 
 import javax.imageio.ImageIO;
+import javax.rmi.CORBA.Util;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentListener;
@@ -122,7 +123,7 @@ public class DesignParserFrame extends JFrame {
 //		this.scroll.removeAll();
 
 		try {
-			Main.generateUMLPNG(umlGraph.toGraphVizString());
+			Utilities.generateUMLPNG(umlGraph.toGraphVizString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
