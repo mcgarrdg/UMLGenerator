@@ -1,0 +1,71 @@
+digraph "UML"{
+	rankdir = BT
+	"problem/asm/DesignParser" [
+	shape = "record",
+	label = "{problem/asm/DesignParser||+ init() : void\l+ main(String[]) : void\l+ getDigraphString(String[]) : String\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/DesignParser" -> "problem/asm/DesignParser" [arrowhead="vee", style="dashed", color="#000000"];
+"problem/asm/DesignParser" -> "problem/asm/UMLGraph" [arrowhead="vee", style="dashed", color="#000000"];
+
+	"problem/asm/IGraphItem" [
+	shape = "record",
+	label = "{\<\<problem/asm/IGraphItem\>\>||+ toGraphVizString() : String\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+
+	"problem/asm/UMLClass" [
+	shape = "record",
+	label = "{problem/asm/UMLClass|- name : String\l- shape : String\l- extension : String\l- methods : ArrayList\<UMLMethod\>\l- fields : ArrayList\<UMLField\>\l- implementations : ArrayList\<String\>\l|+ init(String, String, String[]) : void\l+ addMethod(UMLMethod) : void\l+ addField(UMLField) : void\l+ getExtension() : String\l+ getImplementations() : ArrayList\<String\>\l+ getName() : String\l+ toGraphVizString() : String\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/UMLClass" -> "problem/asm/IGraphItem" [arrowhead="onormal", style="dashed", color="#000000"];
+"problem/asm/UMLClass" -> "problem/asm/UMLField" [arrowhead="vee", style="solid", color="#000000"];
+"problem/asm/UMLClass" -> "problem/asm/UMLMethod" [arrowhead="vee", style="solid", color="#000000"];
+
+	"problem/asm/UMLField" [
+	shape = "record",
+	label = "{problem/asm/UMLField|- name : String\l- type : String\l- accessType : int\l|+ init(String, int, String) : void\l+ toGraphVizString() : String\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/UMLField" -> "problem/asm/IGraphItem" [arrowhead="onormal", style="dashed", color="#000000"];
+
+	"problem/asm/UMLGraph" [
+	shape = "record",
+	label = "{problem/asm/UMLGraph|- classes : ArrayList\<UMLClass\>\l- name : String\l- rankdir : String\l|+ init(String, String) : void\l+ addClass(UMLClass) : void\l+ addField(UMLField) : void\l+ addMethod(UMLMethod) : void\l+ toGraphVizString() : String\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/UMLGraph" -> "problem/asm/IGraphItem" [arrowhead="onormal", style="dashed", color="#000000"];
+"problem/asm/UMLGraph" -> "problem/asm/UMLClass" [arrowhead="vee", style="solid", color="#000000"];
+"problem/asm/UMLGraph" -> "problem/asm/UMLField" [arrowhead="vee", style="dashed", color="#000000"];
+"problem/asm/UMLGraph" -> "problem/asm/UMLMethod" [arrowhead="vee", style="dashed", color="#000000"];
+
+	"problem/asm/UMLMethod" [
+	shape = "record",
+	label = "{problem/asm/UMLMethod|- argumentTypes : ArrayList\<String\>\l- name : String\l- returnType : String\l- accessType : int\l|+ init(String, int, String) : void\l+ toGraphVizString() : String\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/UMLMethod" -> "problem/asm/IGraphItem" [arrowhead="onormal", style="dashed", color="#000000"];
+
+	"java/lang/Runtime" [
+	shape = "record",
+	label = "{java/lang/Runtime\n\<\<Singleton\>\>|- currentRuntime : Runtime\l|+ getRuntime() : Runtime\l- init() : void\l+ exit(int) : void\l+ addShutdownHook(Thread) : void\l+ removeShutdownHook(Thread) : boolean\l+ halt(int) : void\l+ runFinalizersOnExit(boolean) : void\l+ exec(String) : Process\l+ exec(String, String[]) : Process\l+ exec(String, String[], File) : Process\l+ exec(String[]) : Process\l...}"
+style=filled
+fillcolor="#ffffff"
+color="#0000ff"
+];
+"java/lang/Runtime" -> "java/lang/Runtime" [arrowhead="vee", style="solid", color="#000000"];
+
+}

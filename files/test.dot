@@ -1,0 +1,135 @@
+digraph "Test_UML"{
+	rankdir = BT
+	"problem/asm/ClassDeclarationVisitor" [
+	shape = "record",
+	label = "{problem/asm/ClassDeclarationVisitor\n\<\<decorator\>\>\n\<\<adapter\>\>|- graph : UMLGraph\l|+ init(int) : void\l+ init(int, ClassVisitor) : void\l+ init(int, UMLGraph) : void\l+ init(int, ClassVisitor, UMLGraph) : void\l+ visit(int, int, String, String, String, String[]) : void\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+"problem/asm/ClassDeclarationVisitor" -> "problem/asm/UMLGraph" [arrowhead="vee", label="\<\<adapts\>\>", style="solid"];
+"problem/asm/ClassDeclarationVisitor" -> "org/objectweb/asm/ClassVisitor" [arrowhead="onormal", style=""];
+"problem/asm/ClassDeclarationVisitor" -> "problem/asm/UMLClass" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/ClassFieldVisitor" [
+	shape = "record",
+	label = "{problem/asm/ClassFieldVisitor\n\<\<decorator\>\>\n\<\<adapter\>\>|~ graph : UMLGraph\l|+ init(int) : void\l+ init(int, ClassVisitor) : void\l+ init(int, UMLGraph) : void\l+ init(int, ClassVisitor, UMLGraph) : void\l+ visitField(int, String, String, String, Object) : FieldVisitor\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+"problem/asm/ClassFieldVisitor" -> "problem/asm/UMLGraph" [arrowhead="vee", label="\<\<adapts\>\>", style="solid"];
+"problem/asm/ClassFieldVisitor" -> "org/objectweb/asm/ClassVisitor" [arrowhead="onormal", style=""];
+"problem/asm/ClassFieldVisitor" -> "problem/asm/UMLField" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/ClassMethodVisitor" [
+	shape = "record",
+	label = "{problem/asm/ClassMethodVisitor\n\<\<decorator\>\>\n\<\<adapter\>\>|~ graph : UMLGraph\l|+ init(int) : void\l+ init(int, ClassVisitor) : void\l+ init(int, UMLGraph) : void\l+ init(int, ClassVisitor, UMLGraph) : void\l+ visitMethod(int, String, String, String, String[]) : MethodVisitor\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+"problem/asm/ClassMethodVisitor" -> "problem/asm/UMLGraph" [arrowhead="vee", label="\<\<adapts\>\>", style="solid"];
+"problem/asm/ClassMethodVisitor" -> "org/objectweb/asm/ClassVisitor" [arrowhead="onormal", style=""];
+"problem/asm/ClassMethodVisitor" -> "problem/asm/UMLMethod" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/DesignParser" [
+	shape = "record",
+	label = "{problem/asm/DesignParser||+ init() : void\l+ main(String[]) : void\l+ getDigraphString(String[]) : String\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/DesignParser" -> "problem/asm/DesignParser" [arrowhead="vee", style="dashed"];
+"problem/asm/DesignParser" -> "problem/asm/UMLGraph" [arrowhead="vee", style="dashed"];
+"problem/asm/DesignParser" -> "problem/asm/ClassDeclarationVisitor" [arrowhead="vee", style="dashed"];
+"problem/asm/DesignParser" -> "problem/asm/ClassFieldVisitor" [arrowhead="vee", style="dashed"];
+"problem/asm/DesignParser" -> "problem/asm/ClassMethodVisitor" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/IGraphItem" [
+	shape = "record",
+	label = "{\<\<problem/asm/IGraphItem\>\>\n\<\<target\>\>||+ toGraphVizString() : String\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+
+	"problem/asm/UMLClass" [
+	shape = "record",
+	label = "{problem/asm/UMLClass|- name : String\l- shape : String\l- extension : String\l- methods : ArrayList\<UMLMethod\>\l- fields : ArrayList\<UMLField\>\l- implementations : ArrayList\<String\>\l|+ init(String, String, String[]) : void\l+ addMethod(UMLMethod) : void\l+ addField(UMLField) : void\l+ getExtension() : String\l+ getImplementations() : ArrayList\<String\>\l+ getName() : String\l+ toGraphVizString() : String\l}"
+style=filled
+fillcolor="#ffffff"
+color="#000000"
+];
+"problem/asm/UMLClass" -> "problem/asm/IGraphItem" [arrowhead="onormal", style="dashed"];
+"problem/asm/UMLClass" -> "problem/asm/UMLField" [arrowhead="vee", style="solid"];
+"problem/asm/UMLClass" -> "problem/asm/UMLMethod" [arrowhead="vee", style="solid"];
+
+	"problem/asm/UMLField" [
+	shape = "record",
+	label = "{problem/asm/UMLField\n\<\<adapter\>\>|- name : String\l- type : String\l- accessType : int\l|+ init(String, int, String) : void\l+ toGraphVizString() : String\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+"problem/asm/UMLField" -> "problem/asm/IGraphItem" [arrowhead="onormal", style="dashed"];
+
+	"problem/asm/UMLGraph" [
+	shape = "record",
+	label = "{problem/asm/UMLGraph\n\<\<adaptee\>\>|- classes : ArrayList\<UMLClass\>\l- name : String\l- rankdir : String\l|+ init(String, String) : void\l+ addClass(UMLClass) : void\l+ addField(UMLField) : void\l+ addMethod(UMLMethod) : void\l+ toGraphVizString() : String\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+"problem/asm/UMLGraph" -> "problem/asm/IGraphItem" [arrowhead="onormal", style="dashed"];
+"problem/asm/UMLGraph" -> "problem/asm/UMLClass" [arrowhead="vee", style="solid"];
+"problem/asm/UMLGraph" -> "problem/asm/UMLField" [arrowhead="vee", style="dashed"];
+"problem/asm/UMLGraph" -> "problem/asm/UMLMethod" [arrowhead="vee", style="dashed"];
+
+	"problem/asm/UMLMethod" [
+	shape = "record",
+	label = "{problem/asm/UMLMethod\n\<\<adapter\>\>|- argumentTypes : ArrayList\<String\>\l- name : String\l- returnType : String\l- accessType : int\l|+ init(String, int, String) : void\l+ toGraphVizString() : String\l}"
+style=filled
+fillcolor="#990000"
+color="#000000"
+];
+"problem/asm/UMLMethod" -> "problem/asm/IGraphItem" [arrowhead="onormal", style="dashed"];
+
+	"java/io/Reader" [
+	shape = "record",
+	label = "{java/io/Reader\n\<\<component\>\>|# lock : Object\l- maxSkipBufferSize : int\l- skipBuffer : char[]\l|# init() : void\l# init(Object) : void\l+ read(CharBuffer) : int\l+ read() : int\l+ read(char[]) : int\l+ read(char[], int, int) : int\l+ skip(long) : long\l+ ready() : boolean\l+ markSupported() : boolean\l+ mark(int) : void\l+ reset() : void\l...}"
+style=filled
+fillcolor="#09FF00"
+color="#000000"
+];
+"java/io/Reader" -> "java/io/Reader" [arrowhead="vee", style="dashed"];
+
+	"java/io/BufferedReader" [
+	shape = "record",
+	label = "{java/io/BufferedReader\n\<\<decorator\>\>|- in : Reader\l- cb : char[]\l- nChars : int\l- nextChar : int\l- INVALIDATED : int\l- UNMARKED : int\l- markedChar : int\l- readAheadLimit : int\l- skipLF : boolean\l- markedSkipLF : boolean\l- defaultCharBufferSize : int\l...|+ init(Reader, int) : void\l+ init(Reader) : void\l- ensureOpen() : void\l- fill() : void\l+ read() : int\l- read1(char[], int, int) : int\l+ read(char[], int, int) : int\l~ readLine(boolean) : String\l+ readLine() : String\l+ skip(long) : long\l+ ready() : boolean\l...}"
+style=filled
+fillcolor="#09FF00"
+color="#000000"
+];
+"java/io/BufferedReader" -> "java/io/Reader" [arrowhead="onormal", style=""];
+"java/io/BufferedReader" -> "java/io/BufferedReader" [arrowhead="vee", style="dashed"];
+
+	"java/lang/Runtime" [
+	shape = "record",
+	label = "{java/lang/Runtime\n\<\<Singleton\>\>|- currentRuntime : Runtime\l|+ getRuntime() : Runtime\l- init() : void\l+ exit(int) : void\l+ addShutdownHook(Thread) : void\l+ removeShutdownHook(Thread) : boolean\l+ halt(int) : void\l+ runFinalizersOnExit(boolean) : void\l+ exec(String) : Process\l+ exec(String, String[]) : Process\l+ exec(String, String[], File) : Process\l+ exec(String[]) : Process\l...}"
+style=filled
+fillcolor="#ffffff"
+color="#0000ff"
+];
+"java/lang/Runtime" -> "java/lang/Runtime" [arrowhead="vee", style="solid"];
+
+	"org/objectweb/asm/ClassVisitor" [
+	shape = "record",
+	label = "{org/objectweb/asm/ClassVisitor\n\<\<decorator\>\>\n\<\<component\>\>|# api : int\l# cv : ClassVisitor\l|+ init(int) : void\l+ init(int, ClassVisitor) : void\l+ visit(int, int, String, String, String, String[]) : void\l+ visitSource(String, String) : void\l+ visitOuterClass(String, String, String) : void\l+ visitAnnotation(String, boolean) : AnnotationVisitor\l+ visitTypeAnnotation(int, TypePath, String, boolean) : AnnotationVisitor\l+ visitAttribute(Attribute) : void\l+ visitInnerClass(String, String, String, int) : void\l+ visitField(int, String, String, String, Object) : FieldVisitor\l+ visitMethod(int, String, String, String, String[]) : MethodVisitor\l...}"
+style=filled
+fillcolor="#09FF00"
+color="#000000"
+];
+"org/objectweb/asm/ClassVisitor" -> "org/objectweb/asm/ClassVisitor" [arrowhead="vee", label="\<\<decorates\>\>", style="solid"];
+
+}
